@@ -2,7 +2,7 @@
  *
  * This is a template for the Project of INGI1131: Zombieland 
  * The objective is to porvide you with a starting point for application
- * programming in Mozart-Oz, and with a standard way of recibing arguments for
+ * programming in Mozart-Oz, and with a standard way of receiving arguments for
  * the program.
  *
  * Compile in Mozart 2.0
@@ -33,7 +33,7 @@ define
    %% For feedback
    Say    = System.showInfo
 
-   %% Posible arguments
+   %% Possible arguments
    Args = {Application.getArgs
               record(
                      map(single char:&m type:atom default:MAP)

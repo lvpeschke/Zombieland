@@ -1,0 +1,32 @@
+declare
+QTk
+[QTk]={Module.link ["x-oz://system/wp/QTk.ozf"]}
+{{QTk.build td(Desc)} show}
+avec Desc = td(…)
+
+Button :
+button(text: action: )
+ils retournent true si on a appuyé sur eux pour fermer la fenêtre
+
+
+Display from left to right, new tuple if new row :
+
+CD = {OS.getCWD}
+Variable = {QTK.newImage photo(file:CD#’name’)}
+lr(label(image: Varible) …) OR
+td(label(text: 'text') …)
+
+label(text: bg: image: glue: 
+
+Colors : red, blue, yellow, green, black, white, violet, purple, beige, darkgreen, lightgreen, lightblue, darkblue, brown, grey, gold, orange
+
+geometry4 for the whole arrangement (middle bottom with glue:s inside lr)!!
+
+get and set with handle
+create(type first_x first_y [second_x second y …] param)
+
+NO WIDGET : newline, empty, continue
+
+
+
+Extension : numberentry, entry, toplevel
