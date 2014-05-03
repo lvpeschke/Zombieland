@@ -118,8 +118,9 @@ local
    {Window bind(event:"<Right>" action:proc{$} {Send PlayerPort r(0 1)} end)}
    {Window bind(event:"<space>" action:proc{$} {Send PlayerPort finish} end)}
   
-   % Load function for the map (not yet used)
-   /*fun {LoadPickle URL}
+  /* % Load function for the map (not yet used)
+   declare
+   fun {LoadPickle URL}
       F = {New Open.file init(url:URL flags:[read])}
    in
       try
@@ -133,7 +134,8 @@ local
    end*/
 
    % Map file
-   % Pickle = {LoadPickle "http://icampus.uclouvain.be/claroline/backends/download.php?url=L1Byb2plY3QyMDE0TWF5L2V4YW1wbGVfY29kZS9tYXBfdGVzdC5venA%3D&cidReset=true&cidReq=INGI1131/map_test.ozp"}
+   %Pickle = {LoadPickle "http://icampus.uclouvain.be/claroline/backends/download.php?url=L1Byb2plY3QyMDE0TWF5L2V4YW1wbGVfY29kZS9tYXBfdGVzdC5venA%3D&cidReset=true&cidReq=INGI1131/map_test.ozp"}
+   %Pickle = {LoadPickle "file:///Users/Victoria/git/Zombieland/example_code/map_test.ozp"}
 
    % Sets up a cell with an image
    proc {DrawCell Image X Y}
