@@ -9,8 +9,11 @@ local
    BULLETS_INIT = 3 % initial number of bullets
 
    % Current working directory
-   CD = {OS.getCWD}
+   CD CD2
+   {OS.getCWD CD}
+   CD2 = {OS.getCWD}
    {Show CD} % print CD to emulator'
+   {Show CD2}
 
    % Images (IL FAUT LES METTRE DANS /Users/Melanie pour que ça marche!!!)
    Brave = {QTk.newImage photo(file:CD#'/brave.gif')}
@@ -118,8 +121,8 @@ local
    {Window bind(event:"<Right>" action:proc{$} {Send PlayerPort r(0 1)} end)}
    {Window bind(event:"<space>" action:proc{$} {Send PlayerPort finish} end)}
   
-  /* % Load function for the map (not yet used)
-   declare
+   % Load function for the map (not yet used)
+  /* declare
    fun {LoadPickle URL}
       F = {New Open.file init(url:URL flags:[read])}
    in
@@ -131,7 +134,9 @@ local
       finally
 	 {F close}
       end
-   end*/
+   end
+
+   MapEmpty = {LoadPickle '/Users/Victoria/map_test.ozp'}*/
 
    % Map file
    %Pickle = {LoadPickle "http://icampus.uclouvain.be/claroline/backends/download.php?url=L1Byb2plY3QyMDE0TWF5L2V4YW1wbGVfY29kZS9tYXBfdGVzdC5venA%3D&cidReset=true&cidReq=INGI1131/map_test.ozp"}

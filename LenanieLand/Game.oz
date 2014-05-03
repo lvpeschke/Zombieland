@@ -6,6 +6,9 @@ import
    Config
    Room
    % Zombie
+
+   % The interface
+   GUI
 define
 
 in

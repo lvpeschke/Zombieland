@@ -21,6 +21,7 @@ import
    Application
    Property
    System
+   %OS
 
 define
   
@@ -44,6 +45,7 @@ define
                     )}
 
 in
+   %{System.show {OS.getCWD $}}
    
    %% Help message
    if Args.help then
