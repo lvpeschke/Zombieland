@@ -43,7 +43,7 @@ local
    
    %% AFFICHAGE
    % Current working directory
-   {OS.chDir '/Users/melaniesedda'}
+   %{OS.chDir '/Users/melaniesedda'}
    CD = {OS.getCWD}
    {Show CD} % print CD to emulator'
 
@@ -175,13 +175,13 @@ local
    end
 
    % Sets the Map
-   fun {UpdateMap Map X Y}
-      fun {UpdateMap2 I J}
+   /*fun {UpdateMap Map X Y}
+      fun {UpdateMap2 I J}e
 	 {Show 'salut'}
       end
    in
       {UpdateMap2 0 0}
-   end
+   end*/
    
    % PortObject
    fun {NewPortObject Init Fun}
