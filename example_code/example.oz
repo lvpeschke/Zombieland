@@ -2,7 +2,9 @@ declare
 QTk
 [QTk]={Module.link ["x-oz://system/wp/QTk.ozf"]}
 
+{OS.chDir '/Users/melaniesedda'}
 CD = {OS.getCWD}
+{Show CD}
 PlayerA = {QTk.newImage photo(file:CD#'/playerA.gif')}
 PlayerB = {QTk.newImage photo(file:CD#'/playerB.gif')}
 Food = {QTk.newImage photo(file:CD#'/food.gif')}

@@ -9,6 +9,7 @@ local
    BULLETS_INIT = 3 % initial number of bullets
 
    % Current working directory
+   {OS.chDir '/Users/melaniesedda'}
    CD = {OS.getCWD}
    {Show CD} % print CD to emulator'
 
