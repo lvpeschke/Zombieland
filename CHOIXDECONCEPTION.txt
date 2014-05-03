@@ -1,6 +1,10 @@
 Questions pour le projet Oz : 
 
 - Comment tenir compte des bullets dans le compte des objets à collectionner? On s’en fout de celles qu’il tire ou pas?
+Lena : ne rentre pas dans le compte des objets a collectionner…
 - droit d'aller sur case sans collecter l'objet
+Lena : OUI
 - le mec bouge et puis tous les zombies
+Lena : OUI
 - tourne et avance en même temps
+Lena : OUI

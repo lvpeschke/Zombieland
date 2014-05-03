@@ -1,9 +1,12 @@
 TO DO LIST
 
 - Faire en sorte que les zombies puissent par sortir
+—> simuler un mur
 - Map aléatoire
+—> plutôt map en entrée depuis un fichier?
 - Afficher quelque chose de spécial quand overlap object/brave or zombie
 - Faire tourner les images des zombies et du brave pour bien voir quelle direction ils regardent
+—> prendre des images plus explicites
 - Tirs à distance
 - Faire des functors
 - Séparer en plusieurs fichiers
