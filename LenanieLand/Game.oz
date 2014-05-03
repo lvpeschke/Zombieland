@@ -5,7 +5,7 @@ import
    % Our functors
    Config
    Room
-   %Zombie
+   % Zombie
 define
 
 in
