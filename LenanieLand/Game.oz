@@ -24,6 +24,8 @@ local
    X_INIT = 1
    Y_INIT = 7
    F_INIT = [1 0]
+   LENGTH = 20
+   HEIGHT = 13
    MAP = map(r(1 1 1 1 1 1 5 1 1 1 1 1 1 1 1 1 1 1 1 1)
 	  r(1 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 1)
 	  r(1 0 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1)
@@ -172,6 +174,15 @@ local
       {MovesCountHandle set(NewNumberOfMoves)}
    end
 
+   % Sets the Map
+   fun {UpdateMap Map X Y}
+      fun {UpdateMap2 I J}
+	 {Show 'salut'}
+      end
+   in
+      {UpdateMap2 0 0}
+   end
+   
    % PortObject
    fun {NewPortObject Init Fun}
       proc {MsgLoop S1 State}
