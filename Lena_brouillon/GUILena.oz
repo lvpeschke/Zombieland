@@ -9,11 +9,10 @@ local
    BULLETS_INIT = 3 % initial number of bullets
 
    % Current working directory
-   CD CD2
+   CD
    {OS.getCWD CD}
-   CD2 = {OS.getCWD}
+   {OS.chDir '/Users/melaniesedda'}
    {Show CD} % print CD to emulator'
-   {Show CD2}
 
    % Images (IL FAUT LES METTRE DANS /Users/Melanie pour que ça marche!!!)
    Brave = {QTk.newImage photo(file:CD#'/brave.gif')}

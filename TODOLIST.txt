@@ -1,0 +1,10 @@
+TO DO LIST
+
+- Faire en sorte que les zombies puissent par sortir
+- Map aléatoire
+- Afficher quelque chose de spécial quand overlap object/brave or zombie
+- Faire tourner les images des zombies et du brave pour bien voir quelle direction ils regardent
+- Tirs à distance
+- Faire des functors
+- Séparer en plusieurs fichiers
+- Faire trucs fancy quand on gagne
