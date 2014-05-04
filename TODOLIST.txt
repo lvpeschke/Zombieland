@@ -1,7 +1,7 @@
 TO DO LIST
 ——————————
 
-- Faire en sorte que les zombies puissent pas sortir
+- Faire en sorte que les zombies puissent pas sortir (LENA)
 —> simuler un mur
 
 - Map aléatoire
@@ -12,6 +12,8 @@ TO DO LIST
 - Faire tourner les images des zombies et du brave pour bien voir quelle direction ils regardent
 —> prendre des images plus explicites
 
+- Trouver la porte pour positionner le brave
+
 - Arrêter le jeu quand le brave quitte par la porte (pas d’erreur par sortie de la grid)
 
 
@@ -19,9 +21,3 @@ EXTENSIONS
 - Tirs à distance
 
 - Faire trucs fancy quand on gagne
-
-
-CHIPOTAGE
-- Faire des functors
-
-- Séparer en plusieurs fichiers

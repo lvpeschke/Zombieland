@@ -40,22 +40,22 @@ define
 
    % Example of a map (from file...) /** LOAD REAL MAP AS INPUT **/ %%
    /*MapExample = map(
-		r(9 1 1 1 1 1 1 5 1 1 1 1 1 1 1)
-		r(1 0 0 0 0 0 0 0 0 1 0 0 0 0 1)
-		r(1 3 0 0 0 0 0 0 0 1 2 0 0 0 1)
-		r(1 0 0 0 0 0 0 0 4 1 0 0 0 0 1)
-		r(1 0 0 0 0 0 0 0 0 1 1 1 0 0 1)
-		r(1 0 0 0 0 0 0 0 0 1 0 0 0 0 1)
-		r(1 0 0 0 0 0 0 0 0 1 0 0 0 0 1)
-		r(1 1 1 0 0 1 1 1 1 1 0 0 0 0 1)
-		r(1 0 0 0 0 0 0 1 0 0 0 0 0 0 1)
-		r(1 3 0 0 0 0 0 1 4 0 0 0 0 3 1)
-		r(1 0 0 0 0 0 0 1 0 0 0 0 0 0 1)
-		r(1 0 0 0 0 0 0 1 0 0 0 0 0 0 1)
-		r(1 0 0 0 0 0 0 1 2 0 0 0 0 0 1)
-		r(1 0 0 0 0 0 0 0 0 0 0 0 0 0 1)
-		r(1 1 1 1 1 1 1 1 1 1 1 1 1 1 1)
-		   )*/
+		     r(9 1 1 1 1 1 1 5 1 1 1 1 1 1 1)
+		     r(1 0 0 0 0 0 0 0 0 1 0 0 0 0 1)
+		     r(1 3 0 0 0 0 0 0 0 1 2 0 0 0 1)
+		     r(1 0 0 0 0 0 0 0 4 1 0 0 0 0 1)
+		     r(1 0 0 0 0 0 0 0 0 1 1 1 0 0 1)
+		     r(1 0 0 0 0 0 0 0 0 1 0 0 0 0 1)
+		     r(1 0 0 0 0 0 0 0 0 1 0 0 0 0 1)
+		     r(1 1 1 0 0 1 1 1 1 1 0 0 0 0 1)
+		     r(1 0 0 0 0 0 0 1 0 0 0 0 0 0 1)
+		     r(1 3 0 0 0 0 0 1 4 0 0 0 0 3 1)
+		     r(1 0 0 0 0 0 0 1 0 0 0 0 0 0 1)
+		     r(1 0 0 0 0 0 0 1 0 0 0 0 0 0 1)
+		     r(1 0 0 0 0 0 0 1 2 0 0 0 0 0 1)
+		     r(1 0 0 0 0 0 0 0 0 0 0 0 0 0 1)
+		     r(1 1 1 1 1 1 1 1 1 1 1 1 1 1 1)
+		     )*/
 
    % GUI handles
    GridHandle % grid handler
@@ -85,9 +85,8 @@ define
 			  glue:s)
 
 		   /* Ajouter une légende */
-		   /* Ajouter le nombre d'objets souhaités */
 		   )
-		)
+	       )
 	     )
 
    % Transforms a number to the corresponding GUI image
@@ -104,7 +103,7 @@ define
       end
    end
 
-   % Sets up a cell with an image, given a certain number
+   %%% Sets up a cell with an image, given a certain number
    proc {DrawCell Number Y X}
       Image = {NumberToImage Number}
    in
@@ -113,29 +112,23 @@ define
 			    column:X)}
    end
 
-   % Sets the bullet count to
+   %%% Sets the bullet count to
    proc {UpdateBulletsCount NewNumberOfBullets}
       {BulletsCountHandle set(NewNumberOfBullets)}
    end
 
-   % Sets the collected items count
+   %%% Sets the collected items count
    proc {UpdateItemsCount NewNumberOfItems}
       {ItemsCountHandle set(NewNumberOfItems)}
    end
 
-   % Sets the number of moves left
+   %%% Sets the number of moves left
    proc {UpdateMovesCount NewNumberOfMoves}
       {MovesCountHandle set(NewNumberOfMoves)}
+      %{System.show 'Moves updated to '#NewNumberOfMoves}
    end
 
-   % Sets actions for the arrow keys %% UPDATE MELANIE
-   /*proc {BindArrowKeysToPlayer PlayerPort}
-      {Window bind(event:"<Up>" action:proc{$} {Send PlayerPort r(~1 0)} end)}
-      {Window bind(event:"<Left>" action:proc{$} {Send PlayerPort r(0 ~1)} end)}
-      {Window bind(event:"<Down>" action:proc{$} {Send PlayerPort r(1 0)}  end)}
-      {Window bind(event:"<Right>" action:proc{$} {Send PlayerPort r(0 1)} end)}
-      {Window bind(event:"<space>" action:proc{$} {Send PlayerPort finish} end)}
-     end*/
+   % Sets actions for the arrow keys
    proc {BindArrowKeysToPlayer Window ServerPort}
       {Window bind(event:"<Up>" action:proc{$} {Send ServerPort brave(move([~1 0]))} end)}
       {Window bind(event:"<Left>" action:proc{$} {Send ServerPort brave(move([0 ~1]))} end)}
@@ -145,7 +138,7 @@ define
    end
    
 
-   % Sets up the initial map from a tuple
+   %%% Sets up the initial map from a tuple
    proc {InitLayout Map Window PlayerPort}
       Lines = {Width Map}
       Columns = {Width Map.Lines}
@@ -163,62 +156,7 @@ define
       end     
    end
 
-   % Build the GUI, not yet initialized
+   %%% Build the GUI, not yet initialized
    Window = {QTk.build Desc}
    {Window set(title:"ZOMBIELAND")}
-
-
-
-   
-   
-   % Port for the player (user) %% REAL PORT TO BE DECIDED IN GAME
-   %Player
-   %PlayerPort = {NewPort Player}
-   %{InitLayoutGUI MapExample Window PlayerPort} %% ACTUAL MapFile in GAME  
-   
-   
-   % Game controller (test pour voir si les autres fonctions marchent) %% SEE GAME
-   /*proc {Game OldX OldY Command}
-      NewX NewY
-      NextCommand
-
-      fun {User Command Count X Y ?Xs ?Ys}
-	 NX NY in
-	 case Command
-	 of r(DX DY)|T then
-	    if Count == 0 then % pas de mouvement
-	       {User T Count X Y Xs Ys}
-	    else
-	       NX = X + DX
-	       NY = Y + DY
-	       {DrawCellGUI 0 X Y}
-	       {DrawCellGUI b NX NY}
-	       {UpdateMovesCountGUI Count-1}
-	       {User T Count-1 NX NY Xs Ys}
-	    end
-	 [] finish|T then
-	    {UpdateMovesCountGUI Config.nAllowedMoves}
-	    Xs = X
-	    Ys = Y
-	    T
-	 end
-      end
-   in
-      NextCommand = {User Command Config.nAllowedMoves OldX OldY ?NewX ?NewY}
-      {Game NewX NewY NextCommand}
-   end*/
-
-   % Display GUI
-   %{System.show CD}
-   %{Window show} %% IN GAME
-   
-   %{Delay 1000}
-   %{DrawCell Wall 1 7} % test pour changer une cellule
-   %{Grid configure(label(text:"5") column:2 row:2)}
-   %{Grid configure(label(text:"0" bg:white)
-   %column:1 columnspan:3 row:4 sticky:we)}
-
-   % Start game
-   %{DrawCellGUI b 1 7} %% IN GAME
-   %{Game 1 7 Player} %% IN GAME
 end
