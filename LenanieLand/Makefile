@@ -1,20 +1,21 @@
 CC = ozc
-#SRCS = Config.oz GUI.oz
-SRCS = $(wildcard *.oz)
+SRCS = Config.oz GUI.oz
 OBJS = $(SRCS:.oz=.ozf)
-# MAIN = Game.oz
-EXEC = Zombieland
+MAIN = Game.oz
+EXEC = Game
+
+.PHONY: clean mrproper
 
 all: $(EXEC)
 
-Zombieland: $(OBJS) $(MAIN)
-	@$(CC) -x $@ $^
+$(EXEC): $(OBJS) $(MAIN)
+	ozc -x $(MAIN)
 
 Config.ozf: Config.oz
-GUI.ozf: GUI.oz Config.oz
-Game.ozf: Config.oz Game.oz GUI.oz
+	ozc -c Config.oz -o Config.ozf
 
-.PHONY: clean mrproper
+GUI.ozf: GUI.oz Config.oz
+	ozc -c GUI.oz -o GUI.ozf
 
 clean:
 	@rm -rf *.ozf
