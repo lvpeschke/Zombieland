@@ -1,49 +1,31 @@
 functor
 import
    Application
-   System
    OS
-   Module
+   QTk at 'x-oz://system/wp/QTk.ozf'
+   System
 
-   % For file reading : map
-   Open
-   Pickle
+   % For file reading
+   %Open
+   %Pickle
 
-   % Our files
+   % Our functors
    Config
 
 export
-  %?
+   Window % the GUI
+
+   InitLayout % initialize layout and bind keys to player
+   
+   DrawCell % update a cell image
+   UpdateBulletsCount % update bullets count for GUI
+   UpdateItemsCount % update collected items count for GUI
+   UpdateMovesCount % update moves left for GUI
 
 define
-   %% Needed for the GUI
-   QTk
-   [QTk] = {Module.link ["x-oz://system/wp/QTk.ozf"]}
-
-   %% Import map from file
-   % Load function for the map (not yet used)
-   fun {LoadPickle URL}
-	F = {New Open.file init(url:URL flags:[read])}
-     in
-	try
-	   VBS
-	in
-	   {F read(size:all list:VBS)}
-	   {Pickle.unpack VBS}
-	finally
-	   {F close}
-	end
-     end
-
-   % Map tuple
-   PickleMap
-
-   %% CONFIG
-   PLAYER_MAXSTEP = 2 % number of steps the player can take in a turn
-   BULLETS_INIT = 3 % initial number of bullets
-   
    % Current working directory
-   CD = {OS.getCWD}#'/Images2014'
+   CD = {OS.getCWD}#'/images'
+   
    % Images
    Brave = {QTk.newImage photo(file:CD#'/brave.gif')}
    Bullets = {QTk.newImage photo(file:CD#'/bullets.gif')}
@@ -52,19 +34,13 @@ define
    Medicine = {QTk.newImage photo(file:CD#'/medicine.gif')}
    Wall = {QTk.newImage photo(file:CD#'/wall.gif')}
    Zombie = {QTk.newImage photo(file:CD#'/zombie.gif')}
-   %% AJOUTER
-   Door
-   Unknown
+   Unknown = {QTk.newImage photo(file:CD#'/unknown.gif')}
+   /** AJOUTER **/
+   %Door
 
-   %% GUI handles
-   GridHandle % grid handler
-   MovesCountHandle % handler to display the nr of moves left
-   BulletsCountHandle % handler to display the number of bullets left
-   ItemsCountHandle % handler to display the number of collected items
-
-   % Example of a map (from file...)
-   MapExample = map(
-		r(1 1 1 1 1 1 1 5 1 1 1 1 1 1 1)
+   % Example of a map (from file...) /** LOAD REAL MAP AS INPUT **/ %%
+   /*MapExample = map(
+		r(9 1 1 1 1 1 1 5 1 1 1 1 1 1 1)
 		r(1 0 0 0 0 0 0 0 0 1 0 0 0 0 1)
 		r(1 3 0 0 0 0 0 0 0 1 2 0 0 0 1)
 		r(1 0 0 0 0 0 0 0 4 1 0 0 0 0 1)
@@ -79,103 +55,130 @@ define
 		r(1 0 0 0 0 0 0 1 2 0 0 0 0 0 1)
 		r(1 0 0 0 0 0 0 0 0 0 0 0 0 0 1)
 		r(1 1 1 1 1 1 1 1 1 1 1 1 1 1 1)
-		)
+		   )*/
 
-   %% Layout description
+   % GUI handles
+   GridHandle % grid handler
+   MovesCountHandle % handler to display the number of moves left
+   BulletsCountHandle % handler to display the number of bullets left
+   ItemsCountHandle % handler to display the number of collected items
+   
+   % Layout description
    Desc = td(
-	     lr(
-		% Map
-		grid(
-		   handle:GridHandle
-		   )
+	     lr(% Map
+		grid(handle:GridHandle)
 		td(
 		   % Information about the brave
-		   lr(label(text:"Moves left : ") label(init:"2"handle:MovesCountHandle) glue:nw)
-		   lr(label(text:"Bullets left : ") label(init:BULLETS_INIT handle:BulletsCountHandle) glue:nw)
-		   lr(label(text:"Collected items : ") label(init:"0" handle:ItemsCountHandle) glue:nw)
+		   lr(label(text:"Moves left : ")
+		      label(init:Config.nAllowedMoves handle:MovesCountHandle)
+		      glue:nw)
+		   lr(label(text:"Bullets left : ")
+		      label(init:Config.nBullets handle:BulletsCountHandle)
+		      glue:nw)
+		   lr(label(text:"Collected items : ")
+		      label(init:0 handle:ItemsCountHandle)
+		      label(text:"/"#Config.nWantedObjects)
+		      glue:nw)
 		   % Quit button
-		   button(text:"Quit game" action: proc {$} {Application.exit 0} end glue:s)
+		   button(text:"Quit game"
+			  action: proc {$} {Application.exit 0} end
+			  glue:s)
 
 		   /* Ajouter une légende */
+		   /* Ajouter le nombre d'objets souhaités */
 		   )
 		)
-	     )		   
-
-   %% Set up the map
-   proc {InitLayoutGUI Map}
-      Lines = {Width Map}
-      Columns = {Width Map.Lines}
-
-      {System.show 'Lines'#Lines}
-      {System.show 'Columns'#Columns}
-   in     
-      for Y in 1..Lines do
-	 for X in 1..Columns do
-	    {System.show 'Y'#Y#'X'#X}
-	    {System.show 'Map.Y.X'#Map.Y.X}
-	    {System.show 'image'#{NumberToImageGUI Map.Y.X}}
-	    {DrawCellGUI {NumberToImageGUI Map.Y.X} Y X}
-	 end
-      end
-   end
-
-   % Sets up a cell with an image
-   proc {DrawCellGUI Image Y X}
-      %{System.show 'entered DrawCell with '#Y#X}
-      %{Wait GridHandle}
-      %{System.show 'GridHandle bound'}
-      {GridHandle configure(label(image:Image)
-			    row:Y
-			    column:X)}
-   end
-
-   % Sets the bullet count
-   proc {UpdateBulletsCountGUI NewNumberOfBullets}
-      {BulletsCountHandle set(NewNumberOfBullets)}
-   end
-
-   % Sets the collected items count
-   proc {UpdateItemsCountGUI NewNumberOfItems}
-      {ItemsCountHandle set(NewNumberOfItems)}
-   end
-
-   % Sets the number of moves left
-   proc {UpdateMovesCountGUI NewNumberOfMoves}
-      {MovesCountHandle set(NewNumberOfMoves)}
-   end
+	     )
 
    % Transforms a number to the corresponding GUI image
-   fun {NumberToImageGUI Number}
+   fun {NumberToImage Number} %% A METTRE A JOUR
       if Number == 0 then Floor
       elseif Number == 1 then Wall
       elseif Number == 2 then Bullets
       elseif Number == 3 then Food
       elseif Number == 4 then Medicine
       elseif Number == 5 then Floor %% DOOR
+      elseif Number == b then Brave
+      elseif Number == z then Zombie
       else Unknown
       end
    end
 
-   % Build the GUI
+   % Sets up a cell with an image, given a certain number
+   proc {DrawCell Number Y X}
+      Image = {NumberToImage Number}
+   in
+      {GridHandle configure(label(image:Image)
+			    row:Y
+			    column:X)}
+   end
+
+   % Sets the bullet count to
+   proc {UpdateBulletsCount NewNumberOfBullets}
+      {BulletsCountHandle set(NewNumberOfBullets)}
+   end
+
+   % Sets the collected items count
+   proc {UpdateItemsCount NewNumberOfItems}
+      {ItemsCountHandle set(NewNumberOfItems)}
+   end
+
+   % Sets the number of moves left
+   proc {UpdateMovesCount NewNumberOfMoves}
+      {MovesCountHandle set(NewNumberOfMoves)}
+   end
+
+   % Sets actions for the arrow keys %% UPDATE MELANIE
+   /*proc {BindArrowKeysToPlayer PlayerPort}
+      {Window bind(event:"<Up>" action:proc{$} {Send PlayerPort r(~1 0)} end)}
+      {Window bind(event:"<Left>" action:proc{$} {Send PlayerPort r(0 ~1)} end)}
+      {Window bind(event:"<Down>" action:proc{$} {Send PlayerPort r(1 0)}  end)}
+      {Window bind(event:"<Right>" action:proc{$} {Send PlayerPort r(0 1)} end)}
+      {Window bind(event:"<space>" action:proc{$} {Send PlayerPort finish} end)}
+     end*/
+   proc {BindArrowKeysToPlayer Window ServerPort}
+      {Window bind(event:"<Up>" action:proc{$} {Send ServerPort brave(move([~1 0]))} end)}
+      {Window bind(event:"<Left>" action:proc{$} {Send ServerPort brave(move([0 ~1]))} end)}
+      {Window bind(event:"<Down>" action:proc{$} {Send ServerPort brave(move([1 0]))}  end)}
+      {Window bind(event:"<Right>" action:proc{$} {Send ServerPort brave(move([0 1]))} end)}
+      {Window bind(event:"<space>" action:proc{$} {Send ServerPort brave(pickup)} end)}
+   end
+   
+
+   % Sets up the initial map from a tuple
+   proc {InitLayout Map Window PlayerPort}
+      Lines = {Width Map}
+      Columns = {Width Map.Lines}
+   in
+      if Lines == 0 orelse Columns == 0 then
+	 skip
+      else           
+	 for Y in 1..Lines do
+	    for X in 1..Columns do
+	       {DrawCell Map.Y.X Y X}
+	    end
+	 end
+	 % bind arrow keys
+	 {BindArrowKeysToPlayer Window PlayerPort}
+      end     
+   end
+
+   % Build the GUI, not yet initialized
    Window = {QTk.build Desc}
    {Window set(title:"ZOMBIELAND")}
 
-   {InitLayoutGUI MapExample} %% ACTUAL MapFile
-   
 
-   % Port for the player (user) %% REAL PORT TO BE DECIDED
-   Player
-   PlayerPort = {NewPort Player}
 
-   % Sets actions for the arrow keys %% REAL PORT TO BE INSERTED
-   {Window bind(event:"<Up>" action:proc{$} {Send PlayerPort r(~1 0)} end)}
-   {Window bind(event:"<Left>" action:proc{$} {Send PlayerPort r(0 ~1)} end)}
-   {Window bind(event:"<Down>" action:proc{$} {Send PlayerPort r(1 0)}  end)}
-   {Window bind(event:"<Right>" action:proc{$} {Send PlayerPort r(0 1)} end)}
-   {Window bind(event:"<space>" action:proc{$} {Send PlayerPort finish} end)}
    
-   % Game controller (test pour voir si les autres fonctions marchent)
-   proc {Game OldX OldY Command}
+   
+   % Port for the player (user) %% REAL PORT TO BE DECIDED IN GAME
+   %Player
+   %PlayerPort = {NewPort Player}
+   %{InitLayoutGUI MapExample Window PlayerPort} %% ACTUAL MapFile in GAME  
+   
+   
+   % Game controller (test pour voir si les autres fonctions marchent) %% SEE GAME
+   /*proc {Game OldX OldY Command}
       NewX NewY
       NextCommand
 
@@ -188,28 +191,26 @@ define
 	    else
 	       NX = X + DX
 	       NY = Y + DY
-	       {DrawCellGUI Floor X Y}
-	       {DrawCellGUI Brave NX NY}
+	       {DrawCellGUI 0 X Y}
+	       {DrawCellGUI b NX NY}
 	       {UpdateMovesCountGUI Count-1}
 	       {User T Count-1 NX NY Xs Ys}
 	    end
 	 [] finish|T then
-	    {UpdateMovesCountGUI PLAYER_MAXSTEP}
+	    {UpdateMovesCountGUI Config.nAllowedMoves}
 	    Xs = X
 	    Ys = Y
 	    T
 	 end
       end
    in
-      NextCommand = {User Command PLAYER_MAXSTEP OldX OldY ?NewX ?NewY}
+      NextCommand = {User Command Config.nAllowedMoves OldX OldY ?NewX ?NewY}
       {Game NewX NewY NextCommand}
-   end
-      
-in
+   end*/
 
    % Display GUI
-   {System.show CD}
-   {Window show}
+   %{System.show CD}
+   %{Window show} %% IN GAME
    
    %{Delay 1000}
    %{DrawCell Wall 1 7} % test pour changer une cellule
@@ -218,6 +219,6 @@ in
    %column:1 columnspan:3 row:4 sticky:we)}
 
    % Start game
-   {DrawCellGUI Brave 1 7}
-   {Game 1 7 Player}
+   %{DrawCellGUI b 1 7} %% IN GAME
+   %{Game 1 7 Player} %% IN GAME
 end

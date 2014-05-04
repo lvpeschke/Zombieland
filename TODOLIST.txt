@@ -1,13 +1,27 @@
 TO DO LIST
+——————————
 
-- Faire en sorte que les zombies puissent par sortir
+- Faire en sorte que les zombies puissent pas sortir
 —> simuler un mur
+
 - Map aléatoire
 —> plutôt map en entrée depuis un fichier?
+
 - Afficher quelque chose de spécial quand overlap object/brave or zombie
+
 - Faire tourner les images des zombies et du brave pour bien voir quelle direction ils regardent
 —> prendre des images plus explicites
+
+- Arrêter le jeu quand le brave quitte par la porte (pas d’erreur par sortie de la grid)
+
+
+EXTENSIONS
 - Tirs à distance
-- Faire des functors
-- Séparer en plusieurs fichiers
+
 - Faire trucs fancy quand on gagne
+
+
+CHIPOTAGE
+- Faire des functors
+
+- Séparer en plusieurs fichiers
