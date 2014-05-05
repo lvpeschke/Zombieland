@@ -3,41 +3,22 @@ import
    Application
    OS
 
-   % For file reading
-   Open %at 'x-oz://system/Open.ozf'
-   Pickle
-
    % Our functors
    Config
    GUI
    Room
-   % Zombie
 
    System %%
    
 define
-   % Load function for the map /** NOT YET USED **/
-   fun {LoadPickle URL}
-	F = {New Open.file init(url:URL flags:[read])}
-     in
-	try
-	   VBS
-	in
-	   {F read(size:all list:VBS)}
-	   {Pickle.unpack VBS}
-	finally
-	   {F close}
-	end
-     end
-
-   
-
    %% CONFIG
-   X_INIT = 1
+   NZombies = Config.nZombies
+   
+   X_INIT = 3
    Y_INIT = 7
    F_INIT = [1 0]
-   LENGTH = 20
-   HEIGHT = 13
+   %LENGTH = 20
+   %HEIGHT = 13
    MAP1 = map(
 	     r(1 1 1 1 1 1 5 1 1 1 1 1 1 1 1 1 1 1 1 1)
 	     r(1 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 1)
@@ -52,6 +33,7 @@ define
 	     r(1 0 4 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 1)
 	     r(1 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 4 0 1)
 	     r(1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1))
+   
    MAP2 = map(
 	     r(9 1 1 1 1 1 1 5 1 1 1 1 1 1 1)
 	     r(1 0 0 0 0 0 0 0 0 1 0 0 0 0 1)
@@ -72,20 +54,40 @@ define
 
    CurrentMap = MAP1
 
-   ServerPort
+   ZombiePort
 
    Window = GUI.window
-   {GUI.initLayout CurrentMap Window ServerPort}
+   {GUI.initLayout CurrentMap Window ZombiePort}
 
-
-   % Sets the Map
-   /*fun {UpdateMap Map X Y}
-      fun {UpdateMap2 I J}e
-	 {System.show 'salut'}
+   fun {FindEmptySpacesInLine Line Ypos}
+      LineList = {Record.toList Line}
+      Xpos = 1
+      fun {FindEmptySpacesInLineHelper Ls Xpos}
+	 case Ls
+	 of X|Xs then
+	    if X == 0 then pos(y:Ypos x:Xpos)|{FindEmptySpacesInLineHelper Xs Xpos+1}
+	    else {FindEmptySpacesInLineHelper Xs Xpos+1}
+	    end
+	 [] nil then Ls
+	 end
       end
    in
-      {UpdateMap2 0 0}
-   end*/
+      {FindEmptySpacesInLineHelper LineList Xpos}
+   end
+
+   fun {FindEmptySpacesOnMap Map}
+      ColumnList = {Record.toList Map}
+      Ypos = 1
+      fun {FindEmptySpacesOnMapHelper Ls Ypos}
+	 case Ls
+	 of X|Xs then {List.append {FindEmptySpacesInLine X Ypos} {FindEmptySpacesOnMapHelper Xs Ypos+1}} %% REVOIR
+	 [] nil then Ls
+	 end
+      end
+   in
+      {FindEmptySpacesOnMapHelper ColumnList 1}
+   end
+
    
    % PortObject
    fun {NewPortObject Init Fun}
@@ -101,25 +103,36 @@ define
       {NewPort Sin}
    end
 
-   fun {ServerState Init}
-      Cid={NewPortObject Init
-	   fun {$ state(Map Pos NObjects NBullets ActionsLeft) Msg}
+   %% CONFIG
+   % Up =  [~1 0]
+   % Down = [1 0]
+   % Left = [0 ~1]
+   % Right = [0 1]
+
+   fun {Zombie Init}
+      Zid = {NewPortObject Init
+	     fun {$ state(Map Pos TakeObject ActionsLeft) Msg} % Dir is Up, Down, Left or Right
 	      X Y F NewPos NewX NewY NewF Value in
 	      [X Y F] = Pos
 	      Value = Map.X.Y
-	      {System.show X} {System.show Y} {System.show F}
-	      {System.show Msg}
+	      %{System.show X} {System.show Y} {System.show F}
+	      %{System.show Msg}
 	      case Msg
-	      of brave(move(D)) then
-		 if ActionsLeft==0 then {System.show 'filter'} state(Map Pos NObjects NBullets ActionsLeft)
+	      of zombie(move) then
+		 % may not move
+		 if ActionsLeft == 0 then
+		    {System.show 'zombie filter'}
+		    state(Map Pos TakeObject ActionsLeft)
+		 % may move
 		 else
-		    {System.show D}
-		    NewPos = {CalcNewPos Pos D}
+		    {System.show F}
+		    NewPos = {CalcNewPos Pos F} % same direction, trying
 		    [NewX NewY NewF] = NewPos
-		    if {Move Map Pos NewPos brave NObjects ActionsLeft}==0 then %faire truc plus propre
-		       state(Map Pos NObjects NBullets ActionsLeft)
+		    if {Move Map Pos NewPos brave NObjects ActionsLeft} == 0 then %faire truc plus propre
+		       %% TEST NEW DIRECTION
+		       state(Map Pos TakeObject ActionsLeft) 
 		    else
-		       state(Map NewPos NObjects NBullets ActionsLeft-1)
+		      state(Map Pos TakeObject ActionsLeft)
 		    end
 		 end
 	      [] brave(pickup) then
@@ -182,12 +195,6 @@ define
 in
    % Display GUI
    {Window show}
-   
-   %{Delay 1000}
-   %{DrawCell Wall 1 7} % test pour changer une cellule
-   %{Grid configure(label(text:"5") column:2 row:2)}
-   %{Grid configure(label(text:"0" bg:white)
-   %column:1 columnspan:3 row:4 sticky:we)}
 
    % Start game
    {GUI.drawCell b X_INIT Y_INIT}
