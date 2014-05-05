@@ -2,6 +2,7 @@ functor
 import
    Application
    OS
+   Property
 
    % For file reading
    Open %at 'x-oz://system/Open.ozf'
@@ -16,6 +17,18 @@ import
    System %%
    
 define
+   % Input arguments
+   Say = System.showInfo
+   Args = {Application.getArgs
+              record(
+                     map(single char:&m type:atom default:Config.map)
+                     zombie(single char:&s type:int default:Config.nZombies)
+                     item(single char:&b type:int default:Config.nWantedObjects) 
+                     bullet(single char:&n type:int default:Config.nBullets) 
+                     help(single char:[&? &h] default:false)
+                    )}
+
+   
    % Load function for the map /** NOT YET USED **/
    fun {LoadPickle URL}
 	F = {New Open.file init(url:URL flags:[read])}
@@ -38,20 +51,7 @@ define
    F_INIT = [1 0]
    LENGTH = 20
    HEIGHT = 13
-   MAP1 = map(
-	     r(1 1 1 1 1 1 5 1 1 1 1 1 1 1 1 1 1 1 1 1)
-	     r(1 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 1)
-	     r(1 0 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1)
-	     r(1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 2 0 1)
-	     r(1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1)
-	     r(1 0 0 0 0 0 0 1 1 1 1 1 1 1 1 0 0 0 0 1)
-	     r(1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1)
-	     r(1 0 3 0 0 0 0 0 0 0 0 0 0 3 0 0 0 0 0 1)
-	     r(1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1)
-	     r(1 0 0 0 0 0 0 1 1 1 1 1 1 1 1 0 0 0 0 1)
-	     r(1 0 4 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 1)
-	     r(1 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 4 0 1)
-	     r(1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1))
+   MAP1 = Config.map
    MAP2 = map(
 	     r(9 1 1 1 1 1 1 5 1 1 1 1 1 1 1)
 	     r(1 0 0 0 0 0 0 0 0 1 0 0 0 0 1)
@@ -70,7 +70,7 @@ define
 	     r(1 1 1 1 1 1 1 1 1 1 1 1 1 1 1)
 	     )
 
-   CurrentMap = MAP1
+   CurrentMap = Args.map
 
    ServerPort
 
@@ -180,6 +180,18 @@ define
    end
 
 in
+   % Help message
+   /*if Args.help then
+      {Say "Usage: "#{Property.get 'application.url'}#" [option]"}
+      {Say "Options:"}
+      {Say "  -m, --map FILE\tFile containing the map (default "#Config.map#")"}
+      {Say "  -z, --zombie INT\tNumber of zombies"}
+      {Say "  -i, --item INT\tTotal number of items to pick"}
+      {Say "  -n, --bullet INT\tInitial number of bullets"}
+      {Say "  -h, -?, --help\tThis help"}
+      {Application.exit 0}
+   end */ 
+   
    % Display GUI
    {Window show}
    

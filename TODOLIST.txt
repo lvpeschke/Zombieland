@@ -16,6 +16,8 @@ TO DO LIST
 
 - Arrêter le jeu quand le brave quitte par la porte (pas d’erreur par sortie de la grid)
 
+- Borner le nombre de zombies par le nombre de cases (vides)/2 (par exemple)
+
 
 EXTENSIONS
 - Tirs à distance
