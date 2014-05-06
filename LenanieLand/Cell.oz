@@ -109,7 +109,7 @@ define
 		       end
 
 		    [] brave(quit) then
-		       {DrawCell Item Y X}
+		       {GUI.drawCell Item Y X}
 		       state(nobody Item)
 		       
 		    [] zombie(enter Ack) then
@@ -164,8 +164,8 @@ define
 			  {Application.exit 1}
 		       end
 
-		    [] zombie(quit)
-		       {DrawCell Item Y X}
+		    [] zombie(quit) then
+		       {GUI.drawCell Item Y X}
 		       state(nobody Item)
 			  
 		    else
