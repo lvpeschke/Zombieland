@@ -153,8 +153,12 @@ in
    {PlaceZombies Height Width}
 
    % Le controleur
+   {System.show 'before launching controller'}
    Config.controllerPort = {Controller.controllerState state(brave Config.nZombies Config.zombiesPorts 0)}
+   {System.show 'after launching controller'}
 
    % Le brave
+    {System.show 'before launching brave'}
    Config.bravePort = {Config.braveState state(yourturn X_INIT Y_INIT F_INIT Config.nAllowedMovesB Config.nBullets 0)}
+   {System.show 'after launching brave'}
 end
