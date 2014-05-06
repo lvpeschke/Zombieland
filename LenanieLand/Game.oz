@@ -153,16 +153,12 @@ in
    {PlaceZombies Height Width}
 
    % Le controleur
-<<<<<<< HEAD
-   {System.show 'before launching controller'}
-   Config.controllerPort = {Controller.controllerState state(brave Config.nZombies Config.zombiesPorts 0)}
-   {System.show 'after launching controller'}
-=======
    Config.controllerPort = {Controller.controllerState state(brave Config.nZombies ZombiesPorts 0)}
->>>>>>> FETCH_HEAD
 
    % Le brave
-    {System.show 'before launching brave'}
+   {System.show 'before launching brave'}
+   {Send Config.mapPorts.X_INIT.Y_INIT brave(enter Ack)}
+   {Wait Ack}
    Config.bravePort = {Config.braveState state(yourturn X_INIT Y_INIT F_INIT Config.nAllowedMovesB Config.nBullets 0)}
    {System.show 'after launching brave'}
 end
