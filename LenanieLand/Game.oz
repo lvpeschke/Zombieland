@@ -14,7 +14,7 @@ import
    Brave
    Controller
    Zombies
-   Cell
+   Cell2
    % Zombie
 
    System %%
@@ -57,14 +57,18 @@ define
 	    
    proc {PlaceZombies Height Width}
       proc {Place N}
+	 {System.show ''#N}
 	 if (N>Config.nZombies) then skip
 	 else
 	    local RandX RandY RandF Ack in
-	       RandX = ({OS.rand} mod Height)
-	       RandY = ({OS.rand} mod Width)
+	       RandX = ({OS.rand} mod Height)+1
+	       RandY = ({OS.rand} mod Width)+1
 	       RandF = {RandFacing}
+	       {System.show ''#RandX#' '#RandY#' '#RandF}
 	       {Send Config.mapPorts.RandX.RandY zombie(enter Ack)}
+	       {System.show ''#N#' message sent'}
 	       {Wait Ack}
+	       {System.show ''#N#' ack bound'}
 	       if Ack==ok then
 		  zombiesPorts.N={Zombies.zombieState state(notyourturn RandX RandY RandF 0)}
 		  {Place N+1}
@@ -139,6 +143,7 @@ in
    for I in 1..Height do
       Config.mapPorts.I = {MakeTuple r Width}
       for J in 1..Width do
+	 {System.show ''#I#' '#J}
 	 Config.mapPorts.I.J = {Cell.cellState I J state(nobody Config.map.I.J)}
       end
    end
