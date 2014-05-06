@@ -14,8 +14,7 @@ import
    Brave
    Controller
    Zombie
-   Cell2
-   % Zombie
+   Cell
 
    System %%
 define
@@ -72,7 +71,7 @@ define
 	       {Wait Ack}
 	       {System.show ''#N#' ack bound'}
 	       if Ack==ok then
-		  ZombiesPorts.N={Zombies.zombieState state(notyourturn RandX RandY RandF 0)}
+		  ZombiesPorts.N={Zombie.zombieState state(notyourturn RandX RandY RandF 0)}
 		  {Place N+1}
 	       else {Place N}
 	       end
@@ -145,7 +144,7 @@ in
       Config.mapPorts.I = {MakeTuple r Width}
       for J in 1..Width do
 	 {System.show ''#I#' '#J}
-	 Config.mapPorts.I.J = {Cell2.cellState I J state(nobody Config.map.I.J)}
+	 Config.mapPorts.I.J = {Cell.cellState I J state(nobody Config.map.I.J)}
       end
    end
    
