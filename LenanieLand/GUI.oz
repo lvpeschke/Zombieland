@@ -19,20 +19,6 @@ export
    UpdateMovesCount % update moves left for GUI
 
 define
-
-   % PortObject %% TODO : dans Config ???
-   fun {NewPortObject Init Fun}
-      proc {MsgLoop S1 State}
-	 case S1 of Msg|S2 then
-	    %{System.show Msg}
-	    {MsgLoop S2 {Fun State Msg}}
-	 [] nil then skip end
-      end
-      Sin
-   in
-      thread {MsgLoop Sin Init} end
-      {NewPort Sin}
-   end
    
    % Current working directory
    CD = {OS.getCWD}#'/images'
@@ -68,7 +54,7 @@ define
 		td(
 		   % Information about the brave
 		   lr(label(text:"Moves left : ")
-		      label(init:Config.nAllowedMoves handle:MovesCountHandle)
+		      label(init:Config.nAllowedMovesB handle:MovesCountHandle)
 		      glue:nw)
 		   lr(label(text:"Bullets left : ")
 		      label(init:Config.nBullets handle:BulletsCountHandle)
