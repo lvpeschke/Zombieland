@@ -1,5 +1,5 @@
 CC = ozc
-SRCS = Config.oz GUI.oz Cell.oz
+SRCS = Config.oz GUI.oz
 OBJS = $(SRCS:.oz=.ozf)
 MAIN = Game.oz
 EXEC = Game
@@ -11,14 +11,14 @@ all: $(EXEC)
 $(EXEC): $(OBJS) $(MAIN)
 	ozc -x $(MAIN)
 
-Cell.ozf: Config.oz GUI.oz
-	ozc -c Cell.oz -o Cell.ozf
-
 Config.ozf: Config.oz
 	ozc -c Config.oz -o Config.ozf
 
 GUI.ozf: GUI.oz Config.oz
 	ozc -c GUI.oz -o GUI.ozf
+
+Controller.ozf: Congif.oz
+	ozc -c Controller.oz -o Controller.ozf
 
 clean:
 	@rm -rf *.ozf
