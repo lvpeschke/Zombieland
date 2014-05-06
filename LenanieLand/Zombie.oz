@@ -1,13 +1,11 @@
 functor
 import
-   Application
    OS
+   Application %%
+   System %%
 
    % Our functors
    Config
-   Controller
-
-   System %%
 
 export
    ZombieState
@@ -29,28 +27,22 @@ define
 
    proc {NewFacing OldF ?NewF}
       case OldF
-      of [~1 0] then
-	 NewF = [0 1]
-      [] [0 1] then
-	 NewF = [1 0]
-      [] [1 0] then 
-	 NewF = [0 ~1]
-      [] [0 ~1] then
-	 NewF = [~1 0]
+      of [~1 0] then NewF = [0 1]
+      [] [0 1] then NewF = [1 0]
+      [] [1 0] then NewF = [0 ~1]
+      [] [0 ~1] then NewF = [~1 0]
       else
-	 {System.show 'Bad facing! '#OldF}
-	 {Application.exit 1}
+	 {System.show 'Bad facing! '#OldF}%%
+	 {Application.exit 1}%%
       end	 
    end
 
    proc {Move F OldL OldC ?NewL ?NewC}
-      % F is [DLine DCol]
-      NewL = OldL+F.1
-      NewC = OldC+F.2.1
+      [DLine DCol] = F in
+      NewL = OldL+DLine
+      NewC = OldC+DCol
    end
    
-      
-
    %% States
    % - yourturn
    % - notyourturn
@@ -77,7 +69,7 @@ define
 		 [] yourturn then % zombie active
 
 		    if ActionsLeft == 0 then % no more moves
-		       {Send Controller.controllerState finish(zombie)}
+		       {Send Config.controllerPort finish(zombie)}
 		       state(notyourturn Line Col F 0)
 
 		    else
