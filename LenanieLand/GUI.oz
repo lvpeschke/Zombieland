@@ -5,10 +5,6 @@ import
    QTk at 'x-oz://system/wp/QTk.ozf'
    System
 
-   % For file reading
-   %Open
-   %Pickle
-
    % Our functors
    Config
 
@@ -37,25 +33,12 @@ define
    Unknown = {QTk.newImage photo(file:CD#'/unknown.gif')}
    /** AJOUTER **/
    %Door
-
-   % Example of a map (from file...) /** LOAD REAL MAP AS INPUT **/ %%
-   /*MapExample = map(
-		     r(9 1 1 1 1 1 1 5 1 1 1 1 1 1 1)
-		     r(1 0 0 0 0 0 0 0 0 1 0 0 0 0 1)
-		     r(1 3 0 0 0 0 0 0 0 1 2 0 0 0 1)
-		     r(1 0 0 0 0 0 0 0 4 1 0 0 0 0 1)
-		     r(1 0 0 0 0 0 0 0 0 1 1 1 0 0 1)
-		     r(1 0 0 0 0 0 0 0 0 1 0 0 0 0 1)
-		     r(1 0 0 0 0 0 0 0 0 1 0 0 0 0 1)
-		     r(1 1 1 0 0 1 1 1 1 1 0 0 0 0 1)
-		     r(1 0 0 0 0 0 0 1 0 0 0 0 0 0 1)
-		     r(1 3 0 0 0 0 0 1 4 0 0 0 0 3 1)
-		     r(1 0 0 0 0 0 0 1 0 0 0 0 0 0 1)
-		     r(1 0 0 0 0 0 0 1 0 0 0 0 0 0 1)
-		     r(1 0 0 0 0 0 0 1 2 0 0 0 0 0 1)
-		     r(1 0 0 0 0 0 0 0 0 0 0 0 0 0 1)
-		     r(1 1 1 1 1 1 1 1 1 1 1 1 1 1 1)
-		     )*/
+   %Brave + Food
+   %Brave + Medicine
+   %Brave + Bullets
+   %Zombie + Food
+   %Zombie + Medicine
+   %Zombie + Bullets
 
    % GUI handles
    GridHandle % grid handler
@@ -97,8 +80,8 @@ define
       elseif Number == 3 then Food
       elseif Number == 4 then Medicine
       elseif Number == 5 then Floor %% DOOR
-      elseif Number == b then Brave
-      elseif Number == z then Zombie
+      elseif Number == brave then Brave
+      elseif Number == zombie then Zombie
       else Unknown
       end
    end
@@ -130,11 +113,11 @@ define
 
    % Sets actions for the arrow keys
    proc {BindArrowKeysToPlayer Window ServerPort}
-      {Window bind(event:"<Up>" action:proc{$} {Send ServerPort brave(move([~1 0]))} end)}
-      {Window bind(event:"<Left>" action:proc{$} {Send ServerPort brave(move([0 ~1]))} end)}
-      {Window bind(event:"<Down>" action:proc{$} {Send ServerPort brave(move([1 0]))}  end)}
-      {Window bind(event:"<Right>" action:proc{$} {Send ServerPort brave(move([0 1]))} end)}
-      {Window bind(event:"<space>" action:proc{$} {Send ServerPort brave(pickup)} end)}
+      {Window bind(event:"<Up>" action:proc{$} {Send ServerPort move([~1 0])} end)} %%% TODO VERIFIER LES MESSAGES
+      {Window bind(event:"<Left>" action:proc{$} {Send ServerPort move([0 ~1])} end)}
+      {Window bind(event:"<Down>" action:proc{$} {Send ServerPort move([1 0])}  end)}
+      {Window bind(event:"<Right>" action:proc{$} {Send ServerPort (move([0 1])} end)}
+      {Window bind(event:"<space>" action:proc{$} {Send ServerPort pickup} end)}
    end
    
 
