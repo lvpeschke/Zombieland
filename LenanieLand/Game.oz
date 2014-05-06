@@ -46,7 +46,24 @@ define
 	end
      end
 
-   
+   proc {PlaceZombies Height Width}
+      proc {Place X}
+	 if (X==Config.nZombies) then skip
+	 else
+	    local Rand RandX RandY Ack in
+	       RandX = ({OS.rand} mod Height)
+	       RandY = ({OS.rand} mod Width)
+	       {Send Config.mapPorts.RandX.RandY zombie(enter Ack)}
+	       {Wait Ack}
+	       if Ack==ok then {Place X+1}
+	       else {Place X}
+	       end
+	    end
+	 end
+      end
+   in
+      {Place 0}
+   end
 
    %% CONFIG
    X_INIT = 1
@@ -70,89 +87,12 @@ define
 	     r(1 0 0 0 0 0 0 0 0 0 0 0 0 0 1)
 	     r(1 1 1 1 1 1 1 1 1 1 1 1 1 1 1)
 	     )
-
+   Height = MAP1.arity
+   Width = MAP1.1.arity
    CurrentMap = Args.map
 
    Window = GUI.window
    {GUI.initLayout CurrentMap Window Config.bravePort}
-
-   % fun {ServerState Init}
-   %    Cid={NewPortObject Init
-   % 	   fun {$ state(Map Pos NObjects NBullets ActionsLeft) Msg}
-   % 	      X Y F NewPos NewX NewY NewF Value in
-   % 	      [X Y F] = Pos
-   % 	      Value = Map.X.Y
-   % 	      {System.show X} {System.show Y} {System.show F}
-   % 	      {System.show Msg}
-   % 	      case Msg
-   % 	      of brave(move(D)) then
-   % 		 if ActionsLeft==0 then {System.show 'filter'} state(Map Pos NObjects NBullets ActionsLeft)
-   % 		 else
-   % 		    {System.show D}
-   % 		    NewPos = {CalcNewPos Pos D}
-   % 		    [NewX NewY NewF] = NewPos
-   % 		    if {Move Map Pos NewPos brave NObjects ActionsLeft}==0 then %faire truc plus propre
-   % 		       state(Map Pos NObjects NBullets ActionsLeft)
-   % 		    else
-   % 		       state(Map NewPos NObjects NBullets ActionsLeft-1)
-   % 		    end
-   % 		 end
-   % 	      [] brave(pickup) then
-   % 		 if {PickUp Map Pos brave NObjects NBullets ActionsLeft}==0 then
-   % 		    state(Map Pos NObjects NBullets ActionsLeft)
-   % 		 else
-   % 		    state(Map Pos NObjects+1 NBullets ActionsLeft-1)
-   % 		 end       
-   % 	      else
-   % 		 {System.show 'mismatch'}
-   % 		 state(Map Pos NObjects NBullets ActionsLeft)
-   % 	      end % end case Msg
-   % 	   end} % end function
-   % in
-   %    Cid
-   % end
-
-   % fun {CalcNewPos Pos Move}
-   %    X Y F DX DY in
-   %    Pos = [X Y F]
-   %    Move = [DX DY]
-   %    [X+DX Y+DY Move]
-   % end
-
-   % fun {Move Map Pos NewPos Person NObjects ActionsLeft}
-   %    X Y F NewX NewY NewF Value NewValue in
-   %    [X Y F] = Pos
-   %    [NewX NewY NewF] = NewPos
-   %    Value = Map.X.Y
-   %    NewValue = Map.NewX.NewY
-   %    if NewValue==1 then
-   % 	 0
-   %    elseif NewValue==5 then
-   % 	 if {And Person==brave NObjects>=Config.nWantedObjects} then {GUI.drawCell 0 X Y} {GUI.updateMovesCount ActionsLeft-1} 1
-   % 	 else 0 end
-   %    else
-   % 	 {GUI.updateMovesCount ActionsLeft-1}
-   % 	 if {Or Value==0 Value==5} then {GUI.drawCell 0 X Y} end
-   % 	 if NewValue==0 then {GUI.drawCell b NewX NewY} end
-   % 	 1
-   %    end
-   % end
-
-   % fun {PickUp Map Pos Person NObjects NBullets ActionsLeft}
-   %    X Y F Value in
-   %    Pos = [X Y F]
-   %    Value = Map.X.Y
-   %    if {Or {Or Value==2 Value==3} Value==4} then
-   % 	 if Person==brave then
-   % 	    if Value==2 then {GUI.updateBulletsCount NBullets+3}
-   % 	    else {GUI.updateItemsCount NObjects+1} end
-   % 	    {GUI.updateMovesCount ActionsLeft-1}
-   % 	 end
-   % 	 {GUI.drawCell 0 X Y}
-   % 	 % TO DO: vraiment le virer de la MAP
-   % 	 1
-   %    else 0 end
-   % end
    
 in
    % Help message
@@ -165,7 +105,8 @@ in
       {Say "  -n, --bullet INT\tInitial number of bullets"}
       {Say "  -h, -?, --help\tThis help"}
       {Application.exit 0}
-   end */ 
+     end */
+   
    
    % Display GUI
    {Window show}
@@ -181,20 +122,15 @@ in
 
    % Les Ports
    % La MAP
-   local Height Width in
-      Height = MAP1.arity
-      Width = MAP1.1.arity
-      Config.mapPorts = {MakeTuple mapPorts Height}
-      for I in 1..Height do
-	 Config.mapPorts.I = {MakeTuple r Width}
-	 for J in 1..Width do
-	    Config.mapPorts.I.J = {Cell.cellState state(nobody Map.I.J)}
-	 end
+   Config.mapPorts = {MakeTuple mapPorts Height}
+   for I in 1..Height do
+      Config.mapPorts.I = {MakeTuple r Width}
+      for J in 1..Width do
+	 Config.mapPorts.I.J = {Cell.cellState state(nobody Map.I.J)}
       end
    end
-   
-   % Le brave
-   Config.bravePort = {Config.braveState state(yourturn X_INIT Y_INIT F_INIT Config.nAllowedMovesB Config.nBullets 0)}
+
+   {PlaceZombies Height Width}
    
    % Les zombies
    Config.zombiesPorts = {MakeTuple zombiesPorts Config.nZombies}
@@ -204,4 +140,7 @@ in
 
    % Le controleur
    Config.controllerPort = {Controller.controllerState state(brave Config.nZombies Config.zombiesPorts 0)}
+
+   % Le brave
+   Config.bravePort = {Config.braveState state(yourturn X_INIT Y_INIT F_INIT Config.nAllowedMovesB Config.nBullets 0)}
 end

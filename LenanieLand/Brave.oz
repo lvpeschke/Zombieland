@@ -27,6 +27,8 @@ define
    fun {BraveState Init}
       Cid={NewPortObject Init
 	   fun {$ state(Mode X Y F ActionsLeft NBullets NObjects) Msg}
+	     {System.show Msg}
+	     {System.show Mode}
 	      if Mode==notyourturn then
 		 case Msg
 		 of yourturn then state(yourturn X Y F 2 NBullets NObjects)

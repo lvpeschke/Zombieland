@@ -13,6 +13,8 @@ define
    fun {ControllerState Init}
       Cid={NewPortObject Init
 	   fun {$ state(Mode NZombies ZombiesPorts NResponses) Msg}
+             {System.show Msg}
+	     {System.show Mode}
 	      case Mode
 	      of brave then
 		 case Msg
