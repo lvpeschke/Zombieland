@@ -21,7 +21,7 @@ define
 	      of brave then
 		 case Msg
 		 of finish(brave) then
-		    for I in 1..NZombies do
+		    for I in 1..Config.nZombies do
 		       {Send Config.zombiesPorts.I yourturn}
 		    end
 		    state(zombie NZombies ZombiesPorts NResponses)

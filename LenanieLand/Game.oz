@@ -18,7 +18,6 @@ import
 
    System %%
 define
-   ZombiesPorts
    
    % Input arguments
    Say = System.showInfo
@@ -71,7 +70,7 @@ define
 	       {Wait Ack}
 	       {System.show ''#N#' ack bound'}
 	       if Ack==ok then
-		  ZombiesPorts.N={Zombie.zombieState state(notyourturn RandX RandY RandF 0)}
+		  Config.zombiesPorts.N={Zombie.zombieState state(notyourturn RandX RandY RandF 0)}
 		  {Place N+1}
 	       else {Place N}
 	       end
@@ -149,16 +148,21 @@ in
    end
    
    % Les zombies
-   ZombiesPorts = {MakeTuple zombiesPorts Config.nZombies}
+   Config.zombiesPorts = {MakeTuple zombiesPorts Config.nZombies}
    {PlaceZombies Height Width}
 
    % Le controleur
-   Config.controllerPort = {Controller.controllerState state(brave Config.nZombies ZombiesPorts 0)}
+   Config.controllerPort = {Controller.controllerState state(brave Config.nZombies Config.zombiesPorts 0)}
 
    % Le brave
    {System.show 'before launching brave'}
-   {Send Config.mapPorts.X_INIT.Y_INIT brave(enter Ack)}
-   {Wait Ack}
-   Config.bravePort = {Config.braveState state(yourturn X_INIT Y_INIT F_INIT Config.nAllowedMovesB Config.nBullets 0)}
+   local Ack in
+      {Send Config.mapPorts.X_INIT.Y_INIT brave(enter Ack)}
+      {Wait Ack}
+      {System.show ''#Ack}
+   end
+   {GUI.drawCell brave X_INIT Y_INIT}
+   {System.show 'after GUI'}
+   Config.bravePort = {Brave.braveState state(yourturn X_INIT Y_INIT F_INIT Config.nAllowedMovesB Config.nBullets 0)}
    {System.show 'after launching brave'}
 end

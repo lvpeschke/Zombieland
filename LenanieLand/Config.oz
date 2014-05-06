@@ -16,7 +16,8 @@ export
    ControllerPort
    BravePort
    MapPorts
-
+   ZombiesPorts
+   
    % Creates a new port object
    NewPortObject
    
@@ -47,6 +48,7 @@ define
    ControllerPort
    BravePort
    MapPorts
+   ZombiesPorts
    
    % PortObject
    fun {NewPortObject Init Fun}
