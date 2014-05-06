@@ -27,7 +27,7 @@ define
 
    fun {CellState Y X Init}
       CSid = {Config.newPortObject Init
-	      fun {$ Msg state(Person Item)}
+	      fun {$ state(Person Item) Msg}
 		 case Person
 		    
 		 of nobody then % nobody on the cell

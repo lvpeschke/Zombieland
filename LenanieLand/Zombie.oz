@@ -52,7 +52,7 @@ define
 
    fun {ZombieState Init}
       ZSid = {Config.newPortObject Init
-	      fun {$ Msg state(Mode Line Col F ActionsLeft)}
+	      fun {$ state(Mode Line Col F ActionsLeft) Msg}
 		 case Mode
 		    
 		 of notyourturn then % zombie not active

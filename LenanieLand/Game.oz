@@ -14,7 +14,7 @@ import
    Brave
    Controller
    Zombies
-   Cell2
+   Cell
    % Zombie
 
    System %%
@@ -144,7 +144,7 @@ in
       Config.mapPorts.I = {MakeTuple r Width}
       for J in 1..Width do
 	 {System.show ''#I#' '#J}
-	 Config.mapPorts.I.J = {Cell2.cellState I J state(nobody Config.map.I.J)}
+	 Config.mapPorts.I.J = {Cell.cellState I J state(nobody Config.map.I.J)}
       end
    end
    
