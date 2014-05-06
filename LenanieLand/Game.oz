@@ -18,7 +18,6 @@ import
    % Zombie
 
    System %%
-   
 define
    % Input arguments
    Say = System.showInfo
@@ -106,7 +105,8 @@ define
 
    Window = GUI.window
    {GUI.initLayout Config.map Window Config.bravePort}
-   
+
+   ZombiesPorts
 in
    % Help message
    /*if Args.help then
@@ -144,8 +144,7 @@ in
    end
    
    % Les zombies
-   Config.zombiesPorts = {MakeTuple zombiesPorts Config.nZombies}
-   
+   ZombiesPorts = {MakeTuple zombiesPorts Config.nZombies}
    {PlaceZombies Height Width}
 
    % Le controleur
