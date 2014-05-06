@@ -83,7 +83,7 @@ define
    Y_INIT = 7
    F_INIT = [1 0]
    MAP1 = Config.map
-   MAP2 = map(
+   /*MAP2 = map(
 	     r(9 1 1 1 1 1 1 5 1 1 1 1 1 1 1)
 	     r(1 0 0 0 0 0 0 0 0 1 0 0 0 0 1)
 	     r(1 3 0 0 0 0 0 0 0 1 2 0 0 0 1)
@@ -99,13 +99,13 @@ define
 	     r(1 0 0 0 0 0 0 1 2 0 0 0 0 0 1)
 	     r(1 0 0 0 0 0 0 0 0 0 0 0 0 0 1)
 	     r(1 1 1 1 1 1 1 1 1 1 1 1 1 1 1)
-	     )
-   Height = MAP1.arity
-   Width = MAP1.1.arity
-   CurrentMap = Args.map
+	     )*/
+   Height = 13
+   Width = 20
+   %CurrentMap = Args.map
 
    Window = GUI.window
-   {GUI.initLayout CurrentMap Window Config.bravePort}
+   {GUI.initLayout Config.map Window Config.bravePort}
    
 in
    % Help message
