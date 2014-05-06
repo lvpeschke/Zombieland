@@ -5,6 +5,7 @@ import
 
    % Our functors
    Config
+   Controller
 
    System %%
 
@@ -26,16 +27,16 @@ define
    % Down [1 0]
    % Right [0 1]
 
-   proc {NewFacing OldF OldL OldC ?NewF ?NewL ?NewC}
+   proc {NewFacing OldF ?NewF}
       case OldF
       of [~1 0] then
-	 NewF = [0 1]  NewL = OldL   NewC = OldC+1
+	 NewF = [0 1]
       [] [0 1] then
-	 NewF = [1 0]  NewL = OldL+1 NewC = OldC
+	 NewF = [1 0]
       [] [1 0] then 
-	 NewF = [0 ~1] NewL = OldL   NewC = OldC-1
+	 NewF = [0 ~1]
       [] [0 ~1] then
-	 NewF = [~1 0] NewL = OldL-1 NewC = OldC
+	 NewF = [~1 0]
       else
 	 {System.show 'Bad facing! '#OldF}
 	 {Application.exit 1}
@@ -62,7 +63,7 @@ define
 	      fun {$ Msg state(Mode Line Col F ActionsLeft)}
 		 case Mode
 		    
-		 of notyourturn then skip % zombie not active
+		 of notyourturn then % zombie not active
 		    case Msg
 		    of yourturn(zombie) then
 		       state(yourturn Line Col F Config.nAllowedMovesZ)
@@ -73,32 +74,44 @@ define
 		    end
 
 		    
-		 [] yourturn then skip % zombie active
+		 [] yourturn then % zombie active
 
-		    case Msg
-		    of yourturn(zombie) then
-		       {System.show 'Zombie : etat '#Mode#', message '#Msg}
-		       {Application.exit 1}
-		       
+		    if ActionsLeft == 0 then % no more moves
+		       {Send Controller.controllerState finish(zombie)}
+		       state(notyourturn Line Col F 0)
+
 		    else
-		       NewL0 NewC0 Ack in
-
-		       % try forward
-		       {Move F Line Col NewL NewC}
-		       {Send MapPorts.NewL.NewC zombie(enter Ack)}
+		       L0 C0 Ack in
+		       {Move F Line Col L0 C0} % compute new cell in same direction
+		       {Send Config.mapPorts.L0.C0 zombie(enter Ack)} % try new cell in same direction
 		       {Wait Ack}
+		       
 		       if Ack == ok then
-			  {Send MapPorts.Line.Col zombie(quit)}
-			  state(yourturn NewL NewC ActionsLeft-1)
-		       elseif Ack == 2 orelse Ack == 3 orelse Ack == 4 then
+			  {Send Config.mapPorts.Line.Col zombie(quit)}
+			  state(yourturn L0 C0 F ActionsLeft-1)
 			  
+		       elseif Ack == 2 orelse Ack == 3 orelse Ack == 4 then
+			  {Send Config.mapPorts.Line.Col zombie(quit)}
+			  if ActionsLeft >= 2  andthen {RollDice5} then % random pickup, 20% chance
+			     {Send Config.mapPorts.L0.C0 zombie(pickup)}
+			     state(yourturn L0 C0 F ActionsLeft-2)
+			  else
+			     state(yourturn L0 C0 F ActionsLeft-1)
+			  end
+
+		       elseif Ack == ko then
+			  F1 in
+			  {NewFacing F F1}
+			  state(yourturn Line Col F1 ActionsLeft)
+			  
+		       else
+			  {System.show 'Zombie : etat '#Mode#', ack '#Ack}
+			  {Application.exit 1}
+		       end
 		    end
-
-		       %% NOT 4 IF LEVELS!!! CHANGE STATE EACH TIME!!
-		    
-		 else skip
-
-		    
+		 else
+		    {System.show 'Zombie :error in the state'}
+		    {Application.exit 1}
 		 end
 	      end}
    in

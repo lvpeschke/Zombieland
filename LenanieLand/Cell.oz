@@ -62,8 +62,12 @@ define
 		       if Item == 1 orelse Item == 5 then
 			  Ack = ko
 			  state(nobody Item)
-		       elseif Item == 0 orelse Item == 2 orelse item == 3 orelse Item == 4 then
+		       elseif Item == 0 then
 			  Ack = ok
+			  {GUI.drawCell zombie Y X}
+			  state(zombie Item)
+		       elseif Item == 2 orelse item == 3 orelse Item == 4 then
+			  Ack = Item
 			  {GUI.drawCell zombie Y X}
 			  state(zombie Item)
 		       else
@@ -71,7 +75,7 @@ define
 			  {Application.exit 1}
 		       end
 
-		    [] zombie(pickup Ack) then
+		    [] zombie(pickup) then
 		       {System.show 'Cell : etat '#Person#', message '#Msg#' item '#Item}
 		       {Application.exit 1}
 
@@ -115,7 +119,7 @@ define
 		       Ack = ko
 		       state(brave Item)
 		       
-		    [] zombie(pickup Ack) then
+		    [] zombie(pickup) then
 		       {System.show 'Cell : etat '#Person#', message '#Msg#' item '#Item}
 		       {Application.exit 1}
 
@@ -148,16 +152,12 @@ define
 		       Ack = ko
 		       state(zombie Item)
 		       
-		    [] zombie(pickup Ack) then
-		       if Item == 1 orelse Item == 5 then
+		    [] zombie(pickup) then
+		       if Item == 0 orelse Item == 1 orelse Item == 5 then
 			  {System.show 'Cell : etat '#Person#', message '#Msg#' item '#Item}
 			  {Application.exit 1}
 		       elseif Item == 2 orelse Item == 3 orelse Item == 4 then
-			  Ack = Item
 			  state(zombie 0) % empty now that something has been picked up
-		       elseif Item == 0 then
-			  Ack = ko
-			  state(zombie Item)
 		       else
 			  {System.show 'Cell : etat '#Person#', message '#Msg#' item '#Item}
 			  {Application.exit 1}
@@ -176,8 +176,7 @@ define
 		 else
 		    {System.show 'Cell : etat impossible!'}
 		    {Application.exit 1}
-		 end
-		 
+		 end		 
 	      end}
    in
       CSid

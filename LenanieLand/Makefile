@@ -1,5 +1,5 @@
 CC = ozc
-SRCS = Config.oz GUI.oz Cell.oz
+SRCS = Config.oz GUI.oz Cell.oz Zombie.oz
 OBJS = $(SRCS:.oz=.ozf)
 MAIN = Game.oz
 EXEC = Game
@@ -25,6 +25,9 @@ Controller.ozf: Config.oz
 
 Brave.ozf: Config.oz
 	ozc -c Brave.oz -o Brave.ozf
+
+Zombie.ozf: Config.oz
+	ozc -c Zombie.oz -o Zombie.ozf
 
 clean:
 	@rm -rf *.ozf
