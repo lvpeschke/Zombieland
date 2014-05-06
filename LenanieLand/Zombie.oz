@@ -50,23 +50,26 @@ define
    %% Messages
    % - yourturn(zombie)
 
-   fun {ZombieState Init}
+   fun {ZombieState SelfPort Init}
       ZSid = {Config.newPortObject Init
 	      fun {$ state(Mode Line Col F ActionsLeft) Msg}
 		 case Mode
 		    
 		 of notyourturn then % zombie not active
+		    {System.show 'la'}
 		    case Msg
-		    of yourturn(zombie) then
+		    of yourturn then
+		       {System.show 'Zombie : etat '#Mode#', message '#Msg}
+		       {Send SelfPort go} %%
 		       state(yourturn Line Col F Config.nAllowedMovesZ)
 		       
 		    else
 		       {System.show 'Zombie : etat '#Mode#', message '#Msg}
 		       {Application.exit 1}
 		    end
-
 		    
 		 [] yourturn then % zombie active
+		    {System.show 'ici'}
 
 		    if ActionsLeft == 0 then % no more moves
 		       {Send Config.controllerPort finish(zombie)}
@@ -102,7 +105,7 @@ define
 		       end
 		    end
 		 else
-		    {System.show 'Zombie :error in the state'}
+		    {System.show 'Zombie : error in the state'}
 		    {Application.exit 1}
 		 end
 	      end}
