@@ -38,11 +38,16 @@ define
 	    )
    
    NAllowedMovesB = 2
-   NAllowedMovesB = 3
+   NAllowedMovesZ = 3
    NWantedObjects = 5
    NZombies = 5
    NBullets = 3
 
+   % The port objects known by everybody
+   ControllerPort
+   BravePort
+   MapPort
+   
    % PortObject
    fun {NewPortObject Init Fun}
       proc {MsgLoop S1 State}

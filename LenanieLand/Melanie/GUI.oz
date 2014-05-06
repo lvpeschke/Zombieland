@@ -19,6 +19,21 @@ export
    UpdateMovesCount % update moves left for GUI
 
 define
+
+   % PortObject %% TODO : dans Config ???
+   fun {NewPortObject Init Fun}
+      proc {MsgLoop S1 State}
+	 case S1 of Msg|S2 then
+	    %{System.show Msg}
+	    {MsgLoop S2 {Fun State Msg}}
+	 [] nil then skip end
+      end
+      Sin
+   in
+      thread {MsgLoop Sin Init} end
+      {NewPort Sin}
+   end
+   
    % Current working directory
    CD = {OS.getCWD}#'/images'
    
@@ -86,7 +101,7 @@ define
       end
    end
 
-   %%% Sets up a cell with an image, given a certain number
+%%% Sets up a cell with an image, given a certain number
    proc {DrawCell Number Y X}
       Image = {NumberToImage Number}
    in
@@ -95,17 +110,17 @@ define
 			    column:X)}
    end
 
-   %%% Sets the bullet count to
+%%% Sets the bullet count to
    proc {UpdateBulletsCount NewNumberOfBullets}
       {BulletsCountHandle set(NewNumberOfBullets)}
    end
 
-   %%% Sets the collected items count
+%%% Sets the collected items count
    proc {UpdateItemsCount NewNumberOfItems}
       {ItemsCountHandle set(NewNumberOfItems)}
    end
 
-   %%% Sets the number of moves left
+%%% Sets the number of moves left
    proc {UpdateMovesCount NewNumberOfMoves}
       {MovesCountHandle set(NewNumberOfMoves)}
       %{System.show 'Moves updated to '#NewNumberOfMoves}
@@ -116,12 +131,25 @@ define
       {Window bind(event:"<Up>" action:proc{$} {Send ServerPort move([~1 0])} end)} %%% TODO VERIFIER LES MESSAGES
       {Window bind(event:"<Left>" action:proc{$} {Send ServerPort move([0 ~1])} end)}
       {Window bind(event:"<Down>" action:proc{$} {Send ServerPort move([1 0])}  end)}
-      {Window bind(event:"<Right>" action:proc{$} {Send ServerPort (move([0 1])} end)}
+      {Window bind(event:"<Right>" action:proc{$} {Send ServerPort move([0 1])} end)}
       {Window bind(event:"<space>" action:proc{$} {Send ServerPort pickup} end)}
    end
+
+   /*proc {Building FN LN ?Floors ?Lifts} Lifts={MakeTuple lifts LN}
+      for I in 1..LN do Cid in
+	 Cid={Controller state(stopped 1 Lifts.I)}
+	 Lifts.I={Lift I state(1 nil false) Cid Floors}
+      end
+      
+      Floors={MakeTuple floors FN}
+      for I in 1..FN do
+	 Floors.I={Floor I state(notcalled) Lifts}
+      end
+   end*/
+	 
    
 
-   %%% Sets up the initial map from a tuple
+%%% Sets up the initial map from a tuple
    proc {InitLayout Map Window PlayerPort}
       Lines = {Width Map}
       Columns = {Width Map.Lines}
@@ -139,7 +167,7 @@ define
       end     
    end
 
-   %%% Build the GUI, not yet initialized
+%%% Build the GUI, not yet initialized
    Window = {QTk.build Desc}
    {Window set(title:"ZOMBIELAND")}
 end

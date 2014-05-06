@@ -49,8 +49,6 @@ define
    X_INIT = 1
    Y_INIT = 7
    F_INIT = [1 0]
-   LENGTH = 20
-   HEIGHT = 13
    MAP1 = Config.map
    MAP2 = map(
 	     r(9 1 1 1 1 1 1 5 1 1 1 1 1 1 1)
@@ -72,8 +70,6 @@ define
 
    CurrentMap = Args.map
 
-   ServerPort
-
    Window = GUI.window
    {GUI.initLayout CurrentMap Window ServerPort}
 
@@ -87,19 +83,6 @@ define
       {UpdateMap2 0 0}
    end*/
    
-   % PortObject
-   fun {NewPortObject Init Fun}
-      proc {MsgLoop S1 State}
-	 case S1 of Msg|S2 then
-	    {System.show Msg}
-	    {MsgLoop S2 {Fun State Msg}}
-	 [] nil then skip end
-      end
-      Sin
-   in
-      thread {MsgLoop Sin Init} end
-      {NewPort Sin}
-   end
 
    fun {ServerState Init}
       Cid={NewPortObject Init

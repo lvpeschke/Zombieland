@@ -17,6 +17,9 @@ Config.ozf: Config.oz
 GUI.ozf: GUI.oz Config.oz
 	ozc -c GUI.oz -o GUI.ozf
 
+Controller.ozf: Congif.oz
+	ozc -c Controller.oz -o Controller.ozf
+
 clean:
 	@rm -rf *.ozf
 
