@@ -19,6 +19,8 @@ import
 
    System %%
 define
+   ZombiesPorts
+   
    % Input arguments
    Say = System.showInfo
    Args = {Application.getArgs
@@ -70,7 +72,7 @@ define
 	       {Wait Ack}
 	       {System.show ''#N#' ack bound'}
 	       if Ack==ok then
-		  zombiesPorts.N={Zombies.zombieState state(notyourturn RandX RandY RandF 0)}
+		  ZombiesPorts.N={Zombies.zombieState state(notyourturn RandX RandY RandF 0)}
 		  {Place N+1}
 	       else {Place N}
 	       end
@@ -110,7 +112,6 @@ define
    Window = GUI.window
    {GUI.initLayout Config.map Window Config.bravePort}
 
-   ZombiesPorts
 in
    % Help message
    /*if Args.help then
