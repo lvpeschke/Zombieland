@@ -18,6 +18,8 @@ TO DO LIST
 
 - Borner le nombre de zombies par le nombre de cases (vides)/2 (par exemple)
 
+- Ne pas faire bouger le braver et puis tous les zombies. Juste bloquer les zombies si le brave n'a pas fini ses deux mouvements.
+
 
 EXTENSIONS
 - Tirs à distance
