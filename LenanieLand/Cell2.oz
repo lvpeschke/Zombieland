@@ -35,29 +35,38 @@ define
 		    case Msg
 
 		    of zombie(enter Ack) then
-		       Ack = ok
-		       if Item == 1 orelse Item == 5 then
+		       if Item == 1 then
+			  Ack = ko
+			  state(nobody Item)
+		       elseif Item == 5 then
 			  Ack = ko
 			  state(nobody Item)
 		       elseif Item == 0 then
 			  Ack = ok
 			  {GUI.drawCell zombie Y X}
 			  state(zombie Item)
-		       elseif Item == 2 orelse Item == 3 orelse Item == 4 then
+		       elseif Item == 2 then
 			  Ack = Item
 			  {GUI.drawCell zombie Y X}
 			  state(zombie Item)
+		       elseif Item == 3 then
+			   Ack = Item
+			  {GUI.drawCell zombie Y X}
+			  state(zombie Item)
+		       elseif Item == 4 then
+			   Ack = Item
+			  {GUI.drawCell zombie Y X}
+			  state(zombie Item)			  
 		       else
-			  %{System.show 'Cell : etat '#Person#', message '#Msg#' item '#Item}
-			  %{Application.exit 1}
+			  {System.show 'Cell : etat '#Person#', message '#Msg#' item '#Item}
+			  {Application.exit 1}
 			  state(Person Item)
 		       end
 		    else
 		       {System.show 'Cell : etat '#Person#' message interdit!'#Msg}
 		       {Application.exit 1}
 		       state(Person Item)
-		    end
-		    
+		    end		    
 		 % error in the state 
 		 else
 		    {System.show 'Cell : etat impossible!'}
@@ -67,6 +76,5 @@ define
 	      end}
    in
       CSid
-   end
-   
+   end   
 end
