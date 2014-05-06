@@ -1,7 +1,7 @@
 functor
 export
    Map % the default map of the room to be displayed
-
+   
    % Turns
    % 1 move = move 1 cell (no diagonal) OR pick up 1 item
    NAllowedMovesB % the number of moves the player is allowed in 1 turn
@@ -11,6 +11,14 @@ export
    NWantedObjects % the default number of objects the player has to collect
    NBullets % the default initial number of bullets  
    NZombies % the default initial number of zombies in the room
+   
+   % The port objects known by everybody
+   ControllerPort
+   BravePort
+   MapPort
+
+   % Creates a new port object
+   NewPortObject
    
 define
    Map = map(
@@ -35,7 +43,16 @@ define
    NZombies = 5
    NBullets = 3
 
-   ControllerPort
-   BravePort
-   MapPort
+   % PortObject
+   fun {NewPortObject Init Fun}
+      proc {MsgLoop S1 State}
+	 case S1 of Msg|S2 then
+	    {MsgLoop S2 {Fun State Msg}}
+	 [] nil then skip end
+      end
+      Sin
+   in
+      thread {MsgLoop Sin Init} end
+      {NewPort Sin}
+   end
 end
