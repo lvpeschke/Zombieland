@@ -1,21 +1,33 @@
 functor
 import
-   Application
-   OS
-   System
+   Application %%
+   System %%
 
    % Our functors
    Config
    GUI
 
 export
-   MapCell
+  CellState
 
 define
 
+   %% States
+   % - nobody
+   % - brave
+   % - zombie
+
+   %% Messages
+   % - brave(enter Ack)
+   % - brave(pickup Ack)
+   % - brave(quit)
+   % - zombie(enter Ack)
+   % - zombie(pickup Ack)
+   % - zombie(quit)
+
    %% IL MANQUE LE QUIT!!!
-   fun {MapCell Y X Init}
-      MCid = {Config.NewPortObject Init
+   fun {CellState Y X Init}
+      CSid = {Config.newPortObject Init
 	      fun {$ Msg state(Person Item)}
 		 case Person
 		    
@@ -28,7 +40,8 @@ define
 			  state(nobody Item)
 		       elseif Item == 5 then
 			  Ack = door
-			  state(nobody Item) %% A DISCUTER, mais sinon on peut avoir un brave qui va la ou il y a un brave s'il tente plusieurs fois la porte
+			  state(nobody Item) %% A DISCUTER, mais sinon on peut avoir un brave qui va la ou
+			                     %% il y a un brave s'il tente plusieurs fois la porte
 		       elseif Item == 0 orelse Item == 2 orelse Item == 3 orelse Item == 4 then
 			  Ack = ok
 			  {GUI.drawCell brave Y X}
@@ -40,8 +53,12 @@ define
 		       
 		    [] brave(pickup Ack) then
 		       {System.show 'Cell : etat '#Person#', message '#Msg#' item '#Item}
-		       {Application.exit 1}		       
-		       
+		       {Application.exit 1}
+
+		    [] brave(quit) then
+		       {System.show 'Cell : etat '#Person#', message '#Msg#' item '#Item}
+		       {Application.exit 1}
+		       		       
 		    [] zombie(enter Ack) then
 		       if Item == 1 orelse Item == 5 then
 			  Ack = ko
@@ -56,6 +73,10 @@ define
 		       end
 
 		    [] zombie(pickup Ack) then
+		       {System.show 'Cell : etat '#Person#', message '#Msg#' item '#Item}
+		       {Application.exit 1}
+
+		    [] zombie(quit) then
 		       {System.show 'Cell : etat '#Person#', message '#Msg#' item '#Item}
 		       {Application.exit 1}
 			  
@@ -85,13 +106,21 @@ define
 		       else
 			  {System.show 'Cell : etat '#Person#', message '#Msg#' item '#Item}
 			  {Application.exit 1}
-		       end			  
+		       end
+
+		    [] brave(quit) then
+		       {DrawCell Item Y X}
+		       state(nobody Item)
 		       
 		    [] zombie(enter Ack) then
 		       Ack = ko
 		       state(brave Item)
 		       
 		    [] zombie(pickup Ack) then
+		       {System.show 'Cell : etat '#Person#', message '#Msg#' item '#Item}
+		       {Application.exit 1}
+
+		    [] zombie(quit) then
 		       {System.show 'Cell : etat '#Person#', message '#Msg#' item '#Item}
 		       {Application.exit 1}
 		       
@@ -109,6 +138,10 @@ define
 		       state(zombie Item)
 		       
 		    [] brave(pickup Ack) then
+		       {System.show 'Cell : etat '#Person#', message '#Msg#' item '#Item}
+		       {Application.exit 1}
+
+		    [] brave(quit) then
 		       {System.show 'Cell : etat '#Person#', message '#Msg#' item '#Item}
 		       {Application.exit 1}
 		       
@@ -130,6 +163,10 @@ define
 			  {System.show 'Cell : etat '#Person#', message '#Msg#' item '#Item}
 			  {Application.exit 1}
 		       end
+
+		    [] zombie(quit)
+		       {DrawCell Item Y X}
+		       state(nobody Item)
 			  
 		    else
 		       {System.show 'Cell : etat '#Person#' message interdit!'#Msg}
@@ -144,7 +181,7 @@ define
 		 
 	      end}
    in
-      MCid
+      CSid
    end
    
 end
