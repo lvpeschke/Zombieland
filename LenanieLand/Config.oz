@@ -30,7 +30,7 @@ define
 	    )
    
    NAllowedMovesB = 2
-   NAllowedMovesB = 3
+   NAllowedMovesZ = 3
    NWantedObjects = 5
    NZombies = 5
    NBullets = 3
