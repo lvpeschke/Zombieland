@@ -26,18 +26,18 @@ define
    end
     
    fun {BraveState Init}
-      Cid={NewPortObject Init
+      Cid={Config.newPortObject Init
 	   fun {$ state(Mode X Y F ActionsLeft NBullets NObjects) Msg}
-	     {System.show Msg}
-	     {System.show Mode}
+	      {System.show Msg}
+	      {System.show Mode}
 	      if Mode==notyourturn then
 		 case Msg
 		 of yourturn then state(yourturn X Y F 2 NBullets NObjects)
 		 % A SUPPRIMER
-		 else {Show Msg} {Show 'alors qu on est en mode notyourturn'}
+		 else {System.show Msg} {System.show 'alors qu on est en mode notyourturn'}
 		    state(Mode X Y F ActionsLeft NBullets NObjects)
 		 end
-	      elseif Mode==yourturn
+	      elseif Mode==yourturn then
 		 if ActionsLeft==0 then
 		    {Send Config.controllerPort finish(brave)}
 		    state(Mode X Y F ActionsLeft NBullets NObjects)
@@ -45,19 +45,20 @@ define
 		    {System.show Msg}
 		    case Msg
 		    of move(D) then
-		       local Ack in
-			  local NewX NewY NewZ in
-			     [NewX NewY NewF] = {NewPos X Y D}
-			     {Send Config.mapPorts.NewX.NewY brave(enter Ack)}
-			     {Wait Ack}
-			     if Ack==ok then
-				{Send Config.mapPorts.X.Y brave(quit)}
-				state(Mode NewX NewY NewF ActionsLeft-1 NBullets NObjects)
-			     else
-				state(Mode X Y F ActionsLeft NBullets NObjects)
-			     end
+		       local NewX NewY NewF Ack in
+			  [NewX NewY NewF] = {NewPos X Y D}
+			  {Send Config.mapPorts.NewX.NewY brave(enter Ack)}
+			  {Wait Ack}
+			  if Ack==ok then
+			     {Send Config.mapPorts.X.Y brave(quit)}
+			     state(Mode NewX NewY NewF ActionsLeft-1 NBullets NObjects)
+			  else
+			     state(Mode X Y F ActionsLeft NBullets NObjects)
 			  end
-		       [] pickup then
+		       end
+		       
+		    [] pickup then
+		       local Ack in
 			  {Send Config.mapPorts.X.Y brave(pickup Ack)}
 			  {Wait Ack}
 			  if Ack==2 then state(Mode X Y F ActionsLeft-1 NBullets+3 NObjects)
@@ -68,13 +69,12 @@ define
 			  else
 			     state(Mode X Y F ActionsLeft NBullets NObjects)
 			  end
-		       else
-			  state(Mode X Y F ActionsLeft NBullets NObjects)
 		       end
-		    end
-		 end
-	      end
-	   end
+		    else
+		       state(Mode X Y F ActionsLeft NBullets NObjects)
+		    end % end case Msg
+		 end % end else
+	      end %endelseif
 	  end}
    in
       Cid

@@ -13,7 +13,7 @@ export
 define
    
    fun {ControllerState Init}
-      Cid={NewPortObject Init
+      Cid={Config.newPortObject Init
 	   fun {$ state(Mode NZombies ZombiesPorts NResponses) Msg}
              {System.show Msg}
 	     {System.show Mode}
@@ -29,11 +29,11 @@ define
 		 [] finish(zombie) then {System.show 'erreur : finish(zombie) alors qu on est en mode brave'}
 		    state(Mode NZombies ZombiesPorts NResponses)
 		 end
-	      [] zombie
+	      [] zombie then
 		 case Msg
 		 of finish(zombie) then
 		    if NResponses \=  NZombies-1 then state(Mode NZombies ZombiesPorts NResponses+1)
-		    else {Send Config.bravePort yourturn} state(Mode ZombiesPorts Zombies 0) end
+		    else {Send Config.bravePort yourturn} state(Mode NZombies ZombiesPorts 0) end
 		 % A SUPPRIMER
 		 [] finish(brave) then {System.show 'erreur : finish(brave) alors qu on est en mode zombie'}
 		    state(Mode NZombies ZombiesPorts NResponses)
