@@ -46,23 +46,36 @@ define
 	end
      end
 
+   fun {RandFacing}
+      local X in
+	 X = {OS.rand} mod 4
+	 if X==0 then [~1 0]
+	 elseif X==1 then [0 1]
+	 elseif X==2 then [1 0]
+	 else [0 ~1] end
+      end
+   end
+	    
    proc {PlaceZombies Height Width}
-      proc {Place X}
-	 if (X==Config.nZombies) then skip
+      proc {Place N}
+	 if (N>Config.nZombies) then skip
 	 else
-	    local Rand RandX RandY Ack in
+	    local RandX RandY RandF Ack in
 	       RandX = ({OS.rand} mod Height)
 	       RandY = ({OS.rand} mod Width)
+	       RandF = {RandFacing}
 	       {Send Config.mapPorts.RandX.RandY zombie(enter Ack)}
 	       {Wait Ack}
-	       if Ack==ok then {Place X+1}
-	       else {Place X}
+	       if Ack==ok then
+		  zombiesPorts.N={Zombies.zombieState state(notyourturn RandX RandY RandF 0)}
+		  {Place N+1}
+	       else {Place N}
 	       end
 	    end
 	 end
       end
    in
-      {Place 0}
+      {Place 1}
    end
 
    %% CONFIG
@@ -126,17 +139,14 @@ in
    for I in 1..Height do
       Config.mapPorts.I = {MakeTuple r Width}
       for J in 1..Width do
-	 Config.mapPorts.I.J = {Cell.cellState state(nobody Map.I.J)}
+	 Config.mapPorts.I.J = {Cell.cellState I J state(nobody Config.map.I.J)}
       end
    end
-
-   {PlaceZombies Height Width}
    
    % Les zombies
    Config.zombiesPorts = {MakeTuple zombiesPorts Config.nZombies}
-   for I in 1..Config.nZombies do
-      zombiesPorts.I = {Zombies.zombieState state(notyourturn X Y F 0)}
-   end
+   
+   {PlaceZombies Height Width}
 
    % Le controleur
    Config.controllerPort = {Controller.controllerState state(brave Config.nZombies Config.zombiesPorts 0)}
