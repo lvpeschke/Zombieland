@@ -11,7 +11,10 @@ import
    % Our functors
    Config
    GUI
-   Room
+   Brave
+   Controller
+   Zombies
+   Cell
    % Zombie
 
    System %%
@@ -71,7 +74,7 @@ define
    CurrentMap = Args.map
 
    Window = GUI.window
-   {GUI.initLayout CurrentMap Window BravePort}
+   {GUI.initLayout CurrentMap Window Config.bravePort}
 
    % fun {ServerState Init}
    %    Cid={NewPortObject Init
@@ -150,7 +153,7 @@ define
    % 	 1
    %    else 0 end
    % end
-
+   
 in
    % Help message
    /*if Args.help then
@@ -176,11 +179,29 @@ in
    % Start game
    {GUI.drawCell b X_INIT Y_INIT}
 
-   %
-   ZombiesPorts = {MakeTuple zombiesPorts NZombies}
-   for I in 1..NZombies do
-      ZombiesPorts.I = {ZombieState state(Mode X Y F ActionsLeft)}
+   % Les Ports
+   % La MAP
+   local Height Width in
+      Height = MAP1.arity
+      Width = MAP1.1.arity
+      Config.mapPorts = {MakeTuple mapPorts Height}
+      for I in 1..Height do
+	 Config.mapPorts.I = {MakeTuple r Width}
+	 for J in 1..Width do
+	    Config.mapPorts.I.J = {Cell.cellState state(nobody Map.I.J)}
+	 end
+      end
    end
    
-   ControllerPort = {ControllerState state(brave NZombies ZombiesPorts 0)}
+   % Le brave
+   Config.bravePort = {Config.braveState state(yourturn X_INIT Y_INIT F_INIT Config.nAllowedMovesB Config.nBullets 0)}
+   
+   % Les zombies
+   Config.zombiesPorts = {MakeTuple zombiesPorts Config.nZombies}
+   for I in 1..Config.nZombies do
+      zombiesPorts.I = {Zombies.zombieState state(notyourturn X Y F 0)}
+   end
+
+   % Le controleur
+   Config.controllerPort = {Controller.controllerState state(brave Config.nZombies Config.zombiesPorts 0)}
 end

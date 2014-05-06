@@ -18,7 +18,7 @@ define
 		 case Msg
 		 of finish(brave) then
 		    for I in 1..NZombies do
-		       {Send ZombiesPorts.I yourturn}
+		       {Send Config.zombiesPorts.I yourturn}
 		    end
 		    state(zombie NZombies ZombiesPorts NResponses)
 		 % A SUPPRIMER
@@ -29,7 +29,7 @@ define
 		 case Msg
 		 of finish(zombie) then
 		    if NResponses \=  NZombies-1 then state(Mode NZombies ZombiesPorts NResponses+1)
-		    else {Send BravePort yourturn} state(Mode ZombiesPorts Zombies 0) end
+		    else {Send Config.bravePort yourturn} state(Mode ZombiesPorts Zombies 0) end
 		 % A SUPPRIMER
 		 [] finish(brave) then {System.show 'erreur : finish(brave) alors qu on est en mode zombie'}
 		    state(Mode NZombies ZombiesPorts NResponses)

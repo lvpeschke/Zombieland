@@ -24,12 +24,12 @@ define
 		    state(Mode X Y F ActionsLeft NBullets NObjects)
 		 end
 	      elseif Mode==yourturn
-		 if ActionsLeft==0 then {Send ControllerPort finish(brave)} state(Mode X Y F ActionsLeft NBullets NObjects)
+		 if ActionsLeft==0 then {Send Config.controllerPort finish(brave)} state(Mode X Y F ActionsLeft NBullets NObjects)
 		 else
 		    case Msg
 		    of move(D) then local NewX NewY NewZ in
 				       [NewX NewY NewF] = {NewPos X Y D}
-				       {Send MapPort.NewX.NewY }
+				       {Send Config.mapPorts.NewX.NewY }
 				    end
 		       
 		 % A SUPPRIMER
