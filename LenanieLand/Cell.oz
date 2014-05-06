@@ -58,9 +58,15 @@ define
 		       state(Person Item)
 
 		    [] brave(quit) then
-		       {System.show 'Cell : etat '#Person#', message '#Msg#' item '#Item}
-		       {Application.exit 1}
-		       state(Person Item)
+		       if Item == 5 then
+			  {GUI.drawCell 5 Y X}
+			  state(nobody YX)
+		       else			  
+			  {System.show 'Cell : etat '#Person#', message '#Msg#' item '#Item}
+			  {Application.exit 1}
+			  state(Person Item)
+		       end
+		       
 		       		       
 		    [] zombie(enter Ack) then
 		       if Item == 1 orelse Item == 5 then

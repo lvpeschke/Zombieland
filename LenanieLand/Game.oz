@@ -156,5 +156,5 @@ in
    Config.controllerPort = {Controller.controllerState state(brave Config.nZombies ZombiesPorts 0)}
 
    % Le brave
-   Config.bravePort = {Config.braveState state(yourturn X_INIT Y_INIT F_INIT Config.nAllowedMovesB Config.nBullets 0)}
+   Config.bravePort = {Brave.braveState state(yourturn X_INIT Y_INIT F_INIT Config.nAllowedMovesB Config.nBullets 0)}
 end
