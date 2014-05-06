@@ -195,7 +195,7 @@ define
 		    {System.show 'Cell : etat impossible!'}
 		    {Application.exit 1}
 		    state(Person Item)
-		 end		 
+		 end
 	      end}
    in
       CSid
