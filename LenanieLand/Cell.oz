@@ -25,7 +25,6 @@ define
    % - zombie(pickup Ack)
    % - zombie(quit)
 
-   %% IL MANQUE LE QUIT!!!
    fun {CellState Y X Init}
       CSid = {Config.newPortObject Init
 	      fun {$ Msg state(Person Item)}
