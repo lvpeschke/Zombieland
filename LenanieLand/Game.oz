@@ -193,5 +193,5 @@ in
       ZombiesPorts.I = {ZombieState state(Mode X Y F ActionsLeft)}
    end
    
-   ControllerPort = {ControllerState state(brave NZombies ZombiesPorts 0))}
+   ControllerPort = {ControllerState state(brave NZombies ZombiesPorts 0)}
 end
