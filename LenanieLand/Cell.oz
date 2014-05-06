@@ -32,8 +32,9 @@ define
 		 case Person
 		    
 		 of nobody then % nobody on the cell
+
 		    case Msg
-		       
+
 		    of brave(enter Ack) then
 		       if Item == 1 then
 			  Ack = ko
@@ -49,15 +50,18 @@ define
 		       else
 			  {System.show 'Cell : etat '#Person#', message '#Msg#' item '#Item}
 			  {Application.exit 1}
+			  state(Person Item)
 		       end
 		       
 		    [] brave(pickup Ack) then
 		       {System.show 'Cell : etat '#Person#', message '#Msg#' item '#Item}
 		       {Application.exit 1}
+		       state(Person Item)
 
 		    [] brave(quit) then
 		       {System.show 'Cell : etat '#Person#', message '#Msg#' item '#Item}
 		       {Application.exit 1}
+		       state(Person Item)
 		       		       
 		    [] zombie(enter Ack) then
 		       if Item == 1 orelse Item == 5 then
@@ -72,21 +76,25 @@ define
 			  {GUI.drawCell zombie Y X}
 			  state(zombie Item)
 		       else
-			  {System.show 'Cell : etat '#Person#', message '#Msg#' item '#Item}
-			  {Application.exit 1}
+			  %{System.show 'Cell : etat '#Person#', message '#Msg#' item '#Item}
+			  %{Application.exit 1}
+			  state(Person Item)
 		       end
 
 		    [] zombie(pickup) then
 		       {System.show 'Cell : etat '#Person#', message '#Msg#' item '#Item}
 		       {Application.exit 1}
+		       state(Person Item)
 
 		    [] zombie(quit) then
 		       {System.show 'Cell : etat '#Person#', message '#Msg#' item '#Item}
 		       {Application.exit 1}
+		       state(Person Item)
 			  
 		    else
 		       {System.show 'Cell : etat '#Person#' message interdit!'#Msg}
 		       {Application.exit 1}
+		       state(Person Item)
 		    end
 
 		    
@@ -96,11 +104,13 @@ define
 		    of brave(enter Ack) then
 		       {System.show 'Cell : etat '#Person#', message '#Msg#' item '#Item}
 		       {Application.exit 1}
+		       state(Person Item)
 		       
 		    [] brave(pickup Ack) then
 		       if Item == 1 orelse Item == 5 then
 			  {System.show 'Cell : etat '#Person#', message '#Msg#' item '#Item}
 			  {Application.exit 1}
+			  state(Person Item)
 		       elseif Item == 2 orelse Item == 3 orelse Item == 4 then
 			  Ack = Item
 			  state(brave 0) % empty now that something has been picked up
@@ -110,6 +120,7 @@ define
 		       else
 			  {System.show 'Cell : etat '#Person#', message '#Msg#' item '#Item}
 			  {Application.exit 1}
+			  state(Person Item)
 		       end
 
 		    [] brave(quit) then
@@ -123,14 +134,17 @@ define
 		    [] zombie(pickup) then
 		       {System.show 'Cell : etat '#Person#', message '#Msg#' item '#Item}
 		       {Application.exit 1}
+		       state(Person Item)
 
 		    [] zombie(quit) then
 		       {System.show 'Cell : etat '#Person#', message '#Msg#' item '#Item}
 		       {Application.exit 1}
+		       state(Person Item)
 		       
 		    else
 		       {System.show 'Cell : etat '#Person#' message interdit!'#Msg}
 		       {Application.exit 1}
+		       state(Person Item)
 		    end
 
 		    
@@ -144,10 +158,12 @@ define
 		    [] brave(pickup Ack) then
 		       {System.show 'Cell : etat '#Person#', message '#Msg#' item '#Item}
 		       {Application.exit 1}
+		       state(Person Item)
 
 		    [] brave(quit) then
 		       {System.show 'Cell : etat '#Person#', message '#Msg#' item '#Item}
 		       {Application.exit 1}
+		       state(Person Item)
 		       
 		    [] zombie(enter Ack) then
 		       Ack = ko
@@ -157,11 +173,13 @@ define
 		       if Item == 0 orelse Item == 1 orelse Item == 5 then
 			  {System.show 'Cell : etat '#Person#', message '#Msg#' item '#Item}
 			  {Application.exit 1}
+			  state(Person Item)
 		       elseif Item == 2 orelse Item == 3 orelse Item == 4 then
 			  state(zombie 0) % empty now that something has been picked up
 		       else
 			  {System.show 'Cell : etat '#Person#', message '#Msg#' item '#Item}
 			  {Application.exit 1}
+			  state(Person Item)
 		       end
 
 		    [] zombie(quit) then
@@ -171,13 +189,15 @@ define
 		    else
 		       {System.show 'Cell : etat '#Person#' message interdit!'#Msg}
 		       {Application.exit 1}
+		       state(Person Item)
 		    end
 		    
 		 % error in the state 
 		 else
 		    {System.show 'Cell : etat impossible!'}
 		    {Application.exit 1}
-		 end		 
+		    state(Person Item)
+		 end
 	      end}
    in
       CSid
