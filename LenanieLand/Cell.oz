@@ -31,8 +31,9 @@ define
 		 case Person
 		    
 		 of nobody then % nobody on the cell
+
 		    case Msg
-		       
+
 		    of brave(enter Ack) then
 		       if Item == 1 then
 			  Ack = ko
@@ -74,8 +75,8 @@ define
 			  {GUI.drawCell zombie Y X}
 			  state(zombie Item)
 		       else
-			  {System.show 'Cell : etat '#Person#', message '#Msg#' item '#Item}
-			  {Application.exit 1}
+			  %{System.show 'Cell : etat '#Person#', message '#Msg#' item '#Item}
+			  %{Application.exit 1}
 			  state(Person Item)
 		       end
 
