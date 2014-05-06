@@ -15,7 +15,7 @@ export
    % The port objects known by everybody
    ControllerPort
    BravePort
-   MapPort
+   MapPorts
 
    % Creates a new port object
    NewPortObject
@@ -46,7 +46,7 @@ define
    % The port objects known by everybody
    ControllerPort
    BravePort
-   MapPort
+   MapPorts
    
    % PortObject
    fun {NewPortObject Init Fun}
