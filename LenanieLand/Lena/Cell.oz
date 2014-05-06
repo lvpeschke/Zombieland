@@ -13,23 +13,9 @@ export
 
 define
 
-   % PortObject %% TODO : dans Config ???
-   fun {NewPortObject Init Fun}
-      proc {MsgLoop S1 State}
-	 case S1 of Msg|S2 then
-	    %{System.show Msg}
-	    {MsgLoop S2 {Fun State Msg}}
-	 [] nil then skip end
-      end
-      Sin
-   in
-      thread {MsgLoop Sin Init} end
-      {NewPort Sin}
-   end
-
    %% IL MANQUE LE QUIT!!!
    fun {MapCell Y X Init}
-      MCid = {NewPortObject Init
+      MCid = {Config.NewPortObject Init
 	      fun {$ Msg state(Person Item)}
 		 case Person
 		    
