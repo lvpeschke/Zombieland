@@ -60,7 +60,7 @@ define
 		    [] brave(quit) then
 		       if Item == 5 then
 			  {GUI.drawCell 5 Y X}
-			  state(nobody YX)
+			  state(nobody Y X)
 		       else			  
 			  {System.show 'Cell : etat '#Person#', message '#Msg#' item '#Item}
 			  {Application.exit 1}
