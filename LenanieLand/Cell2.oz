@@ -35,6 +35,7 @@ define
 		    case Msg
 
 		    of zombie(enter Ack) then
+		       Ack = ok
 		       if Item == 1 orelse Item == 5 then
 			  Ack = ko
 			  state(nobody Item)
@@ -42,7 +43,7 @@ define
 			  Ack = ok
 			  {GUI.drawCell zombie Y X}
 			  state(zombie Item)
-		       elseif Item == 2 orelse item == 3 orelse Item == 4 then
+		       elseif Item == 2 orelse Item == 3 orelse Item == 4 then
 			  Ack = Item
 			  {GUI.drawCell zombie Y X}
 			  state(zombie Item)
