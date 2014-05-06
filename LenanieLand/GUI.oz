@@ -127,12 +127,12 @@ define
    end
 
    % Sets actions for the arrow keys
-   proc {BindArrowKeysToPlayer Window ServerPort}
-      {Window bind(event:"<Up>" action:proc{$} {Send ServerPort move([~1 0])} end)} %%% TODO VERIFIER LES MESSAGES
-      {Window bind(event:"<Left>" action:proc{$} {Send ServerPort move([0 ~1])} end)}
-      {Window bind(event:"<Down>" action:proc{$} {Send ServerPort move([1 0])}  end)}
-      {Window bind(event:"<Right>" action:proc{$} {Send ServerPort move([0 1])} end)}
-      {Window bind(event:"<space>" action:proc{$} {Send ServerPort pickup} end)}
+   proc {BindArrowKeysToPlayer Window BravePort}
+      {Window bind(event:"<Up>" action:proc{$} {Send BravePort move([~1 0])} end)} %%% TODO VERIFIER LES MESSAGES
+      {Window bind(event:"<Left>" action:proc{$} {Send BravePort move([0 ~1])} end)}
+      {Window bind(event:"<Down>" action:proc{$} {Send BravePort move([1 0])}  end)}
+      {Window bind(event:"<Right>" action:proc{$} {Send BravePort move([0 1])} end)}
+      {Window bind(event:"<space>" action:proc{$} {Send BravePort pickup} end)}
    end
 
    /*proc {Building FN LN ?Floors ?Lifts} Lifts={MakeTuple lifts LN}
@@ -150,7 +150,7 @@ define
    
 
 %%% Sets up the initial map from a tuple
-   proc {InitLayout Map Window PlayerPort}
+   proc {InitLayout Map Window BravePort}
       Lines = {Width Map}
       Columns = {Width Map.Lines}
    in
@@ -163,7 +163,7 @@ define
 	    end
 	 end
 	 % bind arrow keys
-	 {BindArrowKeysToPlayer Window PlayerPort}
+	 {BindArrowKeysToPlayer Window BravePort}
       end     
    end
 

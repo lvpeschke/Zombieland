@@ -22,7 +22,7 @@ define
 		    end
 		    state(zombie NZombies ZombiesPorts NResponses)
 		 % A SUPPRIMER
-		 [] finish(zombie) then {Show 'erreur : finish(zombie) alors qu on est en mode brave'}
+		 [] finish(zombie) then {System.show 'erreur : finish(zombie) alors qu on est en mode brave'}
 		    state(Mode NZombies ZombiesPorts NResponses)
 		 end
 	      [] zombie
@@ -31,7 +31,7 @@ define
 		    if NResponses \=  NZombies-1 then state(Mode NZombies ZombiesPorts NResponses+1)
 		    else {Send BravePort yourturn} state(Mode ZombiesPorts Zombies 0) end
 		 % A SUPPRIMER
-		 [] finish(brave) then {Show 'erreur : finish(brave) alors qu on est en mode zombie'}
+		 [] finish(brave) then {System.show 'erreur : finish(brave) alors qu on est en mode zombie'}
 		    state(Mode NZombies ZombiesPorts NResponses)
 		 end
 	      end

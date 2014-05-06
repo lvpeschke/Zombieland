@@ -71,18 +71,7 @@ define
    CurrentMap = Args.map
 
    Window = GUI.window
-   {GUI.initLayout CurrentMap Window ServerPort}
-
-
-   % Sets the Map
-   /*fun {UpdateMap Map X Y}
-      fun {UpdateMap2 I J}e
-	 {System.show 'salut'}
-      end
-   in
-      {UpdateMap2 0 0}
-   end*/
-   
+   {GUI.initLayout CurrentMap Window BravePort}
 
    % fun {ServerState Init}
    %    Cid={NewPortObject Init
