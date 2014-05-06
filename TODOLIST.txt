@@ -25,3 +25,5 @@ EXTENSIONS
 - Tirs à distance
 
 - Faire trucs fancy quand on gagne
+
+- Plusieurs vies (assez facile : juste un truc en plus dans l'état du brave)
