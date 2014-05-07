@@ -46,7 +46,7 @@ define
 		       state(brave Item)
 		       
 		    [] brave(pickup) then
-		       {System.show 'Cell : etat '#Person#', message '#Msg#' item '#Item}
+		       {System.show 'Cell 49 : etat '#Person#', message '#Msg#' item '#Item}
 		       state(Person Item) % skip
 
 		    [] brave(quit) then
@@ -81,7 +81,7 @@ define
 		    case Msg
 		       
 		    of brave(tryenter Ack) then
-		       {System.show 'Cell : etat '#Person#', message '#Msg#' item '#Item}
+		       {System.show 'Cell 84 : etat '#Person#', message '#Msg#' item '#Item}
 		       Ack = ko
 		       state(Person Item) % skip
 
@@ -103,15 +103,15 @@ define
 		       state(Person Item) % skip
 
 		    [] zombie(enter) then
-		       {System.show 'Cell : etat '#Person#', message '#Msg#' item '#Item}
+		       {System.show 'Cell 106 : etat '#Person#', message '#Msg#' item '#Item}
 		       state(Person Item) % skip
 		       
 		    [] zombie(pickup) then
-		       {System.show 'Cell : etat '#Person#', message '#Msg#' item '#Item}
+		       {System.show 'Cell 110 : etat '#Person#', message '#Msg#' item '#Item}
 		       state(Person Item) % skip
 
 		    [] zombie(quit) then
-		       {System.show 'Cell : etat '#Person#', message '#Msg#' item '#Item}
+		       {System.show 'Cell 114 : etat '#Person#', message '#Msg#' item '#Item}
 		       state(Person Item) % skip
 		       
 		    else
@@ -129,15 +129,15 @@ define
 		       state(Person Item) % skip
 
 		    [] brave(enter) then
-		       {System.show 'Cell : etat '#Person#', message '#Msg#' item '#Item}
+		       {System.show 'Cell 132 : etat '#Person#', message '#Msg#' item '#Item}
 		       state(Person Item) % skip
 		       
 		    [] brave(pickup) then
-		       {System.show 'Cell : etat '#Person#', message '#Msg#' item '#Item}
+		       {System.show 'Cell 136 : etat '#Person#', message '#Msg#' item '#Item}
 		       state(Person Item) % skip
 
 		    [] brave(quit) then
-		       {System.show 'Cell : etat '#Person#', message '#Msg#' item '#Item}
+		       {System.show 'Cell  140 : etat '#Person#', message '#Msg#' item '#Item}
 		       state(Person Item) % skip
 		       
 		    [] zombie(tryenter Ack) then
@@ -145,7 +145,7 @@ define
 		       state(Person Item) % skip
 
 		    [] zombie(enter) then
-		       {System.show 'Cell : etat '#Person#', message '#Msg#' item '#Item}
+		       {System.show 'Cell 148 : etat '#Person#', message '#Msg#' item '#Item}
 		       state(Person Item) % skip
 		       
 		    [] zombie(pickup) then
@@ -159,14 +159,14 @@ define
 		       state(nobody Item)
 			  
 		    else
-		       {System.show 'Cell : etat '#Person#' message interdit!'#Msg}
+		       {System.show 'Cell 162 : etat '#Person#' message interdit!'#Msg}
 		       {Application.exit 1}
 		       state(Person Item)
 		    end
 		    
 		 % error in the state 
 		 else
-		    {System.show 'Cell : etat impossible!'}
+		    {System.show 'Cell 169 : etat impossible!'}
 		    {Application.exit 1}
 		    state(Person Item)
 		 end
