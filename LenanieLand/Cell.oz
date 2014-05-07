@@ -5,7 +5,6 @@ import
 
    % Our functors
    Config
-   GUI
 
 export
   CellState

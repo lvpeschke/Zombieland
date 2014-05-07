@@ -14,7 +14,7 @@ $(EXEC): $(OBJS) $(MAIN)
 Brave.ozf: Brave.oz Config.oz GUI.oz
 	ozc -c Brave.oz -o Brave.ozf
 
-Cell.ozf: Cell.oz Config.oz GUI.oz
+Cell.ozf: Cell.oz Config.oz
 	ozc -c Cell.oz -o Cell.ozf
 
 Config.ozf: Config.oz
@@ -26,7 +26,7 @@ Controller.ozf: Config.oz Controller.oz
 GUI.ozf: GUI.oz Config.oz
 	ozc -c GUI.oz -o GUI.ozf
 
-Zombie.ozf: Zombie.oz Config.oz
+Zombie.ozf: Zombie.oz Config.oz GUI.oz
 	ozc -c Zombie.oz -o Zombie.ozf
 
 clean:
