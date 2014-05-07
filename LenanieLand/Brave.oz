@@ -9,10 +9,11 @@ import
    System %%
 export
    BraveState
+   
 define
 
    fun {Success}
-      {System.show 'You won'}
+      {System.show 'You win'}
       {Application.exit 0}
    end
 
@@ -26,21 +27,22 @@ define
    end
     
    fun {BraveState Init}
-      Cid={Config.newPortObject Init
+      Cid = {Config.newPortObject Init
 	   fun {$ state(Mode X Y F ActionsLeft NBullets NObjects) Msg}
-	      {System.show Msg}
-	      {System.show Mode}
+	      {System.show 'message '#Msg#, 'mode '#Mode}
 	      if Mode==notyourturn then
 		 case Msg
-		 of yourturn then state(yourturn X Y F 2 NBullets NObjects)
+		 of yourturn then
+		    state(yourturn X Y F Config.nActionsLeftB NBullets NObjects) %%
 		 % A SUPPRIMER
-		 else {System.show Msg} {System.show 'alors qu on est en mode notyourturn'}
-		    state(Mode X Y F ActionsLeft NBullets NObjects)
+		 else
+		    {System.show Msg#' alors qu on est en mode notyourturn'}
+		    state(Mode X Y F ActionsLeft NBullets NObjects) %%
 		 end
-	      elseif Mode==yourturn then
+	      elseif Mode==yourturn then %% FAUX FAUX FAUX
 		 if ActionsLeft==0 then
 		    {Send Config.controllerPort finish(brave)}
-		    state(Mode X Y F ActionsLeft NBullets NObjects)
+		    state(Mode X Y F ActionsLeft NBullets NObjects) %%
 		 else
 		    {System.show Msg}
 		    case Msg

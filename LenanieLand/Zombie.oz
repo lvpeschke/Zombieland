@@ -57,40 +57,41 @@ define
 		 case Mode
 		    
 		 of notyourturn then % zombie not active
-		    {System.show 'Zombie.oz'#'la'}
 		    case Msg
 		       
 		    of yourturn then
-		       {System.show 'Zombie.oz 64 '#'Zombie : etat '#Mode#', message '#Msg}
+		       %{System.show 'Zombie.oz 64 '#ZombieNumber#'premier go, reste '#Config.nAllowedMovesZ}
 		       {Send Config.zombiesPorts.ZombieNumber go} % send message to yourself % TODO
 		       state(yourturn Line Col F Config.nAllowedMovesZ)
 		       
 		    [] go then
-		       {System.show 'Zombie.oz 69'#'Zombie : etat '#Mode#', message '#Msg}
+		       {System.show 'Zombie.oz 69'#'erreur'}
 		       {Application.exit 1}
 		       
 		    else
-		       {System.show 'Zombie.oz 73'#'Zombie : etat '#Mode#', message '#Msg}
+		       {System.show 'Zombie.oz 73'#'erreur'}
 		       {Application.exit 1}
 		    end
 
 		    
 		 [] yourturn then % zombie active
-		    {System.show 'Zombie.oz 79'#'Zombie yourturn, etat '#Msg}
+		    %{System.show 'Zombie.oz 79'#ZombieNumber#'Zombie yourturn, message '#Msg}
 
 		    case Msg		       
 
 		    of yourturn then
-		       {System.show 'Zombie.oz 84'#'Zombie : etat '#Mode#', message '#Msg#' PAS BIEN'}
+		       {System.show 'Zombie.oz 84'#ZombieNumber#'Zombie : etat '#Mode#', message '#Msg#' PAS BIEN'}
 		       {Application.exit 1}
 
 		    [] go then
 
 		       if ActionsLeft == 0 then % stop moving
+			  {System.show 'Zombie.oz 90 '#ZombieNumber#'Zombie send(finish)'}
 			  {Send Config.controllerPort finish(zombie)}
 			  state(notyourturn Line Col F 0)
 
 		       else % move
+			  {System.show 'Zombie.oz 90 '#ZombieNumber#' go go go, reste '#ActionsLeft}
 			  {Send Config.zombiesPorts.ZombieNumber go} % keep moving!
 			  
 			  L0 C0 Ack in
@@ -112,20 +113,21 @@ define
 			     end
 
 			  elseif Ack == ko then
+			     {System.show 'Zombie.oz 116 '#ZombieNumber#' nouveau face '#ActionsLeft}
 			     F1 in
 			     {NewFacing F F1}
 			     state(yourturn Line Col F1 ActionsLeft)	   
 			  else
-			     {System.show 'Zombie.oz 120'#'Zombie : etat '#Mode#', ack '#Ack}
+			     {System.show 'Zombie.oz 120'#ZombieNumber#'erreur'}
 			     {Application.exit 1}
 			  end
 		       end
 		    else
-		       {System.show 'Zombie.oz 125'#'Zombie : error in the message'}
+		       {System.show 'Zombie.oz 125'#ZombieNumber#'Zombie : error in the message'}
 		       {Application.exit 1}
 		    end
 		 else
-		    {System.show 'Zombie.oz 129'#'Zombie : error in the message'}
+		    {System.show 'Zombie.oz 129'#ZombieNumber#'Zombie : error in the state'}
 		    {Application.exit 1}
 		 end
 	      end}

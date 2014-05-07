@@ -11,7 +11,7 @@ import
    % Our functors
    Config
    GUI
-   Brave
+   Brave2 %% TODO
    Controller
    Zombie
    Cell
@@ -163,6 +163,6 @@ in
    end
    {GUI.drawCell brave X_INIT Y_INIT}
    {System.show 'after GUI'}
-   Config.bravePort = {Brave.braveState state(yourturn X_INIT Y_INIT F_INIT Config.nAllowedMovesB Config.nBullets 0)}
+   Config.bravePort = {Brave2.braveState state(yourturn X_INIT Y_INIT F_INIT Config.nAllowedMovesB Config.nBullets 0)}
    {System.show 'after launching brave'}
 end

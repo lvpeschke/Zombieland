@@ -112,14 +112,14 @@ define
 		       state(Person Item)
 		       
 		    [] brave(pickup Ack) then
-		       if Item == 1 orelse Item == 5 then
+		       if Item == 1 then
 			  {System.show 'Cell : etat '#Person#', message '#Msg#' item '#Item}
 			  {Application.exit 1}
 			  state(Person Item)
 		       elseif Item == 2 orelse Item == 3 orelse Item == 4 then
 			  Ack = Item
 			  state(brave 0) % empty now that something has been picked up
-		       elseif Item == 0 then
+		       elseif Item == 0 orelse Item == 5 then
 			  Ack = ko
 			  state(brave Item)
 		       else
