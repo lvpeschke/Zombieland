@@ -65,11 +65,13 @@ define
 	       RandY = ({OS.rand} mod Width)+1
 	       RandF = {RandFacing}
 	       {System.show ''#RandX#' '#RandY#' '#RandF}
-	       {Send Config.mapPorts.RandX.RandY zombie(enter Ack)}
+	       {Send Config.mapPorts.RandX.RandY zombie(tryenter Ack)}
 	       {System.show ''#N#' message sent'}
 	       {Wait Ack}
 	       {System.show ''#N#' ack bound'}
-	       if Ack==ok then
+	       if Ack==0 orelse Ack==2 orelse Ack==3 orelse Ack==4 then
+		  {GUI.drawCell zombie Line Col}
+		  {Send Config.mapPorts.RandX.RandY zombie(enter)}
 		  Config.zombiesPorts.N={Zombie.zombieState N state(notyourturn RandX RandY RandF 0)} % TODO verifier le N
 		  {Place N+1}
 	       else {Place N}
