@@ -11,8 +11,8 @@ all: $(EXEC)
 $(EXEC): $(OBJS) $(MAIN)
 	ozc -x $(MAIN)
 
-Brave2.ozf: Brave2.oz Config.oz GUI.oz
-	ozc -c Brave2.oz -o Brave2.ozf
+Brave.ozf: Brave.oz Config.oz GUI.oz
+	ozc -c Brave.oz -o Brave.ozf
 
 Cell.ozf: Cell.oz Config.oz GUI.oz
 	ozc -c Cell.oz -o Cell.ozf

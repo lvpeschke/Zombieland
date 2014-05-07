@@ -38,6 +38,7 @@ define
 		   case Msg
 		    
 		   of yourturn then
+		      {GUI.updateMovesCount Config.nAllowedMovesB}
 		      state(yourturn X Y F Config.nAllowedMovesB NBullets NObjects) %%
 		    
 		   [] move(D) then % skip
@@ -75,8 +76,10 @@ define
 			    {Send Config.mapPorts.X.Y brave(quit)}
 			    if ActionsLeft == 1 then % last action
 			       {Send Config.controllerPort finish(brave)}
+			        {GUI.updateMovesCount 0}
 			       state(notyourturn NewX NewY NewF 0 NBullets NObjects) %%
-			    else 			  
+			    else
+			       {GUI.updateMovesCount ActionsLeft-1}
 			       state(Mode NewX NewY NewF ActionsLeft-1 NBullets NObjects) %%
 			    end
 			   			     
@@ -110,6 +113,8 @@ define
 			       {GUI.updateBulletsCount NBullets+3}
 			       state(notyourturn X Y F 0 NBullets+3 NObjects) %%
 			    else
+			       {GUI.updateMovesCount ActionsLeft-1}
+			       {GUI.updateBulletsCount NBullets+3}
 			       state(Mode X Y F ActionsLeft-1 NBullets+3 NObjects) %%
 			    end
 			  
@@ -119,6 +124,8 @@ define
 			       {GUI.updateItemsCount NObjects+1}
 			       state(notyourturn X Y F 0 NBullets NObjects+1) %%
 			    else
+			       {GUI.updateMovesCount ActionsLeft-1}
+			       {GUI.updateItemsCount NObjects+1}
 			       state(Mode X Y F ActionsLeft-1 NBullets NObjects+1) %%
 			    end
 			  

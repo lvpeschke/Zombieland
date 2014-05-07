@@ -41,3 +41,6 @@ EXTENSIONS
 - Zombie doit le faire et pas la cell
 - Moves left 
 - Bullets
+
+
+- Zombie kill brave : il doit lui demander son nbullets (on peut pas le mettre en global car change ;))

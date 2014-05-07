@@ -109,7 +109,7 @@ define
 %%% Sets the number of moves left
    proc {UpdateMovesCount NewNumberOfMoves}
       {MovesCountHandle set(NewNumberOfMoves)}
-      %{System.show 'Moves updated to '#NewNumberOfMoves}
+      %%{System.show 'Moves updated to '#NewNumberOfMoves}
    end
 
    % Sets actions for the arrow keys
