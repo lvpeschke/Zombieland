@@ -24,6 +24,8 @@ TO DO LIST
 
 - Rendre la position des zombies aléatoire.
 
+- Cell : si occupée par l’opposé et tryenter, renvoyer la personne et son facing
+
 EXTENSIONS
 - Tirs à distance
 
