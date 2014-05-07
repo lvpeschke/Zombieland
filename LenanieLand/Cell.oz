@@ -47,13 +47,13 @@ define
 			  {GUI.drawCell brave Y X}
 			  state(brave Item)
 		       else
-			  %{System.show 'Cell : etat '#Person#', message '#Msg#' item '#Item}
+			  {System.show 'Cell : etat '#Person#', message '#Msg#' item '#Item}
 			  {Application.exit 1}
 			  state(Person Item)
 		       end
 		       
 		    [] brave(pickup Ack) then
-		       %{System.show 'Cell : etat '#Person#', message '#Msg#' item '#Item}
+		       {System.show 'Cell : etat '#Person#', message '#Msg#' item '#Item}
 		       {Application.exit 1}
 		       state(Person Item)
 
@@ -62,7 +62,7 @@ define
 			  {GUI.drawCell 5 Y X}
 			  state(nobody Y X)
 		       else			  
-			  %{System.show 'Cell : etat '#Person#', message '#Msg#' item '#Item}
+			  {System.show 'Cell : etat '#Person#', message '#Msg#' item '#Item}
 			  {Application.exit 1}
 			  state(Person Item)
 		       end
@@ -81,23 +81,23 @@ define
 			  {GUI.drawCell zombie Y X}
 			  state(zombie Item)
 		       else
-			  %%{System.show 'Cell : etat '#Person#', message '#Msg#' item '#Item}
+			  %{System.show 'Cell : etat '#Person#', message '#Msg#' item '#Item}
 			  %{Application.exit 1}
 			  state(Person Item)
 		       end
 
 		    [] zombie(pickup) then
-		       %{System.show 'Cell : etat '#Person#', message '#Msg#' item '#Item}
+		       {System.show 'Cell : etat '#Person#', message '#Msg#' item '#Item}
 		       {Application.exit 1}
 		       state(Person Item)
 
 		    [] zombie(quit) then
-		       %{System.show 'Cell : etat '#Person#', message '#Msg#' item '#Item}
+		       {System.show 'Cell : etat '#Person#', message '#Msg#' item '#Item}
 		       {Application.exit 1}
 		       state(Person Item)
 			  
 		    else
-		       %{System.show 'Cell : etat '#Person#' message interdit!'#Msg}
+		       {System.show 'Cell : etat '#Person#' message interdit!'#Msg}
 		       {Application.exit 1}
 		       state(Person Item)
 		    end
@@ -107,13 +107,13 @@ define
 		    case Msg
 		       
 		    of brave(enter Ack) then
-		       %{System.show 'Cell : etat '#Person#', message '#Msg#' item '#Item}
+		       {System.show 'Cell : etat '#Person#', message '#Msg#' item '#Item}
 		       {Application.exit 1}
 		       state(Person Item)
 		       
 		    [] brave(pickup Ack) then
 		       if Item == 1 then
-			  %{System.show 'Cell : etat '#Person#', message '#Msg#' item '#Item}
+			  {System.show 'Cell : etat '#Person#', message '#Msg#' item '#Item}
 			  {Application.exit 1}
 			  state(Person Item)
 		       elseif Item == 2 orelse Item == 3 orelse Item == 4 then
@@ -123,7 +123,7 @@ define
 			  Ack = ko
 			  state(brave Item)
 		       else
-			  %{System.show 'Cell : etat '#Person#', message '#Msg#' item '#Item}
+			  {System.show 'Cell : etat '#Person#', message '#Msg#' item '#Item}
 			  {Application.exit 1}
 			  state(Person Item)
 		       end
@@ -137,17 +137,17 @@ define
 		       state(brave Item)
 		       
 		    [] zombie(pickup) then
-		       %{System.show 'Cell : etat '#Person#', message '#Msg#' item '#Item}
+		       {System.show 'Cell : etat '#Person#', message '#Msg#' item '#Item}
 		       {Application.exit 1}
 		       state(Person Item)
 
 		    [] zombie(quit) then
-		       %{System.show 'Cell : etat '#Person#', message '#Msg#' item '#Item}
+		       {System.show 'Cell : etat '#Person#', message '#Msg#' item '#Item}
 		       {Application.exit 1}
 		       state(Person Item)
 		       
 		    else
-		       %{System.show 'Cell : etat '#Person#' message interdit!'#Msg}
+		       {System.show 'Cell : etat '#Person#' message interdit!'#Msg}
 		       {Application.exit 1}
 		       state(Person Item)
 		    end
@@ -161,12 +161,12 @@ define
 		       state(zombie Item)
 		       
 		    [] brave(pickup Ack) then
-		       %{System.show 'Cell : etat '#Person#', message '#Msg#' item '#Item}
+		       {System.show 'Cell : etat '#Person#', message '#Msg#' item '#Item}
 		       {Application.exit 1}
 		       state(Person Item)
 
 		    [] brave(quit) then
-		       %{System.show 'Cell : etat '#Person#', message '#Msg#' item '#Item}
+		       {System.show 'Cell : etat '#Person#', message '#Msg#' item '#Item}
 		       {Application.exit 1}
 		       state(Person Item)
 		       
@@ -176,13 +176,13 @@ define
 		       
 		    [] zombie(pickup) then
 		       if Item == 0 orelse Item == 1 orelse Item == 5 then
-			  %{System.show 'Cell : etat '#Person#', message '#Msg#' item '#Item}
+			  {System.show 'Cell : etat '#Person#', message '#Msg#' item '#Item}
 			  {Application.exit 1}
 			  state(Person Item)
 		       elseif Item == 2 orelse Item == 3 orelse Item == 4 then
 			  state(zombie 0) % empty now that something has been picked up
 		       else
-			  %{System.show 'Cell : etat '#Person#', message '#Msg#' item '#Item}
+			  {System.show 'Cell : etat '#Person#', message '#Msg#' item '#Item}
 			  {Application.exit 1}
 			  state(Person Item)
 		       end
@@ -192,14 +192,14 @@ define
 		       state(nobody Item)
 			  
 		    else
-		       %{System.show 'Cell : etat '#Person#' message interdit!'#Msg}
+		       {System.show 'Cell : etat '#Person#' message interdit!'#Msg}
 		       {Application.exit 1}
 		       state(Person Item)
 		    end
 		    
 		 % error in the state 
 		 else
-		    %{System.show 'Cell : etat impossible!'}
+		    {System.show 'Cell : etat impossible!'}
 		    {Application.exit 1}
 		    state(Person Item)
 		 end
