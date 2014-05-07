@@ -73,9 +73,9 @@ define
 			 {Wait Ack}
 		       
 			 if Ack==0 orelse Ack==2 orelse Ack==3 orelse Ack==4 then
-			    {DrawCell Item X Y}
+			    {GUI.drawCell Item X Y}
 			    {Send Config.mapPorts.X.Y brave(quit)}
-			    {DrawCell brave NewX NewY}
+			    {GUI.drawCell brave NewX NewY}
 			    {Send Config.mapPorts.NewX.NewY brave(enter)}
 			    if ActionsLeft == 1 then {Send Config.controllerPort finish(brave)} end
 			    {GUI.updateMovesCount ActionsLeft-1}
