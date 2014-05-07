@@ -77,9 +77,14 @@ define
 			    {Send Config.mapPorts.X.Y brave(quit)}
 			    {GUI.drawCell brave NewX NewY}
 			    {Send Config.mapPorts.NewX.NewY brave(enter)}
-			    if ActionsLeft == 1 then {Send Config.controllerPort finish(brave)} end
-			    {GUI.updateMovesCount ActionsLeft-1}
-			    state(Mode NewX NewY NewF Ack ActionsLeft-1 NBullets NObjects)
+			    if ActionsLeft == 1 then
+			       {Send Config.controllerPort finish(brave)}
+			       {GUI.updateMovesCount ActionsLeft-1}
+			       state(notyourturn NewX NewY NewF Ack ActionsLeft-1 NBullets NObjects)
+			    else
+			       {GUI.updateMovesCount ActionsLeft-1}
+			       state(Mode NewX NewY NewF Ack ActionsLeft-1 NBullets NObjects)
+			    end
 			   			     
 			 elseif Ack==5 then
 			    if NObjects == Config.nWantedObjects then
@@ -105,14 +110,28 @@ define
 			 {Send Config.mapPorts.X.Y brave(pickup)}
 		       
 			 if Item == 2 then
-			    if ActionsLeft == 1 then {Send Config.controllerPort finish(brave)} end
-			    {GUI.updateBulletsCount NBullets+3}
-			    state(notyourturn X Y F empty 0 NBullets+3 NObjects) %%
+			    if ActionsLeft == 1 then
+			       {Send Config.controllerPort finish(brave)}
+			       {GUI.updateBulletsCount NBullets+3}
+			       {GUI.updateMovesCount ActionsLeft-1}
+			       state(notyourturn X Y F 0 ActionsLeft-1 NBullets+3 NObjects)
+			    else
+			       {GUI.updateBulletsCount NBullets+3}
+			       {GUI.updateMovesCount ActionsLeft-1}
+			       state(Mode X Y F 0 ActionsLeft-1 NBullets+3 NObjects) %%
+			    end
 			  
 			 elseif Item == 3 orelse Item == 4 then
-			    if ActionsLeft == 1 then {Send Config.controllerPort finish(brave)} end
-			    {GUI.updateItemsCount NObjects+1}
-			    state(Mode X Y F empty ActionsLeft-1 NBullets NObjects+1) %%
+			    if ActionsLeft == 1 then
+			       {Send Config.controllerPort finish(brave)}
+			       {GUI.updateItemsCount NObjects+1}
+			       {GUI.updateMovesCount ActionsLeft-1}
+			       state(notyourturn X Y F 0 ActionsLeft-1 NBullets NObjects+1) %%
+			    else
+			       {GUI.updateItemsCount NObjects+1}
+			       {GUI.updateMovesCount ActionsLeft-1}
+			       state(Mode X Y F 0 ActionsLeft-1 NBullets NObjects+1) %%
+			    end
 			  
 			 elseif Ack == ko then	  
 			    state(Mode X Y F Item ActionsLeft NBullets NObjects) % skip

@@ -108,11 +108,11 @@ define
 
 			    {GUI.drawCell Item Line Col}
 			    {Send Config.mapPorts.Line.Col zombie(quit)}
-			    {GUI.drawCell zombie L0 c0}
-			    {Send Config.mapPorts.L0.c0 zombie(enter)}
+			    {GUI.drawCell zombie L0 C0}
+			    {Send Config.mapPorts.L0.C0 zombie(enter)}
 			     if ActionsLeft >= 2 andthen {RollDice5} then
 				{Send Config.mapPorts.L0.C0 zombie(pickup)}
-				state(yourturn L0 C0 F empty ActionsLeft-2)
+				state(yourturn L0 C0 F 0 ActionsLeft-2)
 			     else
 				state(yourturn L0 C0 F Ack ActionsLeft-1)
 			     end

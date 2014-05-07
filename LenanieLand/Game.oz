@@ -72,7 +72,7 @@ define
 	       if Ack==0 orelse Ack==2 orelse Ack==3 orelse Ack==4 then
 		  {GUI.drawCell zombie RandX RandY}
 		  {Send Config.mapPorts.RandX.RandY zombie(enter)}
-		  Config.zombiesPorts.N={Zombie.zombieState N state(notyourturn RandX RandY RandF 0)} % TODO verifier le N
+		  Config.zombiesPorts.N={Zombie.zombieState N state(notyourturn RandX RandY RandF Ack 0)} % TODO verifier le N
 		  {Place N+1}
 	       else {Place N}
 	       end
@@ -164,6 +164,6 @@ in
    end
    {GUI.drawCell brave X_INIT Y_INIT}
    {System.show 'after GUI'}
-   Config.bravePort = {Brave.braveState state(yourturn X_INIT Y_INIT F_INIT Config.nAllowedMovesB Config.nBullets 0)}
+   Config.bravePort = {Brave.braveState state(yourturn X_INIT Y_INIT F_INIT 5 Config.nAllowedMovesB Config.nBullets 0)}
    {System.show 'after launching brave'}
 end
