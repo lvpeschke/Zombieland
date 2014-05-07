@@ -105,9 +105,9 @@ define
 			  
 			  elseif Ack == 0 orelse Ack == 2 orelse Ack == 3 orelse Ack == 4 then
 
-			    {DrawCell Item Line Col}
+			    {GUI.drawCell Item Line Col}
 			    {Send Config.mapPorts.Line.Col zombie(quit)}
-			    {DrawCell zombie L0 c0}
+			    {GUI.drawCell zombie L0 c0}
 			    {Send Config.mapPorts.L0.c0 zombie(enter)}
 			     if ActionsLeft >= 2 andthen {RollDice5} then
 				{Send Config.mapPorts.L0.C0 zombie(pickup)}
