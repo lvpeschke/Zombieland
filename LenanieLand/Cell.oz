@@ -34,70 +34,45 @@ define
 
 		    case Msg
 
-		    of brave(enter Ack) then
-		       if Item == 1 then
+		    of brave(tryenter Ack) then
+		       if Item == 1 then % wall
 			  Ack = ko
-			  state(nobody Item)
-		       elseif Item == 5 then
-			  Ack = door
-			  state(nobody Item) %% A DISCUTER, mais sinon on peut avoir un brave qui va la ou
-			                     %% il y a un brave s'il tente plusieurs fois la porte
-		       elseif Item == 0 orelse Item == 2 orelse Item == 3 orelse Item == 4 then
-			  Ack = ok
-			  {GUI.drawCell brave Y X}
-			  state(brave Item)
-		       else
-			  %{System.show 'Cell : etat '#Person#', message '#Msg#' item '#Item}
-			  {Application.exit 1}
-			  state(Person Item)
+			  state(Person Item) % skip
+		       else % empty, bullets, food, med or door
+			  Ack = Item
+			  state(Person Item) % skip
 		       end
+
+		    [] brave(enter) then
+		       state(brave Item)
 		       
-		    [] brave(pickup Ack) then
-		       %{System.show 'Cell : etat '#Person#', message '#Msg#' item '#Item}
-		       {Application.exit 1}
-		       state(Person Item)
+		    [] brave(pickup) then
+		       {System.show 'Cell : etat '#Person#', message '#Msg#' item '#Item}
+		       state(Person Item) % skip
 
 		    [] brave(quit) then
-		       if Item == 5 then
-			  {GUI.drawCell 5 Y X}
-			  state(nobody Y X)
-		       else			  
-			  %{System.show 'Cell : etat '#Person#', message '#Msg#' item '#Item}
-			  {Application.exit 1}
-			  state(Person Item)
-		       end
-		       
+		       state(Person Item) % skip
 		       		       
-		    [] zombie(enter Ack) then
-		       if Item == 1 orelse Item == 5 then
+		    [] zombie(tryenter Ack) then
+		       if Item == 1 orelse Item == 5 then % wall or door
 			  Ack = ko
-			  state(nobody Item)
-		       elseif Item == 0 then
-			  Ack = ok
-			  {GUI.drawCell zombie Y X}
-			  state(zombie Item)
-		       elseif Item == 2 orelse Item == 3 orelse Item == 4 then
+			  state(Person Item) % skip
+		       else % empty, bullets, food or med
 			  Ack = Item
-			  {GUI.drawCell zombie Y X}
-			  state(zombie Item)
-		       else
-			  %%{System.show 'Cell : etat '#Person#', message '#Msg#' item '#Item}
-			  %{Application.exit 1}
-			  state(Person Item)
+			  state(Person Item) % skip
 		       end
+
+		    [] zombie(enter) then
+		       state(zombie Item)
 
 		    [] zombie(pickup) then
-		       %{System.show 'Cell : etat '#Person#', message '#Msg#' item '#Item}
-		       {Application.exit 1}
-		       state(Person Item)
-
+		       state(Person Item) % skip
+		       
 		    [] zombie(quit) then
-		       %{System.show 'Cell : etat '#Person#', message '#Msg#' item '#Item}
-		       {Application.exit 1}
-		       state(Person Item)
+		       state(Person Item) % skip
 			  
 		    else
-		       %{System.show 'Cell : etat '#Person#' message interdit!'#Msg}
+		       {System.show 'Cell : etat '#Person#' message interdit!'#Msg}
 		       {Application.exit 1}
 		       state(Person Item)
 		    end
@@ -106,45 +81,39 @@ define
 		 [] brave then % brave on the cell
 		    case Msg
 		       
-		    of brave(enter Ack) then
-		       %{System.show 'Cell : etat '#Person#', message '#Msg#' item '#Item}
-		       {Application.exit 1}
-		       state(Person Item)
+		    of brave(tryenter Ack) then
+		       {System.show 'Cell : etat '#Person#', message '#Msg#' item '#Item}
+		       Ack = ko
+		       state(Person Item) % skip
+
+		    [] brave(enter) then
+		       state(Person Item) % skip
 		       
-		    [] brave(pickup Ack) then
-		       if Item == 1 then
-			  %{System.show 'Cell : etat '#Person#', message '#Msg#' item '#Item}
-			  {Application.exit 1}
-			  state(Person Item)
-		       elseif Item == 2 orelse Item == 3 orelse Item == 4 then
-			  Ack = Item
-			  state(brave 0) % empty now that something has been picked up
-		       elseif Item == 0 orelse Item == 5 then
-			  Ack = ko
-			  state(brave Item)
-		       else
-			  %{System.show 'Cell : etat '#Person#', message '#Msg#' item '#Item}
-			  {Application.exit 1}
-			  state(Person Item)
+		    [] brave(pickup) then
+		       if Item == 0 orelse Item == 1 orelse Item == 5 then % empty, wall or door
+			  state(Person Item) % skip
+		       else % bullets, food or med
+			  state(Person 0)
 		       end
 
 		    [] brave(quit) then
-		       {GUI.drawCell Item Y X}
 		       state(nobody Item)
 		       
-		    [] zombie(enter Ack) then
+		    [] zombie(tryenter Ack) then
 		       Ack = ko
-		       state(brave Item)
+		       state(Person Item) % skip
+
+		    [] zombie(enter) then
+		       {System.show 'Cell : etat '#Person#', message '#Msg#' item '#Item}
+		       state(Person Item) % skip
 		       
 		    [] zombie(pickup) then
-		       %{System.show 'Cell : etat '#Person#', message '#Msg#' item '#Item}
-		       {Application.exit 1}
-		       state(Person Item)
+		       {System.show 'Cell : etat '#Person#', message '#Msg#' item '#Item}
+		       state(Person Item) % skip
 
 		    [] zombie(quit) then
-		       %{System.show 'Cell : etat '#Person#', message '#Msg#' item '#Item}
-		       {Application.exit 1}
-		       state(Person Item)
+		       {System.show 'Cell : etat '#Person#', message '#Msg#' item '#Item}
+		       state(Person Item) % skip
 		       
 		    else
 		       %{System.show 'Cell : etat '#Person#' message interdit!'#Msg}
@@ -156,50 +125,49 @@ define
 		 [] zombie then % zombie on the cell
 		    case Msg
 		       
-		    of brave(enter Ack) then
+		    of brave(tryenter Ack) then
 		       Ack = ko
-		       state(zombie Item)
+		       state(Person Item) % skip
+
+		    [] brave(enter) then
+		       {System.show 'Cell : etat '#Person#', message '#Msg#' item '#Item}
+		       state(Person Item) % skip
 		       
-		    [] brave(pickup Ack) then
-		       %{System.show 'Cell : etat '#Person#', message '#Msg#' item '#Item}
-		       {Application.exit 1}
-		       state(Person Item)
+		    [] brave(pickup) then
+		       {System.show 'Cell : etat '#Person#', message '#Msg#' item '#Item}
+		       state(Person Item) % skip
 
 		    [] brave(quit) then
-		       %{System.show 'Cell : etat '#Person#', message '#Msg#' item '#Item}
-		       {Application.exit 1}
-		       state(Person Item)
+		       {System.show 'Cell : etat '#Person#', message '#Msg#' item '#Item}
+		       state(Person Item) % skip
 		       
-		    [] zombie(enter Ack) then
+		    [] zombie(tryenter Ack) then
 		       Ack = ko
-		       state(zombie Item)
+		       state(Person Item) % skip
+
+		    [] zombie(enter) then
+		       {System.show 'Cell : etat '#Person#', message '#Msg#' item '#Item}
+		       state(Person Item) % skip
 		       
 		    [] zombie(pickup) then
-		       if Item == 0 orelse Item == 1 orelse Item == 5 then
-			  %{System.show 'Cell : etat '#Person#', message '#Msg#' item '#Item}
-			  {Application.exit 1}
-			  state(Person Item)
-		       elseif Item == 2 orelse Item == 3 orelse Item == 4 then
-			  state(zombie 0) % empty now that something has been picked up
-		       else
-			  %{System.show 'Cell : etat '#Person#', message '#Msg#' item '#Item}
-			  {Application.exit 1}
-			  state(Person Item)
+		       if Item == 0 orelse Item == 1 orelse Item == 5 then % empty, wall or door
+			  state(Person Item) % skip
+		       else % bullets, food or med
+			  state(Person 0)
 		       end
 
 		    [] zombie(quit) then
-		       {GUI.drawCell Item Y X}
 		       state(nobody Item)
 			  
 		    else
-		       %{System.show 'Cell : etat '#Person#' message interdit!'#Msg}
+		       {System.show 'Cell : etat '#Person#' message interdit!'#Msg}
 		       {Application.exit 1}
 		       state(Person Item)
 		    end
 		    
 		 % error in the state 
 		 else
-		    %{System.show 'Cell : etat impossible!'}
+		    {System.show 'Cell : etat impossible!'}
 		    {Application.exit 1}
 		    state(Person Item)
 		 end
