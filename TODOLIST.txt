@@ -34,3 +34,10 @@ EXTENSIONS
 - Générer une map aléatoirement.
 
 - Mouvement plus fluide pour les zombies.
+
+
+
+
+- Zombie doit le faire et pas la cell
+- Moves left 
+- Bullets

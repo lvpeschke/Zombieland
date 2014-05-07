@@ -11,7 +11,7 @@ import
    % Our functors
    Config
    GUI
-   Brave2 %% TODO
+   Brave %% TODO
    Controller
    Zombie
    Cell
