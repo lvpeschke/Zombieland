@@ -6,6 +6,7 @@ import
 
    % Our functors
    Config
+   GUI
 
 export
    ZombieState
