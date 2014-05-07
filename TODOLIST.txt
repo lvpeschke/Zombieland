@@ -20,6 +20,9 @@ TO DO LIST
 
 - Ne pas faire bouger le braver et puis tous les zombies. Juste bloquer les zombies si le brave n'a pas fini ses deux mouvements.
 
+- BulletCount en variable globale
+
+- Rendre la position des zombies aléatoire.
 
 EXTENSIONS
 - Tirs à distance
@@ -27,3 +30,7 @@ EXTENSIONS
 - Faire trucs fancy quand on gagne
 
 - Plusieurs vies (assez facile : juste un truc en plus dans l'état du brave)
+
+- Générer une map aléatoirement.
+
+- Mouvement plus fluide pour les zombies.
