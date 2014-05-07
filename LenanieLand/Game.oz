@@ -70,7 +70,7 @@ define
 	       {Wait Ack}
 	       {System.show ''#N#' ack bound'}
 	       if Ack==0 orelse Ack==2 orelse Ack==3 orelse Ack==4 then
-		  {GUI.drawCell zombie Line Col}
+		  {GUI.drawCell zombie RandX RandY}
 		  {Send Config.mapPorts.RandX.RandY zombie(enter)}
 		  Config.zombiesPorts.N={Zombie.zombieState N state(notyourturn RandX RandY RandF 0)} % TODO verifier le N
 		  {Place N+1}
