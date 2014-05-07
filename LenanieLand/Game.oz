@@ -70,7 +70,7 @@ define
 	       {Wait Ack}
 	       {System.show ''#N#' ack bound'}
 	       if Ack==ok then
-		  Config.zombiesPorts.N={Zombie.zombieState state(notyourturn RandX RandY RandF 0)}
+		  Config.zombiesPorts.N={Zombie.zombieState N state(notyourturn RandX RandY RandF 0)} % TODO verifier le N
 		  {Place N+1}
 	       else {Place N}
 	       end
