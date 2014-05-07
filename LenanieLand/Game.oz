@@ -159,7 +159,7 @@ in
    % Le brave
    {System.show 'before launching brave'}
    local Ack in
-      {Send Config.mapPorts.X_INIT.Y_INIT brave(enter Ack)}
+      {Send Config.mapPorts.X_INIT.Y_INIT brave(enter)}
       {System.show ''#Ack}
    end
    {GUI.drawCell brave X_INIT Y_INIT}
