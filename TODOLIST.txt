@@ -26,6 +26,8 @@ TO DO LIST
 
 - Cell : si occupée par l’opposé et tryenter, renvoyer la personne et son facing
 
+- Zombie : random facing
+
 EXTENSIONS
 - Tirs à distance
 
@@ -37,10 +39,6 @@ EXTENSIONS
 
 - Mouvement plus fluide pour les zombies.
 
-
-
-
 - Zombie doit le faire et pas la cell
-
 
 - Zombie kill brave : il doit lui demander son nbullets (on peut pas le mettre en global car change ;))
