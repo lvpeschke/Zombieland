@@ -20,7 +20,8 @@ define
    % - brave(enter Ack)
    % - brave(pickup Ack)
    % - brave(quit)
-   % - zombie(enter Ack)
+   % - zombie(tryenter Ack)
+   % - zombie(enter ZombiePort)
    % - zombie(pickup Ack)
    % - zombie(quit)
 
@@ -42,8 +43,8 @@ define
 			  state(Person Item) % skip
 		       end
 
-		    [] brave(enter) then
-		       state(brave Item)
+		    [] brave(enter F NBullets) then
+		       state(brave(F NBullets) Item)
 		       
 		    [] brave(pickup) then
 		       {System.show 'Cell 49 : etat '#Person#', message '#Msg#' item '#Item}
@@ -61,8 +62,14 @@ define
 			  state(Person Item) % skip
 		       end
 
-		    [] zombie(enter) then
-		       state(zombie Item)
+		    [] zombie(enter ZombiePort2 ZombieF Ack) then
+		       if Item==1 orelse Item==5 then
+			  Ack = ko
+			  state(Person Item)
+		       else
+			  Ack = Item
+			  state(zombie(ZombiePort2 ZombieF) Item)
+		       end
 
 		    [] zombie(pickup) then
 		       state(Person Item) % skip
@@ -77,7 +84,7 @@ define
 		    end
 
 		    
-		 [] brave then % brave on the cell
+		 [] brave(F NBullets) then % brave on the cell
 		    case Msg
 		       
 		    of brave(tryenter Ack) then
@@ -99,11 +106,11 @@ define
 		       state(nobody Item)
 		       
 		    [] zombie(tryenter Ack) then
-		       Ack = ko
-		       state(Person Item) % skip
+		       Ack = brave(F NBullets)
+		       state(Person Item)
 
-		    [] zombie(enter) then
-		       {System.show 'Cell 106 : etat '#Person#', message '#Msg#' item '#Item}
+		    [] zombie(enter ZombiePort2 Ack) then
+		       Ack = ko
 		       state(Person Item) % skip
 		       
 		    [] zombie(pickup) then
@@ -121,11 +128,12 @@ define
 		    end
 
 		    
-		 [] zombie then % zombie on the cell
+		 [] zombie(ZombiePort ZombieF) then % zombie on the cell
 		    case Msg
 		       
 		    of brave(tryenter Ack) then
-		       Ack = ko
+		       {System.show 'Coucou'}
+		       Ack = zombie(ZombiePort ZombieF)
 		       state(Person Item) % skip
 
 		    [] brave(enter) then
@@ -141,11 +149,11 @@ define
 		       state(Person Item) % skip
 		       
 		    [] zombie(tryenter Ack) then
-		       Ack = ko
+		       Ack = zombie(ZombiePort ZombieF)
 		       state(Person Item) % skip
 
-		    [] zombie(enter) then
-		       {System.show 'Cell 148 : etat '#Person#', message '#Msg#' item '#Item}
+		    [] zombie(enter ZombiePort2 Ack) then
+		       Ack = ko
 		       state(Person Item) % skip
 		       
 		    [] zombie(pickup) then
@@ -166,6 +174,7 @@ define
 		    
 		 % error in the state 
 		 else
+		    {System.show ''#Person}
 		    {System.show 'Cell 169 : etat impossible!'}
 		    {Application.exit 1}
 		    state(Person Item)

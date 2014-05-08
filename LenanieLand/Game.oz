@@ -65,16 +65,20 @@ define
 	       RandY = ({OS.rand} mod Width)+1
 	       RandF = {RandFacing}
 	       {System.show ''#RandX#' '#RandY#' '#RandF}
-	       {Send Config.mapPorts.RandX.RandY zombie(tryenter Ack)}
-	       {System.show ''#N#' message sent'}
-	       {Wait Ack}
-	       {System.show ''#N#' ack bound'}
-	       if Ack==0 orelse Ack==2 orelse Ack==3 orelse Ack==4 then
-		  {GUI.drawCell zombie RandX RandY}
-		  {Send Config.mapPorts.RandX.RandY zombie(enter)}
-		  Config.zombiesPorts.N={Zombie.zombieState N state(notyourturn RandX RandY RandF Ack 0)} % TODO verifier le N
-		  {Place N+1}
-	       else {Place N}
+	       if (RandX==Config.x_INIT+(Config.f_INIT.1) andthen RandY==Config.y_INIT+(Config.f_INIT.2.1)) then
+		  {Place N}
+	       else
+		  {Send Config.mapPorts.RandX.RandY zombie(enter Config.zombiesPorts.N RandF Ack)}
+		  {System.show ''#N#' message sent'}
+		  {Wait Ack}
+		  {System.show ''#N#' ack bound'}
+		  if Ack==ko then
+		     {Place N}
+		  else
+		     {GUI.drawCell zombie RandX RandY}
+		     Config.zombiesPorts.N={Zombie.zombieState N state(notyourturn RandX RandY RandF Ack 0)} % TODO verifier le N
+		     {Place N+1}
+		  end
 	       end
 	    end
 	 end
@@ -84,9 +88,6 @@ define
    end
 
    %% CONFIG
-   X_INIT = 1
-   Y_INIT = 7
-   F_INIT = [1 0]
    MAP1 = Config.map
    /*MAP2 = map(
 	     r(9 1 1 1 1 1 1 5 1 1 1 1 1 1 1)
@@ -113,6 +114,8 @@ define
    {GUI.initLayout Config.map Window Config.bravePort}
 
 in
+   {OS.srand 0}
+   
    % Help message
    /*if Args.help then
       {Say "Usage: "#{Property.get 'application.url'}#" [option]"}
@@ -136,7 +139,7 @@ in
    %column:1 columnspan:3 row:4 sticky:we)}
 
    % Start game
-   {GUI.drawCell b X_INIT Y_INIT}
+   {GUI.drawCell b Config.x_INIT Config.y_INIT}
 
    % Les Ports
    % La MAP
@@ -159,11 +162,11 @@ in
    % Le brave
    {System.show 'before launching brave'}
    local Ack in
-      {Send Config.mapPorts.X_INIT.Y_INIT brave(enter)}
+      {Send Config.mapPorts.(Config.x_INIT).(Config.y_INIT) brave(enter Config.f_INIT Config.nBullets)}
       {System.show ''#Ack}
    end
-   {GUI.drawCell brave X_INIT Y_INIT}
+   {GUI.drawCell brave Config.x_INIT Config.y_INIT}
    {System.show 'after GUI'}
-   Config.bravePort = {Brave.braveState state(yourturn X_INIT Y_INIT F_INIT 5 Config.nAllowedMovesB Config.nBullets 0)}
+   Config.bravePort = {Brave.braveState state(yourturn Config.x_INIT Config.y_INIT Config.f_INIT 5 Config.nAllowedMovesB Config.nBullets 0)}
    {System.show 'after launching brave'}
 end
