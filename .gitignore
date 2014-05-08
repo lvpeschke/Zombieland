@@ -20,3 +20,11 @@ LenanieLand/Config.ozf
 *.out
 
 *.synctex.gz
+
+*.aux
+
+*.log
+
+*.out
+
+*.gz
