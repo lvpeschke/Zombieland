@@ -1,6 +1,6 @@
 functor
 import
-   %Application
+   Application
    System
    
 export
@@ -31,6 +31,9 @@ export
 
    Left
    Right
+
+   Success %%
+   GameOver %%
    
 define
    Map = map(
@@ -78,7 +81,7 @@ define
       {NewPort Sin}
    end
 
-   /*proc {Success}
+   proc {Success}
       {System.show 'You win'}
       {Application.exit 0}
    end
@@ -86,7 +89,7 @@ define
    proc {GameOver}
       {System.show 'You loose'}
       {Application.exit 0}
-   end*/
+   end
    
    fun {Right D}
       if D == [~1 0] then [0 ~1]
