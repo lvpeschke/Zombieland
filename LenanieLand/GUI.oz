@@ -21,19 +21,19 @@ export
 define
    
    % Current working directory
-   CD = {OS.getCWD}#'/images'
+   CD = {OS.getCWD}#'/images2'
    
    % Images
-   Brave = {QTk.newImage photo(file:CD#'/brave.gif')}
-   Bullets = {QTk.newImage photo(file:CD#'/bullets.gif')}
+   Brave = {QTk.newImage photo(file:CD#'/floor_merida.gif')}
+   Bullets = {QTk.newImage photo(file:CD#'/floor_arrows.gif')}
    Floor = {QTk.newImage photo(file:CD#'/floor.gif')}
-   Food = {QTk.newImage photo(file:CD#'/food.gif')}
-   Medicine = {QTk.newImage photo(file:CD#'/medicine.gif')}
+   Food = {QTk.newImage photo(file:CD#'/floor_food.gif')}
+   Medicine = {QTk.newImage photo(file:CD#'/floor_pills.gif')}
    Wall = {QTk.newImage photo(file:CD#'/wall.gif')}
-   Zombie = {QTk.newImage photo(file:CD#'/zombie.gif')}
+   Zombie = {QTk.newImage photo(file:CD#'/floor_zombie_left.gif')}
+   Door = {QTk.newImage photo(file:CD#'/door.gif')}
    Unknown = {QTk.newImage photo(file:CD#'/unknown.gif')}
    /** AJOUTER **/
-   %Door
    %Brave + Food
    %Brave + Medicine
    %Brave + Bullets
@@ -80,7 +80,7 @@ define
       elseif Number == 2 then Bullets
       elseif Number == 3 then Food
       elseif Number == 4 then Medicine
-      elseif Number == 5 then Floor %% DOOR
+      elseif Number == 5 then Door
       elseif Number == brave then Brave
       elseif Number == zombie then Zombie
       else Unknown
