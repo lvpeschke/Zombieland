@@ -12,3 +12,11 @@ LenanieLand/GUI.ozf
 LenanieLand/Zombie.ozf
 
 LenanieLand/Config.ozf
+
+*.aux
+
+*.log
+
+*.out
+
+*.synctex.gz

@@ -3,6 +3,7 @@ import
    Application
    OS
    Property
+   QTk at 'x-oz://system/wp/QTk.ozf'
 
    % For file reading
    Open %at 'x-oz://system/Open.ozf'
@@ -110,8 +111,9 @@ define
    Width = 20
    %CurrentMap = Args.map
 
-   Window = GUI.window
-   {GUI.initLayout Config.map Window Config.bravePort}
+   %Window = GUI.window
+   Window %% TODO
+   {GUI.initLayout Config.map Window Config.bravePort GUI.grid GUI.gridHandle} %% TODO
 
 in
    {OS.srand 0}
@@ -127,10 +129,12 @@ in
       {Say "  -h, -?, --help\tThis help"}
       {Application.exit 0}
      end */
-   
+
+   Window = {QTk.build GUI.desc} %% TODO
+   {Window set(title:"ZOMBIELAND")} %% TODO
    
    % Display GUI
-   {Window show}
+   {Window show} %% TODO
    
    %{Delay 1000}
    %{DrawCell Wall 1 7} % test pour changer une cellule
@@ -169,4 +173,7 @@ in
    {System.show 'after GUI'}
    Config.bravePort = {Brave.braveState state(yourturn Config.x_INIT Config.y_INIT Config.f_INIT 5 Config.nAllowedMovesB Config.nBullets 0)}
    {System.show 'after launching brave'}
+
+   %{Delay 2000} %% TODO
+   %{GUI.endOfGame wi Window} %% TODO
 end
