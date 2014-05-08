@@ -12,7 +12,7 @@ TO DO LIST
 - Faire tourner les images des zombies et du brave pour bien voir quelle direction ils regardent
 —> prendre des images plus explicites
 
-- Trouver la porte pour positionner le brave
+- Trouver la porte pour positionner le brave ->
 
 - Arrêter le jeu quand le brave quitte par la porte (pas d’erreur par sortie de la grid)
 
@@ -22,14 +22,18 @@ TO DO LIST
 
 - BulletCount en variable globale
 
-- Rendre la position des zombies aléatoire.
+- Rendre la position des zombies aléatoire. : OK
 
 - Cell : si occupée par l’opposé et tryenter, renvoyer la personne et son facing
 
-- Zombie : random facing
+- Zombie : random facing : OK
+
+- UpdateCollectedItemsCount prend 2 arguments : le nouveau nombre de food/med et ce qui a été ajouté (3 ou 4)
+
+- Utiliser Args.map etc… partout!!!
+-> faire des global vars
 
 EXTENSIONS
-- Tirs à distance
 
 - Faire trucs fancy quand on gagne
 
