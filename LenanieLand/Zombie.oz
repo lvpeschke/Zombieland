@@ -1,3 +1,7 @@
+%%%%%%%%%%%%%%%%%%%%%
+%    THE ZOMBIE     %
+%%%%%%%%%%%%%%%%%%%%%
+
 functor
 import
    OS
@@ -20,12 +24,7 @@ define
       end
    end
 
-   % Possible F values
-   % Up [~1 0]
-   % Left [0 ~1]
-   % Down [1 0]
-   % Right [0 1]
-
+   % Randomly returns another facing direction
    proc {NewFacing ?NewF}
       local R in
 	 R = ({OS.rand} mod 4)
@@ -37,12 +36,16 @@ define
       end
    end
 
+   % Makes the next move
+   % If you are stuck more than 15 times, you pass your turn
    proc {Move F Line Col ZombieNumber Compteur ?L0 ?C0 ?F0 ?Ack}
       local NewAck NewC NewL in
 	 {System.show 'Move'#Compteur}
 	 if Compteur>=0 then
-	    {NextCell F Line Col NewL NewC} % compute new cell in same direction
+	    % You moves in the same direction if you can
+	    {Config.nextCell F Line Col NewL NewC}
 	    {Send Config.mapPorts.NewL.NewC zombie(enter Config.zombiesPorts.ZombieNumber F NewAck)}
+	    % If you can't, you randomly change your facing direction and retries
 	    if NewAck==ko then
 	       {System.show 'Ack'#NewAck}
 	       local NewF in
@@ -63,23 +66,10 @@ define
 	 end
       end
    end
-   
-   proc {NextCell F OldL OldC ?NewL ?NewC}
-      [DLine DCol] = F in
-      NewL = OldL+DLine
-      NewC = OldC+DCol
-   end
       
-   %% States
-   % - yourturn
-   % - notyourturn
-
-   %% Messages
-   % - yourturn
-   % - go
-
-     % CheckKill
-   
+   % Checks if someone has to be killed
+   % If there is a brave with bullets in front of you, you lose
+   % Otherwise, you win
    proc {CheckKill X Y F ZombieNumber ?Killed}
       {System.show 'Zombie : checkkill'}
       local FF FL FR AckF AckL AckR BraveF K1 K2 K3 in
@@ -136,6 +126,7 @@ define
       end
    end
 
+    % Manages the Brave PortObject
    fun {ZombieState ZombieNumber Init}
       ZSid = {Config.newPortObject Init
 	      fun {$ state(Mode Line Col F Item ActionsLeft) Msg}
@@ -144,19 +135,18 @@ define
 		 
 		 case Mode
 
+		 % Killed mode : every message is ignored    
 		 of killed then state(Mode Line Col F Item ActionsLeft)
+
+		 % Notyourturn mode : the zombie can only be killed or become active   
+		 [] notyourturn then
 		    
-		 [] notyourturn then % zombie not active
 		    case Msg
 		       
 		    of yourturn then
 		       {System.show 'Zombie.oz 64 '#ZombieNumber#'premier go, reste '#Config.nAllowedMovesZ}
-		       {Send Config.zombiesPorts.ZombieNumber go} % send message to yourself % TODO
+		       {Send Config.zombiesPorts.ZombieNumber go}
 		       state(yourturn Line Col F Item Config.nAllowedMovesZ)
-		       
-		    [] go then
-		       {System.show 'Zombie.oz 69'#'erreur'}
-		       {Application.exit 1}
 
 		    [] kill then
 		       {GUI.drawCell Item Line Col}
@@ -170,41 +160,40 @@ define
 		       {Application.exit 1}
 		    end
 
-		    
-		 [] yourturn then % zombie active
+		 % Yourturn mode : the zombie can move   
+		 [] yourturn then
 		    {System.show 'Zombie.oz 79'#ZombieNumber#'Zombie yourturn, message '#Msg}
 
-		    case Msg		       
+		    case Msg
 
-		    of yourturn then
-		       {System.show 'Zombie.oz 84'#ZombieNumber#'Zombie : etat '#Mode#', message '#Msg#' PAS BIEN'}
-		       {Application.exit 1}
-
-		    [] go then
+		    % You can do something   
+		    of go then
 		       local Facing NBullets Killed in
-			  
+			  % First you check if someobody has to be killed
 			  {CheckKill Line Col F ZombieNumber Killed}
 
+			  % If you are still alive
 			  if Killed == 0 then
-			  
+
+			     % You can't move anymore, you become inactive
 			     if ActionsLeft == 0 then % stop moving
 				{System.show 'Zombie.oz 90 '#ZombieNumber#'Zombie send(finish)'}
 				{Send Config.controllerPort finish(zombie)}
 				state(notyourturn Line Col F Item 0)
-
+				
+			     % Otherwise you try to pick something if you can with 20% probability
 			     else % move
 				local Picked in 
 				   {System.show 'Zombie.oz 90 '#ZombieNumber#' go go go, reste '#ActionsLeft}
 
 				   if (Item==2 orelse Item==3 orelse Item==4) andthen {RollDice5} then
 				      {Send Config.mapPorts.Line.Col zombie(pickup)}
-				%{Send Config.zombiesPorts.ZombieNumber go} % keep moving!
-				%state(yourturn Line Col F 0 ActionsLeft-1)
 				      Picked=1
 				   else
 				      Picked=0
 				   end
 
+				   % If you can move too, you move
 				   if ActionsLeft>Picked then
 				      local L0 C0 F0 Ack in
 					 {Move F Line Col ZombieNumber 15 ?L0 ?C0 ?F0 ?Ack}
@@ -233,7 +222,7 @@ define
 			  end
 		       end
 			     
-		       
+		    % Someone has killed you, you have to die   
 		    [] kill then
 		       {GUI.drawCell Item Line Col}
 		       {Send Config.mapPorts.Line.Col zombie(quit)}
@@ -245,6 +234,7 @@ define
 		       {System.show 'Zombie.oz 125'#ZombieNumber#'Zombie : error in the message'}
 		       {Application.exit 1}
 		    end
+		    
 		 else
 		    {System.show 'Zombie.oz 129'#ZombieNumber#'Zombie : error in the state'}
 		    {Application.exit 1}

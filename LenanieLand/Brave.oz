@@ -1,26 +1,28 @@
+%%%%%%%%%%%%%%%%%%%%%
+%     THE BRAVE     %
+%%%%%%%%%%%%%%%%%%%%%
+
 functor
 import
    Application
    OS
-
+   System %%
    % Our functors
    Config
    GUI
- 
-   System %%
+   
 export
    BraveState
    
 define
-   
-   fun {NewPos X Y Move}
-      [X+Move.1 Y+Move.2.1 Move]
-   end
 
-      % CheckKill
+   % Checks if someone has to be killed
    proc {CheckKill X Y F NBullets Item}
+      
       {System.show 'Brave : checkkill'}
+      
       local FF FL FR AckF AckL AckR ZombieF in
+	 % Checks if there is a zombie in front of the brave
 	 FF = [~F.1 ~F.2.1]
 	 FL = {Config.left F} {System.show ''#F#'left'#FL}
 	 FR = {Config.right F} {System.show ''#F#'right'#FR}
@@ -30,6 +32,7 @@ define
 	 {System.show ''#AckF}
 	 case AckF
 	 of zombie(ZombiePort ZombieF) then
+	    % If NBullets==0, the brave dies, otherwise the zombie dies
 	    if ZombieF == FF andthen NBullets==0 then {System.show 'Face : Le brave est tue'} {Config.gameOver}
 	    else
 	       {Send Config.bravePort updateNBullets}
@@ -39,8 +42,10 @@ define
 	 else
 	    skip
 	 end
-	 
-	 if Item\=5 then % REECRIRE CA PROPREMENT
+
+	 % If the brave is not on a door, we have to check right and left
+	 % If there is a zombie looking towards the brave, the brave dies
+	 if Item\=5 then
 	    {Send Config.mapPorts.(X-FL.1).(Y-FL.2.1) brave(tryenter AckL)} {System.show ''#X#Y#(X-FL.1)#(Y-FL.2.1)}
 	    {Send Config.mapPorts.(X-FR.1).(Y-FR.2.1) brave(tryenter AckR)} {System.show ''#X#Y#(X-FR.1)#(Y-FR.2.1)}
 	    % ATTENTION VA FALLOIR CHANGER CA POUR PAS QUE CA BLOQUE INUTILMENT
@@ -63,7 +68,10 @@ define
       end
    end
    
-	    
+
+   % Manages the Brave PortObject
+   % X Y F = line, column, facing direction
+   % Item = the item on the current cell
    fun {BraveState Init}
       Cid = {Config.newPortObject Init
 	     fun {$ state(Mode X Y F Item ActionsLeft NBullets NFood NMedicine) Msg} %% retenir la commande
@@ -71,24 +79,20 @@ define
 		{System.show 'Brave message '#Msg#', mode '#Mode}
 
 		case Mode
+
+		% Killed mode : every message is ignored   
 		of killed then
 		   {GUI.drawCell Item X Y}
 		   state(Mode X Y F Item ActionsLeft NBullets NFood NMedicine)
-		
+
+		% Notyourturn mode : only the yourturn, kill, getFacingBullet and updateNBullets are relevant
 		[] notyourturn then
+		   
 		   case Msg
 		    
 		   of yourturn then
 		      {GUI.updateMovesCount Config.nAllowedMovesB}
 		      state(yourturn X Y F Item Config.nAllowedMovesB NBullets NFood NMedicine) %%
-		    
-		   [] move(D) then % skip
-		      {System.show 'Brave2 39 move vide'}
-		      state(Mode X Y F Item ActionsLeft NBullets NFood NMedicine)
-		    
-		   [] pickup then % skip
-		      {System.show 'Brave2 42 pickup vide'}
-		      state(Mode X Y F Item ActionsLeft NBullets NFood NMedicine)
 		      
 		   [] kill then
 		      {GUI.drawCell Item X Y}
@@ -111,28 +115,25 @@ define
 		      state(Mode X Y F Item ActionsLeft NBullets NFood NMedicine) %%
 		   end
 
-		 
+		% Yourturn mode : you can now move and pickup
 		[] yourturn then
 
 		   case Msg
 		    
-		 % A SUPPRIMER
-		   of yourturn then
-		      {System.show Msg#' alors qu on est en mode yourturn'}
-		      state(Mode X Y F Item ActionsLeft NBullets NFood NMedicine) %%
-		    
-		   [] move(D) then
+		   of move(NewF) then
 		      {System.show 'a priori ActionsLeft est > 0...'#ActionsLeft}
-		      local NewX NewY NewF Ack in
-			 [NewX NewY NewF] = {NewPos X Y D}
+		      local NewX NewY Ack in
+			 {Config.nextCell NewF X Y NewX NewY}
 			 {Send Config.mapPorts.NewX.NewY brave(tryenter Ack)}
 			 {Wait Ack}
-		       
+
+			 % If you can go to the next cell, you do
 			 if Ack==0 orelse Ack==2 orelse Ack==3 orelse Ack==4 then
 			    {GUI.drawCell Item X Y}
 			    {Send Config.mapPorts.X.Y brave(quit)}
 			    {GUI.drawCell brave NewX NewY}
 			    {Send Config.mapPorts.NewX.NewY brave(enter NewF NBullets)}
+			    % If the brave has not more actions, it's no more it's turn
 			    if ActionsLeft == 1 then
 			       {CheckKill NewX NewY NewF NBullets Item}
 			       {Send Config.controllerPort finish(brave)}
@@ -143,22 +144,23 @@ define
 			       {CheckKill NewX NewY NewF NBullets Item}
 			       state(Mode NewX NewY NewF Ack ActionsLeft-1 NBullets NFood NMedicine)
 			    end
-			   			     
+
+			 % If it is a door, you have to be sure that you have enough objects
 			 elseif Ack==5 then
 			    if NMedicine+NFood >= Config.nWantedObjects then
 			       {Config.success} % end of game
-			        state(Mode X Y F Item ActionsLeft NBullets NFood NMedicine) % ???? what to do?
+			        state(Mode X Y F Item ActionsLeft NBullets NFood NMedicine)
 			    else
 			       state(Mode X Y F Item ActionsLeft NBullets NFood NMedicine) % skip
 			    end
-			    
+			 % If you can't move, you remain in you state   
 			 else
 			    {System.show Ack}
 			    state(Mode X Y F Item ActionsLeft NBullets NFood NMedicine) %%
 			 end
 		      end
 		    
-		    
+		   % You pickup and update you state if there is an object 
 		   [] pickup then
 		      {CheckKill X Y F NBullets Item}
 		      {System.show 'a priori ActionsLeft est > 0...'#ActionsLeft}
@@ -209,20 +211,21 @@ define
 		      else
 			 state(Mode X Y F Item ActionsLeft NBullets NFood NMedicine) %%
 		      end
-		      
+
+		   % A zombie killed you, you loose   
 		   [] kill then
 		      {GUI.drawCell Item X Y}
 		      {Send Config.mapPorts.X.Y brave(quit)}
 		      % et fermer port
 		      {Config.gameOver}
 		      state(killed X Y F Item ActionsLeft NBullets NFood NMedicine)
-		      
+
+		   % You killed a zombie, you lost one bullet   
 		   [] updateNBullets then
 		      {GUI.updateBulletsCount NBullets-1}
 		      state(Mode X Y F Item ActionsLeft NBullets-1 NFood NMedicine)
 		      
 		   else
-		       
 		      {System.show 'Brave 123 grosse erreur!'}
 		      state(Mode X Y F Item ActionsLeft NBullets NFood NMedicine) %%
 		   end

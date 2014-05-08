@@ -28,6 +28,7 @@ export
    NewPortObject
    Success
    GameOver
+   NextCell
    Left
    Right
    
@@ -51,7 +52,7 @@ define
    NAllowedMovesB = 2
    NAllowedMovesZ = 3
    NWantedObjects = 2
-   NZombies = 20
+   NZombies = 10
    NBullets = 3
 
    X_INIT = 1
@@ -77,6 +78,7 @@ define
       {NewPort Sin}
    end
 
+   % Fail and success
    proc {Success}
       {System.show 'You win'}
       {Application.exit 0}
@@ -86,7 +88,14 @@ define
       {System.show 'You loose'}
       {Application.exit 0}
    end
-   
+
+   % Moves
+   proc {NextCell F OldL OldC ?NewL ?NewC}
+      [DLine DCol] = F in
+      NewL = OldL+DLine
+      NewC = OldC+DCol
+   end
+    
    fun {Right D}
       if D==[~1 0] then [0 ~1]
       elseif D==[0 ~1] then [1 0]
