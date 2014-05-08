@@ -42,6 +42,7 @@ define
 		       state(Mode NZombies-1 NewZombiesPorts NResponses)
 		    end
 		 end
+		 
 	      [] zombie then
 		 case Msg
 		 of finish(zombie) then
@@ -61,13 +62,14 @@ define
 		 [] finish(brave) then {System.show 'Controller 46 '#'erreur : finish(brave) alors qu on est en mode zombie'}
 		    state(Mode NZombies ZombiesPorts NResponses) %%
 		 [] kill(ZombieNumber) then
+		    {System.show 'Controller : kill('#ZombieNumber}
 		    local NewZombiesPorts in 
 		       NewZombiesPorts = {MakeTuple zombiesPorts Config.nZombies}
 		       for I in 1..Config.nZombies do
 			  if I==ZombieNumber then NewZombiesPorts.I=empty
-			  else NewZombiesPorts.I = ZombiesPorts.I end
+			  else NewZombiesPorts.I = Config.zombiesPorts.I end
 		       end
-		       {System.show ''#NZombies#NResponses}
+		       {System.show 'NZombies et NResponses :'#NZombies#NResponses}
 		       if (NZombies-1==NResponses) then
 			  {Send Config.bravePort yourturn}
 			  state(brave NZombies-1 NewZombiesPorts 0)

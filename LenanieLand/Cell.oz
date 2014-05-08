@@ -109,7 +109,7 @@ define
 		       Ack = brave(F NBullets)
 		       state(Person Item)
 
-		    [] zombie(enter ZombiePort2 Ack) then
+		    [] zombie(enter ZombiePort2 ZombieF Ack) then
 		       Ack = ko
 		       state(Person Item) % skip
 		       
@@ -152,7 +152,7 @@ define
 		       Ack = zombie(ZombiePort ZombieF)
 		       state(Person Item) % skip
 
-		    [] zombie(enter ZombiePort2 Ack) then
+		    [] zombie(enter ZombiePort2 ZombieF Ack) then
 		       Ack = ko
 		       state(Person Item) % skip
 		       

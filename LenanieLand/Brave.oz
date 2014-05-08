@@ -66,49 +66,49 @@ define
 	    
    fun {BraveState Init}
       Cid = {Config.newPortObject Init
-	     fun {$ state(Mode X Y F Item ActionsLeft NBullets NObjects) Msg} %% retenir la commande
+	     fun {$ state(Mode X Y F Item ActionsLeft NBullets NFood NMedicine) Msg} %% retenir la commande
 		
 		{System.show 'Brave message '#Msg#', mode '#Mode}
 
 		case Mode
 		of killed then
 		   {GUI.drawCell Item X Y}
-		   state(Mode X Y F Item ActionsLeft NBullets NObjects)
+		   state(Mode X Y F Item ActionsLeft NBullets NFood NMedicine)
 		
 		[] notyourturn then
 		   case Msg
 		    
 		   of yourturn then
 		      {GUI.updateMovesCount Config.nAllowedMovesB}
-		      state(yourturn X Y F Item Config.nAllowedMovesB NBullets NObjects) %%
+		      state(yourturn X Y F Item Config.nAllowedMovesB NBullets NFood NMedicine) %%
 		    
 		   [] move(D) then % skip
 		      {System.show 'Brave2 39 move vide'}
-		      state(Mode X Y F Item ActionsLeft NBullets NObjects)
+		      state(Mode X Y F Item ActionsLeft NBullets NFood NMedicine)
 		    
 		   [] pickup then % skip
 		      {System.show 'Brave2 42 pickup vide'}
-		      state(Mode X Y F Item ActionsLeft NBullets NObjects)
+		      state(Mode X Y F Item ActionsLeft NBullets NFood NMedicine)
 		      
 		   [] kill then
 		      {GUI.drawCell Item X Y}
 		      {Send Config.mapPorts.X.Y brave(quit)}
 		      % et fermer port
 		      {Config.gameOver}
-		      state(killed X Y F Item ActionsLeft NBullets NObjects)
+		      state(killed X Y F Item ActionsLeft NBullets NFood NMedicine)
 
 		   [] getFacingBullet(FacingBullets) then
 		      FacingBullets = [F NBullets]
-		      state(killed X Y F Item ActionsLeft NBullets NObjects)
+		      state(killed X Y F Item ActionsLeft NBullets NFood NMedicine)
 
 		   [] updateNBullets then
 		      {GUI.updateBulletsCount NBullets-1}
-		      state(Mode X Y F Item ActionsLeft NBullets-1 NObjects)
+		      state(Mode X Y F Item ActionsLeft NBullets-1 NFood NMedicine)
 		   
 		 % A SUPPRIMER
 		   else
 		      {System.show Msg#' alors qu on est en mode notyourturn'}
-		      state(Mode X Y F Item ActionsLeft NBullets NObjects) %%
+		      state(Mode X Y F Item ActionsLeft NBullets NFood NMedicine) %%
 		   end
 
 		 
@@ -119,7 +119,7 @@ define
 		 % A SUPPRIMER
 		   of yourturn then
 		      {System.show Msg#' alors qu on est en mode yourturn'}
-		      state(Mode X Y F Item ActionsLeft NBullets NObjects) %%
+		      state(Mode X Y F Item ActionsLeft NBullets NFood NMedicine) %%
 		    
 		   [] move(D) then
 		      {System.show 'a priori ActionsLeft est > 0...'#ActionsLeft}
@@ -132,29 +132,29 @@ define
 			    {GUI.drawCell Item X Y}
 			    {Send Config.mapPorts.X.Y brave(quit)}
 			    {GUI.drawCell brave NewX NewY}
-			    {Send Config.mapPorts.NewX.NewY brave(enter F NBullets)}
+			    {Send Config.mapPorts.NewX.NewY brave(enter NewF NBullets)}
 			    if ActionsLeft == 1 then
 			       {CheckKill NewX NewY NewF NBullets Item}
 			       {Send Config.controllerPort finish(brave)}
 			       {GUI.updateMovesCount ActionsLeft-1}
-			       state(notyourturn NewX NewY NewF Ack ActionsLeft-1 NBullets NObjects)
+			       state(notyourturn NewX NewY NewF Ack ActionsLeft-1 NBullets NFood NMedicine)
 			    else
 			       {GUI.updateMovesCount ActionsLeft-1}
 			       {CheckKill NewX NewY NewF NBullets Item}
-			       state(Mode NewX NewY NewF Ack ActionsLeft-1 NBullets NObjects)
+			       state(Mode NewX NewY NewF Ack ActionsLeft-1 NBullets NFood NMedicine)
 			    end
 			   			     
 			 elseif Ack==5 then
-			    if NObjects >= Config.nWantedObjects then
+			    if NMedicine+NFood >= Config.nWantedObjects then
 			       {Config.success} % end of game
-			        state(Mode X Y F Item ActionsLeft NBullets NObjects) % ???? what to do?
+			        state(Mode X Y F Item ActionsLeft NBullets NFood NMedicine) % ???? what to do?
 			    else
-			       state(Mode X Y F Item ActionsLeft NBullets NObjects) % skip
+			       state(Mode X Y F Item ActionsLeft NBullets NFood NMedicine) % skip
 			    end
 			    
 			 else
 			    {System.show Ack}
-			    state(Mode X Y F Item ActionsLeft NBullets NObjects) %%
+			    state(Mode X Y F Item ActionsLeft NBullets NFood NMedicine) %%
 			 end
 		      end
 		    
@@ -170,30 +170,44 @@ define
 			    {GUI.updateBulletsCount NBullets+3}
 			    {GUI.updateMovesCount ActionsLeft-1}
 			    {CheckKill X Y F NBullets Item}
-			    state(notyourturn X Y F 0 ActionsLeft-1 NBullets+3 NObjects)
+			    state(notyourturn X Y F 0 ActionsLeft-1 NBullets+3 NFood NMedicine)
 			 else
 			    {GUI.updateBulletsCount NBullets+3}
 			    {GUI.updateMovesCount ActionsLeft-1}
 			    {CheckKill X Y F NBullets Item}
-			    state(Mode X Y F 0 ActionsLeft-1 NBullets+3 NObjects) %%
+			    state(Mode X Y F 0 ActionsLeft-1 NBullets+3 NFood NMedicine) %%
 			 end
 			  
-		      elseif Item == 3 orelse Item == 4 then
+		      elseif Item == 3 then
 			 if ActionsLeft == 1 then
 			    {Send Config.controllerPort finish(brave)}
-			    {GUI.updateItemsCount NObjects+1}
+			    {GUI.updateCollectedItemsCount NFood+NMedicine+1 NFood+1 Item}
 			    {GUI.updateMovesCount ActionsLeft-1}
 			    {CheckKill X Y F NBullets Item}
-			    state(notyourturn X Y F 0 ActionsLeft-1 NBullets NObjects+1) %%
+			    state(notyourturn X Y F 0 ActionsLeft-1 NBullets NFood+1 NMedicine) %%
 			 else
-			    {GUI.updateItemsCount NObjects+1}
+			    {GUI.updateCollectedItemsCount NFood+NMedicine+1 NFood+1 Item}
 			    {GUI.updateMovesCount ActionsLeft-1}
 			    {CheckKill X Y F NBullets Item}
-			    state(Mode X Y F 0 ActionsLeft-1 NBullets NObjects+1) %%
+			    state(Mode X Y F 0 ActionsLeft-1 NBullets NFood+1 NMedicine) %%
+			 end
+			 
+		      elseif Item == 4 then
+			 if ActionsLeft == 1 then
+			    {Send Config.controllerPort finish(brave)}
+			    {GUI.updateCollectedItemsCount NFood+NMedicine+1 NMedicine+1 Item}
+			    {GUI.updateMovesCount ActionsLeft-1}
+			    {CheckKill X Y F NBullets Item}
+			    state(notyourturn X Y F 0 ActionsLeft-1 NBullets NFood NMedicine+1) %%
+			 else
+			    {GUI.updateCollectedItemsCount NFood+NMedicine+1 NMedicine+1 Item}
+			    {GUI.updateMovesCount ActionsLeft-1}
+			    {CheckKill X Y F NBullets Item}
+			    state(Mode X Y F 0 ActionsLeft-1 NBullets NFood NMedicine+1) %%
 			 end
 			    
 		      else
-			 state(Mode X Y F Item ActionsLeft NBullets NObjects) %%
+			 state(Mode X Y F Item ActionsLeft NBullets NFood NMedicine) %%
 		      end
 		      
 		   [] kill then
@@ -201,12 +215,16 @@ define
 		      {Send Config.mapPorts.X.Y brave(quit)}
 		      % et fermer port
 		      {Config.gameOver}
-		      state(killed X Y F Item ActionsLeft NBullets NObjects)
-
+		      state(killed X Y F Item ActionsLeft NBullets NFood NMedicine)
+		      
+		   [] updateNBullets then
+		      {GUI.updateBulletsCount NBullets-1}
+		      state(Mode X Y F Item ActionsLeft NBullets-1 NFood NMedicine)
+		      
 		   else
 		       
 		      {System.show 'Brave 123 grosse erreur!'}
-		      state(Mode X Y F Item ActionsLeft NBullets NObjects) %%
+		      state(Mode X Y F Item ActionsLeft NBullets NFood NMedicine) %%
 		   end
 		end
 	     end}

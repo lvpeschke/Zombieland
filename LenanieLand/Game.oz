@@ -171,7 +171,7 @@ in
    end
    {GUI.drawCell brave Config.x_INIT Config.y_INIT}
    {System.show 'after GUI'}
-   Config.bravePort = {Brave.braveState state(yourturn Config.x_INIT Config.y_INIT Config.f_INIT 5 Config.nAllowedMovesB Config.nBullets 0)}
+   Config.bravePort = {Brave.braveState state(yourturn Config.x_INIT Config.y_INIT Config.f_INIT 5 Config.nAllowedMovesB Config.nBullets 0 0)}
    {System.show 'after launching brave'}
 
    %{Delay 2000} %% TODO

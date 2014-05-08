@@ -51,7 +51,7 @@ define
    NAllowedMovesB = 2
    NAllowedMovesZ = 3
    NWantedObjects = 2
-   NZombies = 1
+   NZombies = 20
    NBullets = 3
 
    X_INIT = 1
