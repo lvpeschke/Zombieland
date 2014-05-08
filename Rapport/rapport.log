@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2014.4.27)  8 MAY 2014 23:32
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2014.4.27)  9 MAY 2014 00:36
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -843,7 +843,7 @@ LaTeX Info: Redefining \nameref on input line 55.
 \@outlinefile=\write3
 \openout3 = `rapport.out'.
 
- <merida.jpg, id=48, 580.1675pt x 1075.01625pt>
+ <merida.jpg, id=40, 580.1675pt x 1075.01625pt>
 File: merida.jpg Graphic file (type jpg)
 
 <use merida.jpg>
@@ -895,75 +895,41 @@ LaTeX Font Info:    External font `lmex10' loaded for size
  [1
 
 {/usr/local/texlive/2013/texmf-var/fonts/map/pdftex/updmap/pdftex.map} <./merid
-a.jpg>]
-
-AED: lastpage setting LastPage
-pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has 
-been already used, duplicate ignored
+a.jpg>]pdfTeX warning (ext4): destination with the same identifier (name{page.1
+}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.177 \end{document}
-                     [1] [2]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 177.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 177.
+l.186 s
+       ynchronization between the zombies : not on the same cell [1]
+
+AED: lastpage setting LastPage
+[2]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 191.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 191.
  (./rapport.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 177.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 177.
-
-
-Package rerunfilecheck Warning: File `rapport.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
-
-Package rerunfilecheck Info: Checksums for `rapport.out':
-(rerunfilecheck)             Before: 52B7F417975CEC4356C4B82AB8389DA9;616
-(rerunfilecheck)             After:  57FB38AB8D2AEDA9A6D63CB680E45195;522.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 177.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 191.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 191.
+Package rerunfilecheck Info: File `rapport.out' has not changed.
+(rerunfilecheck)             Checksum: 57FB38AB8D2AEDA9A6D63CB680E45195;522.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 191.
  ) 
 Here is how much of TeX's memory you used:
- 10824 strings out of 493308
- 158150 string characters out of 6137816
- 274394 words of memory out of 5000000
- 14063 multiletter control sequences out of 15000+600000
+ 10813 strings out of 493308
+ 158002 string characters out of 6137816
+ 275394 words of memory out of 5000000
+ 14061 multiletter control sequences out of 15000+600000
  67376 words of font info for 65 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
  36i,6n,43p,284b,405s stack positions out of 5000i,500n,10000p,200000b,80000s
-pdfTeX warning (dest): name{section.4} has been referenced but does not exist
-, replaced by a fixed one
-
-pdfTeX warning (dest): name{section.3} has been referenced but does not exist, 
-replaced by a fixed one
-
-pdfTeX warning (dest): name{subsection.2.5} has been referenced but does not ex
-ist, replaced by a fixed one
-
-pdfTeX warning (dest): name{subsubsection.2.4.2} has been referenced but does n
-ot exist, replaced by a fixed one
-
-pdfTeX warning (dest): name{subsubsection.2.4.1} has been referenced but does n
-ot exist, replaced by a fixed one
-
-pdfTeX warning (dest): name{subsection.2.4} has been referenced but does not ex
-ist, replaced by a fixed one
-
-pdfTeX warning (dest): name{subsection.2.3} has been referenced but does not ex
-ist, replaced by a fixed one
-
-pdfTeX warning (dest): name{subsection.2.2} has been referenced but does not ex
-ist, replaced by a fixed one
-
-pdfTeX warning (dest): name{subsection.2.1} has been referenced but does not ex
-ist, replaced by a fixed one
-
-{/usr/local/texlive/2013/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}</usr/local/te
-xlive/2013/texmf-dist/fonts/type1/public/lm/lmbx12.pfb></usr/local/texlive/2013
-/texmf-dist/fonts/type1/public/lm/lmcsc10.pfb></usr/local/texlive/2013/texmf-di
-st/fonts/type1/public/lm/lmr12.pfb></usr/local/texlive/2013/texmf-dist/fonts/ty
-pe1/public/lm/lmri12.pfb>
-Output written on rapport.pdf (3 pages, 441073 bytes).
+{/usr/local/texlive/2013/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}</usr/local/
+texlive/2013/texmf-dist/fonts/type1/public/lm/lmbx12.pfb></usr/local/texlive/20
+13/texmf-dist/fonts/type1/public/lm/lmcsc10.pfb></usr/local/texlive/2013/texmf-
+dist/fonts/type1/public/lm/lmr12.pfb></usr/local/texlive/2013/texmf-dist/fonts/
+type1/public/lm/lmri12.pfb>
+Output written on rapport.pdf (3 pages, 441583 bytes).
 PDF statistics:
- 97 PDF objects out of 1000 (max. 8388607)
- 86 compressed objects within 1 object stream
- 24 named destinations out of 1000 (max. 500000)
- 94 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 81 PDF objects out of 1000 (max. 8388607)
+ 70 compressed objects within 1 object stream
+ 15 named destinations out of 1000 (max. 500000)
+ 78 words of extra memory for PDF output out of 10000 (max. 10000000)
 

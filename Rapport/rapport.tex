@@ -136,6 +136,7 @@ Task : simulator to reduce human loss (+ pass time)
 \section{Architecture and design}
 \subsection{Components}
 diagramme des interactions
+port objects : states and messages + data flow variables
 
 \subsection{Controller}
 states + responsibilities
@@ -157,14 +158,27 @@ Brave and zombies in contiguous cells : \\
 - - - if zombie facing, brave dies and game over \\
 - - - else nothing happens \\
 (petits dessins)
+
+fights do not count as turns (vital) and are executed automatically
+
 \subsubsection{Brave}
 depends on the player
+
+no shooting
+
+bullets no items, because of combats
+
+no mandatory taking
+
+door enabled if count equal or superior to goal
 
 \subsubsection{Zombies}
 AI : try moving 3 turns in the same direction, destroy objects 20 \% of the time, change direction randomly if obstacle. If brave, attempt to kill her.
 
 \subsection{Other}
 QTk?
+
+(Gameover if winning impossible because of lack of objects)
 
 \section{Concurrency issues}
 synchronization of the turns between the brave and the zombies
