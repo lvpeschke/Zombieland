@@ -127,11 +127,51 @@ Group 43\\
 %--------------------------------------------------------------------------
 
 \section{Introduction}
+Context : Zombie apocalypse, mutants
+
+Why : need for food medicine, ressources
+
+Task : simulator to reduce human loss (+ pass time)
 
 \section{Architecture and design}
+\subsection{Components}
+diagramme des interactions
 
-\section{Concurrency issues} 
+\subsection{Controller}
+states + responsibilities
+
+\subsection{Cell}
+room == grid of cells
+
+states + responsibilities
+
+
+\subsection{Players}
+states + responsibilities
+
+interaction between them
+Brave and zombies in contiguous cells : \\
+- if bullets left then \\
+- - if brave facing, brace wins  and zombie dies\\
+- - else if brave not facing then \\
+- - - if zombie facing, brave dies and game over \\
+- - - else nothing happens \\
+(petits dessins)
+\subsubsection{Brave}
+depends on the player
+
+\subsubsection{Zombies}
+AI : try moving 3 turns in the same direction, destroy objects 20 \% of the time, change direction randomly if obstacle. If brave, attempt to kill her.
+
+\subsection{Other}
+QTk?
+
+\section{Concurrency issues}
+synchronization of the turns between the brave and the zombies
+
+synchronization between the zombies : not on the same cell
     
 \section{Conclusion}
+should fulfill the requirements and provide some help to survive
     
 \end{document}

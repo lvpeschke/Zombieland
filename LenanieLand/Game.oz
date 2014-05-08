@@ -171,6 +171,6 @@ in
    Config.bravePort = {Brave.braveState state(yourturn X_INIT Y_INIT F_INIT 5 Config.nAllowedMovesB Config.nBullets 0)}
    {System.show 'after launching brave'}
 
-   {Delay 2000} %% TODO
-   {GUI.endOfGame wi Window} %% TODO
+   %{Delay 2000} %% TODO
+   %{GUI.endOfGame wi Window} %% TODO
 end

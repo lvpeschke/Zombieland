@@ -44,6 +44,8 @@ define
 
    Youwin =  {QTk.newImage photo(file:CD#'/youwin.gif')}
    Gameover =  {QTk.newImage photo(file:CD#'/gameover.gif')}
+   Steps =  {QTk.newImage photo(file:CD#'/steps.gif')}
+   Basket =  {QTk.newImage photo(file:CD#'/basket.gif')}
    
    /** AJOUTER **/
    %Brave + Food
@@ -69,14 +71,21 @@ define
 	     tdspace(width:20 glue:w)
 		
 	     td(% Information about the brave
+		lrspace(width:20 glue:w)
+		message(aspect:200
+			init:"Use the arrow keys to move around and the space bar to pick up items.
+			Watch out for the zombies, they move fast!"
+				   glue:nw)
+
+		lrspace(width:20 glue:w)
 		lrline(glue:ew)
-		lr(label(image:Unknown)
+		lr(label(image:Steps)
 		   label(text:"Moves left : ")
 		   label(init:Config.nAllowedMovesB handle:MovesCountHandle)
 		   glue:nw)		   
 		lrline(glue:ew)
 		lr(label(image:Bullets)
-		   label(text:"Bullets left : ")
+		   label(text:"Arrows left : ")
 		   label(init:Config.nBullets handle:BulletsCountHandle)
 		   glue:nw)		   
 		lrline(glue:ew)
@@ -88,16 +97,16 @@ define
 		   label(text:"Medicine : ")
 		   label(init:0 handle:MedCountHandle)
 		   glue:nw)		   
-		lr(label(image:Unknown)
+		lr(label(image:Basket)
 		   label(text:"Collected items : ")
 		   label(init:0 handle:ItemsCountHandle)
-		   label(text:"/"#Config.nWantedObjects)
+		   label(text:"/ "#Config.nWantedObjects)
 		   glue:nw)
 		lrline(glue:ew)
 		lrspace(width:50 glue:w)
 		  
 		button(% Quit button
-		       text:"Quit game"  
+		       text:"Surrender"  
 		       action: proc {$} {Application.exit 0} end
 		       glue:s)
 	       )
