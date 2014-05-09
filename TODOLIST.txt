@@ -10,6 +10,3 @@ TO DO LIST
 !!!ECRIRE LE RAPPORT!!!
 
 - Les waits sans qu'un bloque les autres
-
-
-state(Mode NZombies ZombiesPorts NResponses ItemsGoal ItemsLeft)
