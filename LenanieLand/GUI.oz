@@ -7,6 +7,7 @@ import
 
    % Our functors
    Config
+   Game
 
 export
    /* Variables */
@@ -30,7 +31,7 @@ export
 define
    
    % Current working directory
-   CD = {OS.getCWD}#'/images2'
+   CD = {OS.getCWD}#'/images'
    
    % Images
    Bullets = {QTk.newImage photo(file:CD#'/floor_arrows.gif')}
@@ -222,7 +223,6 @@ define
 
    % Sets the GUI for an end of game
    proc {EndOfGame Issue}
-      {Window close}
       NewDesc NewWin Image Text in
       case Issue
       of win then

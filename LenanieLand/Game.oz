@@ -20,18 +20,20 @@ import
    
 define
    /* Variables */
-   % Dimensions of the map
+   % Dimensions and content of the map
    Map
    MapHeight
    MapWidth
+   EmptyCount
+   ItemsCount
 
    % Arguments of the game
-   X_init %%
-   Y_init %%
-   F_init %%
-   NWantedObjects % the default number of objects the player has to collect
-   NBullets % the default initial number of bullets  
-   NZombies % the default initial number of zombies in the room
+   X_init % the initial position
+   Y_init % the initial position
+   F_init % the initial facing
+   NWantedObjects % the number of objects the player has to collect
+   NBullets % the initial number of bullets  
+   NZombies % the initial number of zombies in the room
 
    /* Procedures */
    % Input arguments
@@ -79,38 +81,50 @@ define
       end
    end
 
-   % Counts the number of empty spaces on the map
-   fun {CountEmpty Map}
+    % Counts the number of empty spaces on a map
+   fun {DecryptMap Map}
       Lines = {Width Map}
       Columns = {Width Map.Lines}
-      fun {Count I J Acc}
-	 if J < Columns then % still in the line
-	    if Map.I.J == 0 then {Count I J+1 Acc+1}
-	    else {Count I J+1 Acc}
+      fun {Count I J EmptyA ItemsA}
+	 if J < Columns then
+	    if Map.I.J == 0 then % empty cell
+	       {Count I J+1 EmptyA+1 ItemsA}
+	    elseif Map.I.J == 3 orelse Map.I.J == 4 then % food or medicine
+	       {Count I J+1 EmptyA ItemsA+1}
+	    else
+	       {Count I J+1 EmptyA ItemsA}
 	    end
 	 else % end of line
-	    if I < Lines then % next line
-	       if Map.I.J == 0 then {Count I+1 1 Acc+1}
-	       else {Count I+1 1 Acc}
+	    if I < Lines then
+	       if Map.I.J == 0 then % empty cell
+		  {Count I+1 1 EmptyA+1 ItemsA}
+	       elseif Map.I.J == 3 orelse Map.I.J == 4 then % food or medicine
+		  {Count I+1 1 EmptyA ItemsA+1}
+	       else
+		  {Count I+1 1 EmptyA ItemsA}
 	       end
 	    else % end of column
-	       if Map.I.J == 0 then Acc+1
-	       else Acc
+	       if Map.I.J == 0 then % empty cell
+		   EmptyA+1#ItemsA
+	       elseif Map.I.J == 3 orelse Map.I.J == 4 then % food or medecine
+		   EmptyA#ItemsA+1
+	       else % should happen
+		  {System.show 'alright'}
+		  EmptyA#ItemsA
 	       end
 	    end
 	 end
       end
+      Empty Items
    in
-      {Count 1 1 0}
+      Empty#Items = {Count 1 1 0 0}     
    end
  
 
    % Checks if there is enough space on the map for the desired
    % number of zombies. If not, returns an upper bound :
    % the number of empty cells.
-   proc {CheckZombiesCount Map Wanted ?Granted}
-      EmptyCells = {CountEmpty Map}
-   in
+   proc {CheckZombiesCount EmptyCells Wanted ?Granted}
       if Wanted < EmptyCells then
 	 Granted = Wanted
       else
@@ -121,7 +135,7 @@ define
    % Randomly place the zombies on the map
    proc {PlaceZombies Height Width X_init Y_init F_init NZombies}
       proc {Place N}
-	 if (N > NZombies) then skip %%
+	 if (N > NZombies) then skip
 	 else
 	    local RandX RandY RandF Ack in
 	       RandX = ({OS.rand} mod Height)+1
@@ -148,7 +162,11 @@ define
       {Place 1}
    end
 
-in   
+   Zombieland % main function
+in
+   /* MASTER FUNCTION */
+   proc {Zombieland}
+      
    /* Help message */
    if Args.help then
       {Say "Usage: "#{Property.get 'application.url'}#" [option]"}
@@ -170,9 +188,10 @@ in
    MapHeight = {Width Map}
    MapWidth = {Width Map.1}
    {FindDoor Map X_init Y_init F_init}
+   EmptyCount#ItemsCount = {DecryptMap Map} {System.show EmptyCount#ItemsCount}
    NWantedObjects = Args.item
    NBullets = Args.bullet
-   {CheckZombiesCount Map Args.zombie NZombies}
+   {CheckZombiesCount EmptyCount Args.zombie NZombies}
 
    /* Set up the GUI */
    {GUI.initLayout Map GUI.window Config.bravePort GUI.grid GUI.gridHandle}
@@ -205,4 +224,7 @@ in
 
    /* Display the game */
    {GUI.window show}
+   end
+
+   {Zombieland}
 end
