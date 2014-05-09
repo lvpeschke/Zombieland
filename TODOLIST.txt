@@ -3,8 +3,13 @@ TO DO LIST
 
 - Afficher quelque chose de spécial quand overlap object/brave or zombie -> LENA PHOTOS SPECIALES
 
+- Code : overlap objet personne -> MELANIE
+
+- Controller gameover -> Lena
+
 
 - Plusieurs vies (assez facile : juste un truc en plus dans l'état du brave) -> MELANIE
+-> IMAGE LENA : coeur
 
 
 - Virer tous les debug
