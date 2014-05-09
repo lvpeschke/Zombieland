@@ -8,9 +8,6 @@ export
    /* Variables */
    % Default
    Map % the default map of the room to be displayed
-   X_INIT %%
-   Y_INIT %%
-   F_INIT %%
    NWantedObjects % the default number of objects the player has to collect
    NBullets % the default initial number of bullets  
    NZombies % the default initial number of zombies in the room
@@ -56,11 +53,7 @@ define
 	    r(1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1)
 	    )
 
-   X_INIT = 1 %%
-   Y_INIT = 7 %%
-   F_INIT = [1 0] %%
-
-   NWantedObjects = 2
+   NWantedObjects = 3
    NZombies = 10
    NBullets = 3
    
@@ -100,9 +93,9 @@ define
    fun {RandFacing}
       local X in
 	 X = {OS.rand} mod 4
-	 if X==0 then [~1 0]
-	 elseif X==1 then [0 1]
-	 elseif X==2 then [1 0]
+	 if X == 0 then [~1 0]
+	 elseif X == 1 then [0 1]
+	 elseif X == 2 then [1 0]
 	 else [0 ~1] end
       end
     end

@@ -24,32 +24,20 @@ define
       end
    end
 
-   % Randomly returns another facing direction
-   proc {NewFacing ?NewF}
-      local R in
-	 R = ({OS.rand} mod 4)
-	 if R==0 then NewF = [0 1]
-	 elseif R==1 then NewF = [1 0]
-	 elseif R==2 then NewF = [0 ~1]
-	 else NewF = [~1 0]
-	 end
-      end
-   end
-
    % Makes the next move
    % If you are stuck more than 15 times, you pass your turn
    proc {Move F Line Col ZombieNumber Compteur ?L0 ?C0 ?F0 ?Ack}
       local NewAck NewC NewL in
 	 {System.show 'Move'#Compteur}
-	 if Compteur>=0 then
+	 if Compteur >= 0 then
 	    % You moves in the same direction if you can
 	    {Config.nextCell F Line Col NewL NewC}
 	    {Send Config.mapPorts.NewL.NewC zombie(enter Config.zombiesPorts.ZombieNumber F NewAck)}
 	    % If you can't, you randomly change your facing direction and retries
-	    if NewAck==ko then
+	    if NewAck == ko then
 	       {System.show 'Ack'#NewAck}
 	       local NewF in
-		  {NewFacing NewF}
+		  NewF = {Config.randFacing}
 		  {Move NewF Line Col ZombieNumber Compteur-1 ?L0 ?C0 ?F0 ?Ack}
 	       end
 	    else
@@ -98,7 +86,7 @@ define
 	 end
 	 case AckL
 	 of brave(BraveF NBullets) then
-	    if BraveF == FL andthen NBullets>0 then
+	    if BraveF == FL andthen NBullets > 0 then
 	       {System.show 'Zombie : Gauche : Le zombie est tue'}
 	       K2 = 1
 	       {Send Config.bravePort updateNBullets}
@@ -111,7 +99,7 @@ define
 	 end
 	 case AckR
 	 of brave(BraveF NBullets) then
-	    if BraveF == FR andthen NBullets>0 then
+	    if BraveF == FR andthen NBullets > 0 then
 	       {System.show 'Zombie : Droite : Le zombie est tue'}
 	       K3 = 1
 	       {Send Config.bravePort updateNBullets}
@@ -186,24 +174,24 @@ define
 				local Picked in 
 				   {System.show 'Zombie.oz 90 '#ZombieNumber#' go go go, reste '#ActionsLeft}
 
-				   if (Item==2 orelse Item==3 orelse Item==4) andthen {RollDice5} then
+				   if (Item == 2 orelse Item == 3 orelse Item == 4) andthen {RollDice5} then
 				      {Send Config.mapPorts.Line.Col zombie(pickup)}
-				      Picked=1
+				      Picked = 1
 				   else
-				      Picked=0
+				      Picked = 0
 				   end
 
 				   % If you can move too, you move
 				   if ActionsLeft>Picked then
 				      local L0 C0 F0 Ack in
 					 {Move F Line Col ZombieNumber 15 ?L0 ?C0 ?F0 ?Ack}
-					 if Ack==ko then
+					 if Ack == ko then
 					    {Send Config.zombiesPorts.ZombieNumber go} % keep moving!
-					    if Picked==1 then state(yourturn Line Col F 0 0)
+					    if Picked == 1 then state(yourturn Line Col F 0 0)
 					    else state(yourturn Line Col F Item 0) end
 					 else
 					    {Send Config.zombiesPorts.ZombieNumber go} % keep moving!
-					    if Picked==0 then {GUI.drawCell Item Line Col}
+					    if Picked == 0 then {GUI.drawCell Item Line Col}
 					    else {GUI.drawCell 0 Line Col} end
 					    {Send Config.mapPorts.Line.Col zombie(quit)}
 					    {GUI.drawCellBis zombie L0 C0 F0}

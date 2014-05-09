@@ -4,6 +4,7 @@ import
    OS
    Property
    QTk at 'x-oz://system/wp/QTk.ozf'
+   System
 
    % For file reading
    Open %at 'x-oz://system/Open.ozf'
@@ -16,8 +17,6 @@ import
    Controller
    Zombie
    Cell
-
-   System %%
    
 define
    /* Variables */
@@ -81,7 +80,7 @@ define
    end
 
    % Counts the number of empty spaces on the map
-   proc {CountEmpty Map ?N}
+   fun {CountEmpty Map}
       Lines = {Width Map}
       Columns = {Width Map.Lines}
       fun {Count I J Acc}
@@ -102,13 +101,27 @@ define
 	 end
       end
    in
-      N = {Count 1 1 0}
+      {Count 1 1 0}
+   end
+ 
+
+   % Checks if there is enough space on the map for the desired
+   % number of zombies. If not, returns an upper bound :
+   % the number of empty cells.
+   proc {CheckZombiesCount Map Wanted ?Granted}
+      EmptyCells = {CountEmpty Map}
+   in
+      if Wanted < EmptyCells then
+	 Granted = Wanted
+      else
+	 Granted = EmptyCells
+      end
    end
  
    % Randomly place the zombies on the map
-   proc {PlaceZombies Height Width} %% X Y F nzombies
+   proc {PlaceZombies Height Width X_init Y_init F_init NZombies}
       proc {Place N}
-	 if (N > Config.nZombies) then skip %%
+	 if (N > NZombies) then skip %%
 	 else
 	    local RandX RandY RandF Ack in
 	       RandX = ({OS.rand} mod Height)+1
@@ -124,7 +137,7 @@ define
 		     {Place N}
 		  else
 		     {GUI.drawCellBis zombie RandX RandY RandF}
-		     Config.zombiesPorts.N={Zombie.zombieState N state(notyourturn RandX RandY RandF Ack 0)}
+		     Config.zombiesPorts.N = {Zombie.zombieState N state(notyourturn RandX RandY RandF Ack 0)}
 		     {Place N+1}
 		  end
 	       end
@@ -156,16 +169,13 @@ in
    Map = Args.map
    MapHeight = {Width Map}
    MapWidth = {Width Map.1}
-   % Arguments of the game
-   X_init = 1%%
-   Y_init = 7%%
-   F_init = [1 0]%%
-   NWantedObjects = Config.nWantedObjects %%
-   NBullets = Config.nBullets %%
-   NZombies = Config.nZombies %%
+   {FindDoor Map X_init Y_init F_init}
+   NWantedObjects = Args.item
+   NBullets = Args.bullet
+   {CheckZombiesCount Map Args.zombie NZombies}
 
    /* Set up the GUI */
-   {GUI.initLayout Config.map GUI.window Config.bravePort GUI.grid GUI.gridHandle} %% map
+   {GUI.initLayout Map GUI.window Config.bravePort GUI.grid GUI.gridHandle}
    GUI.window = {QTk.build GUI.desc}
    {GUI.window set(title:"ZOMBIELAND")}
 
@@ -175,24 +185,24 @@ in
    for I in 1..MapHeight do
       Config.mapPorts.I = {MakeTuple r MapWidth}
       for J in 1..MapWidth do
-	 Config.mapPorts.I.J = {Cell.cellState I J state(nobody Config.map.I.J)} %%
+	 Config.mapPorts.I.J = {Cell.cellState I J state(nobody Map.I.J)}
       end
    end
    
    % Zombies
    Config.zombiesPorts = {MakeTuple zombiesPorts NZombies}
-   {PlaceZombies MapHeight MapWidth}
+   {PlaceZombies MapHeight MapWidth X_init Y_init F_init NZombies}
 
    % Controller
    Config.controllerPort = {Controller.controllerState state(brave NZombies Config.zombiesPorts 0)}
 
    % Brave
    local Ack in
-      {Send Config.mapPorts.X_init.Y_init brave(enter F_init Config.nBullets)}  %%
+      {Send Config.mapPorts.X_init.Y_init brave(enter F_init NBullets)}
    end
-   {GUI.drawCell brave X_init Y_init}
-   Config.bravePort = {Brave.braveState state(yourturn X_init Y_init F_init 5 Config.nAllowedMovesB Config.nBullets 0 0)}
+   {GUI.drawCellBis brave X_init Y_init F_init}
+   Config.bravePort = {Brave.braveState state(yourturn X_init Y_init F_init 5 Config.nAllowedMovesB NBullets 0 0)}
 
-   % Display the game
+   /* Display the game */
    {GUI.window show}
 end

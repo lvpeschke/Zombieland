@@ -1,3 +1,7 @@
+%%%%%%%%%%%%%%%%%%%%%
+%     THE CELL      %
+%%%%%%%%%%%%%%%%%%%%%
+
 functor
 import
    Application %%

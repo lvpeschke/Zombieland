@@ -11,18 +11,17 @@ import
 export
    /* Variables */
    Window
-   Desc % GUI description
+   Desc
    Grid
    GridHandle
 
    /* Procedures */
    InitLayout % initialize layout and bind keys to player
-   
+
    DrawCell % update a cell image
-   DrawCellBis
+   DrawCellBis % update a cell image for a player
    
    UpdateBulletsCount % update bullets count for GUI
-   %UpdateItemsCount % update collected items count for GUI %% ENlEVER
    UpdateCollectedItemsCount % update collected items count for GUI
    UpdateMovesCount % update moves left for GUI
 
@@ -34,13 +33,11 @@ define
    CD = {OS.getCWD}#'/images2'
    
    % Images
-   Brave = {QTk.newImage photo(file:CD#'/floor_merida_right.gif')} %%
    Bullets = {QTk.newImage photo(file:CD#'/floor_arrows.gif')}
    Floor = {QTk.newImage photo(file:CD#'/floor.gif')}
    Food = {QTk.newImage photo(file:CD#'/floor_food.gif')}
    Medicine = {QTk.newImage photo(file:CD#'/floor_pills.gif')}
    Wall = {QTk.newImage photo(file:CD#'/wall.gif')}
-   Zombie = {QTk.newImage photo(file:CD#'/floor_bear_left.gif')} %%
    Door = {QTk.newImage photo(file:CD#'/door.gif')}
    Unknown = {QTk.newImage photo(file:CD#'/unknown.gif')}
 
@@ -66,7 +63,6 @@ define
    %Zombie + Food
    %Zombie + Medicine
    %Zombie + Bullets
-   % Food, Med, Bull alone
 
    Window
    Grid
@@ -129,15 +125,13 @@ define
 	    )
 
    % Transforms a number to the corresponding GUI image
-   fun {NumberToImage Number} %% A METTRE A JOUR
+   fun {NumberToImage Number}
       if Number == 0 then Floor
       elseif Number == 1 then Wall
       elseif Number == 2 then Bullets
       elseif Number == 3 then Food
       elseif Number == 4 then Medicine
       elseif Number == 5 then Door
-      elseif Number == brave then Brave
-      elseif Number == zombie then Zombie
       else Unknown
       end
    end
@@ -149,6 +143,7 @@ define
       {GridHandle.Y.X set(image:Image)} 
    end
 
+   % Sets up a cell with an image for a player, given a certain direction
    proc {DrawCellBis Number Y X F}
       Image
    in
@@ -194,7 +189,7 @@ define
 
    % Sets actions for the arrow keys
    proc {BindArrowKeysToPlayer Window BravePort}
-      {Window bind(event:"<Up>" action:proc{$} {Send BravePort move([~1 0])} end)} %%% TODO VERIFIER LES MESSAGES
+      {Window bind(event:"<Up>" action:proc{$} {Send BravePort move([~1 0])} end)}
       {Window bind(event:"<Left>" action:proc{$} {Send BravePort move([0 ~1])} end)}
       {Window bind(event:"<Down>" action:proc{$} {Send BravePort move([1 0])}  end)}
       {Window bind(event:"<Right>" action:proc{$} {Send BravePort move([0 1])} end)}
@@ -226,8 +221,8 @@ define
    end
 
    % Sets the GUI for an end of game
-   proc {EndOfGame Issue WinToClose}
-      {WinToClose close}
+   proc {EndOfGame Issue}
+      {Window close}
       NewDesc NewWin Image Text in
       case Issue
       of win then
@@ -241,7 +236,7 @@ define
       NewDesc = td(label(image: Image)
 		   lr(button(
 			 text:"New game ?"  
-			 action: proc {$} {NewWin close} end %%
+			 action: proc {$} {Application.exit 0} end %%
 			 glue:s)
 		      button(
 			 text:"Quit"
