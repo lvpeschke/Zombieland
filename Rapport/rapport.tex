@@ -87,7 +87,7 @@
 \end{figure}
 
 
-\emph{\textbf{Abstract} Following an explosion of secret U.S. government laboratories, fast and fearless living beings have invaded the planet and have a thirst for human blood. Few survivors are hiding in a secret place but they are starting to run out victuals. A "brave" has been designated to collect some victuals. To assist him in this task, we implemented a simulator that will help him to take into account all the possible unexpected events. Indeed, zombies have been studied for a while so we can precisely tell you how they move and behave...}\\[0.9cm]
+\emph{\textbf{Abstract} Following an explosion of secret U.S. government laboratories, fast and fearless living beings with a thirst for human blood have invaded the planet. Few survivors have been hiding in a secret place, but they are starting to run out of victuals. A ``brave'' has been designated to collect some. To assist him in this task, we have implemented a simulator that will help him to take all the possible unexpected events into account. Zombies have indeed been studied for a while, so that we are now able to precisely tell you how they move and behave...}\\[0.9cm]
 
 
 %	AUTHOR SECTION
@@ -137,21 +137,21 @@
 
 \section*{The game}
 
-The room the brave has to enter in contains food, medicine and packs of three bullets. He can kill a zombie with one bullet and can only leave the room if he has collected a certain number of objects (i.e. food + medicine). Our simulator has four arguments : the map of the room, the number of bullets he has with him at the beginning, the percentage of the objects in the room he has the collect and the number of zombies in the room (default values are used if the user does not precise any value).
+The room the brave has to enter contains food, medicine and packs of three bullets. He can kill a zombie with one bullet and can only leave the room if he has collected a certain number of objects (i.e. food + medicine). Our simulator takes four arguments : the map of the room, the number of bullets the brave initially has with him, the percentage of the objects in the room he has the collect and the number of zombies present (default values are used if the user does give any input).
 
-\paragraph{Percentage of objects} If this percentage is smaller than 0 (resp. bigger than $100$), we transform it into zero (resp. $100$).
+\paragraph{Percentage of objects} If the percentage is $< 0$ (resp. $ > 100$), we transform it into $0$ (resp. $100$).
 
-\paragraph{Number of zombies} We decided to limit the number of zombies to the number of empty spaces in the map because it would be suicidal to enter in a room with more zombies. Though, the zombie can still stand on a cell containing an item. 
+\paragraph{Number of zombies} We have decided to limit the number of zombies to the number of empty cells on the map, because it would be suicidal to enter a room with more zombies. The zombies can nonetheless still stand on a cell containing an item. 
 
-\paragraph{Moves} The brave and the zombies are moving one after another. When the brave has make $2$ moves, all the zombies can make $3$ move at the same time and when they are done the brave can already move. Displacements and pickups are considered as moves while killing is not. We decided that the zombies destroy an item on in five when then can. 
+\paragraph{Moves} The brave and the zombies are moving one after another. When the brave has made $2$ moves, all of the zombies can make $3$ moves at the same time and, when they are done, the brave can move again. Displacements and pickups are considered as moves while killing is not. We decided that the zombies destroy an item $20\%$ of the time when they can. 
 
-\paragraph{Pickups} If the brave couldn't reach the number of objects needed (because the zombies have destroyed some) then the brave automatically loses. 
+\paragraph{Pickups} If the the number of objects needed to leave the room is out of reach for the brave (because the zombies have destroyed some), the brave automatically loses. 
 
 \paragraph{Kills} A brave automatically kills a zombie if he has at least one bullet and if the zombie his in the cell in front of him. However, if he is running out of bullets and if the zombie is facing him, the zombie will automatically kill him. Furthermore, the zombie automatically kills the brave if the brave is in the cell in front of him and isn't facing him.
 
 \section{Architecture and design}
 
-We identified some port objects that we would need. The main ones are the brave and the zombies (one port object per zombie). To interact with the map, we also decided to create one port object for each cell because it was quite effective. To manage the turns of the brave and the zombies, we also created a controller. The functions relative the each entities are in separated files. We also have a file for the management of the GUI and a file for the launch of the game. To implement the interactions between all the entities, we made state diagrams. Since the codes of the port objects are quite self speaking and always following the same pattern (nb : we also sometimes used unbounded variables to avoid to send messages)
+We have identified some port objects that we would need. The main ones are the brave and the zombies, with one port object per zombie. To interact with the map, we also decided to create one port object per cell because it was a quite effective approach. To manage and synchronize the turns of the brave and the zombies, we also created a controller. The functions relative the each entities are located in separated files. Furthermore, we have a file for the GUI and a file for the launch of the game. To implement the interactions between all these entities, we made a component and several state diagrams. Since the codes of the port objects are quite self speaking and always following the same pattern (nb : we also sometimes used unbounded variables to avoid to send messages)
 \begin{lstlisting}[basicstyle=\ttfamily\footnotesize]
 case Mode
 of Mode_1 then ...
