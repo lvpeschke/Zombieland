@@ -48,7 +48,9 @@ define
    Basket =  {QTk.newImage photo(file:CD#'/basket.gif')}
    
    % The zombies
-   ZombieBurn = {QTk.newImage photo(file:CD#'/unknown.gif')}
+   ZombieBurn1 = {QTk.newImage photo(file:CD#'/zombieburn1.gif')}
+   ZombieBurn2 = {QTk.newImage photo(file:CD#'/zombieburn2.gif')}
+   ZombieBurn3 = {QTk.newImage photo(file:CD#'/zombieburn3.gif')}
    
    ZombieHaut = {QTk.newImage photo(file:CD#'/ZombieHaut.gif')}
    ZombieBas = {QTk.newImage photo(file:CD#'/ZombieBas.gif')}
@@ -160,7 +162,9 @@ define
       elseif Number == 3 then Food
       elseif Number == 4 then Medicine
       elseif Number == 5 then Door
-      elseif Number == zombieburn then ZombieBurn
+      elseif Number == zombieburn1 then ZombieBurn1
+      elseif Number == zombieburn2 then ZombieBurn2
+      elseif Number == zombieburn3 then ZombieBurn3
       else Unknown
       end
    end

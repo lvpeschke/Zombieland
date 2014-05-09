@@ -34,8 +34,8 @@ define
    Y_init % the initial position
    F_init % the initial facing
    NWantedObjects % the number of objects the player has to collect
-   NBullets % the initial number of bullets  
-   NZombies % the initial number of zombies in the room
+   NBullets % the initial number of bullets
+   NZombies
 
    /* Procedures */
    % Input arguments
@@ -43,9 +43,9 @@ define
    Args = {Application.getArgs
 	   record(
 	      map(single char:&m type:atom default:'map_test.ozp')
-	      zombie(single char:&s type:int default:Config.nZombies)
-	      item(single char:&b type:int default:Config.nWantedObjects) 
-	      bullet(single char:&n type:int default:Config.nBullets) 
+	      zombie(single char:&s type:int default:Config.nZombiesDefault)
+	      item(single char:&b type:int default:Config.nWantedObjectsDefault) 
+	      bullet(single char:&n type:int default:Config.nBulletsDefault) 
 	      help(single char:[&? &h] default:false)
 	      )}
 
@@ -188,9 +188,12 @@ in
       MapWidth = {Width Map.1}
       {FindDoor Map X_init Y_init F_init}
       EmptyCount#ItemsCount = {DecryptMap Map} {System.show EmptyCount#ItemsCount}
-      NWantedObjects = Args.item
-      NBullets = Args.bullet
-      {CheckZombiesCount EmptyCount Args.zombie NZombies}
+      Config.nWantedObjects = Args.item
+      NWantedObjects = Config.nWantedObjects
+      Config.nBullets = Args.bullet
+      NBullets = Config.nBullets
+      {CheckZombiesCount EmptyCount Args.zombie Config.nZombies}
+      NZombies = Config.nZombies
 
       /* Set up the GUI */
       {GUI.initLayout Map Window Config.bravePort GUI.grid GUI.gridHandle}

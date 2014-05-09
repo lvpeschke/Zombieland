@@ -6,9 +6,12 @@ export
    /* Variables */
    % Default
    Map % the default map of the room to be displayed
-   NWantedObjects % the default number of objects the player has to collect
-   NBullets % the default initial number of bullets  
-   NZombies % the default initial number of zombies in the room
+   NWantedObjectsDefault % the default number of objects the player has to collect
+   NBulletsDefault % the default initial number of bullets  
+   NZombiesDefault % the default initial number of zombies in the room
+   NWantedObjects
+   NBullets
+   NZombies
    
    % Turns
    % 1 move = move 1 cell (no diagonal) OR pick up 1 item
@@ -49,9 +52,12 @@ define
 	    r(1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1)
 	    )
 
-   NWantedObjects = 3
-   NZombies = 10
-   NBullets = 3
+   NWantedObjectsDefault = 3
+   NWantedObjects
+   NZombiesDefault = 10
+   NZombies
+   NBulletsDefault = 3
+   NBullets
    
    NAllowedMovesB = 2
    NAllowedMovesZ = 3
