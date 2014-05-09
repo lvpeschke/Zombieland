@@ -151,7 +151,9 @@ The room the brave has to enter contains food, medicine and packs of three bulle
 
 \section{Architecture and design}
 
-We have identified some port objects that we would need. The main ones are the brave and the zombies, with one port object per zombie. To interact with the map, we also decided to create one port object per cell because it was a quite effective approach. To manage and synchronize the turns of the brave and the zombies, we also created a controller. The functions relative the each entities are located in separated files. Furthermore, we have a file for the GUI and a file for the launch of the game. To implement the interactions between all these entities, we made a component and several state diagrams. Since the codes of the port objects are quite self speaking and always following the same pattern (nb : we also sometimes used unbounded variables to avoid to send messages)
+We have identified some port objects that we would need. The main ones are the brave and the zombies, with one port object per zombie. To interact with the map, we also decided to create one port object per cell because it was a quite effective approach. To manage and synchronize the turns of the brave and the zombies, we also created a controller. The functions relative the each entities are located in separated files. Furthermore, we have a file for the GUI and a file for the launch of the game. To implement the interactions between all these entities, we made a component and several state diagrams. Since the codes of the port objects are quite self speaking and always following the same pattern  we will only briefly describe what each port object does (NB : we also sometimes used unbound variables to enforce atomicity in the interaction).
+
+Here is the pattern :
 \begin{lstlisting}[basicstyle=\ttfamily\footnotesize]
 case Mode
 of Mode_1 then ...
@@ -159,24 +161,24 @@ of Mode_1 then ...
 	of Msg_1 then ....
 	...
 	[] Msg_n then ...
-	else we ignore the message but it never happens
+	else we ignore the message, but it never happens
 	end
 ...	
 [] Mode_m then ...
-else we ignore the message but it never happens
-end,
+else we ignore the message, but it never happens
+end
 \end{lstlisting}
-we will only briefly describe what each port object does. 
+ 
 	
-We decided that the ports of the controller, the cells and the brave are known by everybody. All the ports of the zombies are known by the controller and a cell knows the port of a zombie that is one it.
+We have decided to make the ports of the controller, the cells and the brave known by everybody. All of the zombie's ports are known by the controller, and a cell knows the port of a zombie that is one it.
 
-\subsection{Controller}
-The controller has to say to the brave and to the zombies when it is their turn. He knows when a zombie is dead so he doesn't warn him in this case.  He also has to say when the brave couldn't win because there are to few objects left in the room. 
+\paragraph{Controller}
+The controller has to tell the brave and to the zombies when it is their turn. It knows when a zombie is dead, so it doesn't warn him in this case.  It also has to decide when the brave couldn't win anymore because there are to few objects left in the room. 
 
-\subsection{Cell}
-The room is a grid of cell. Each cell knows which item and person is on it. If it is a brave, it knows his facing direction and the number of bullets he has (it is important for the management of the kills). If it is a zombie, it knows his facing direction and his port (also important for the kills).
+\paragraph{Cell}
+The room is a grid of cells. Each cell knows which item and person is on it. If it is the brave, it knows his facing direction and the number of bullets he has (this is important for the management of the kills). If it hosts a zombie, it knows his facing direction and his port (also important for the kills).
 
-\subsection{Brave}
+\paragraph{Brave}
 depends on the player
 
 no shooting
@@ -189,7 +191,7 @@ door enabled if count equal or superior to goal
 
 3 times : scout + enter + quit
 
-\subsection{Zombies}
+\paragraph{Zombies}
 AI : try moving 3 turns in the same direction, destroy objects 20 \% of the time, change direction randomly if obstacle. If brave, attempt to kill her.
 
 2 times : enter + quit, to avoid overlap between zombies playing in the same turn
