@@ -143,11 +143,11 @@ The room the brave has to enter contains food, medicine and packs of three bulle
 
 \paragraph{Number of zombies} We have decided to limit the number of zombies to the number of empty cells on the map, because it would be suicidal to enter a room with more zombies. The zombies can nonetheless still stand on a cell containing an item. 
 
-\paragraph{Moves} The brave and the zombies are moving one after another. When the brave has made $2$ moves, all of the zombies can make $3$ moves at the same time and, when they are done, the brave can move again. Displacements and pickups are considered as moves while killing is not. We decided that the zombies destroy an item $20\%$ of the time when they can. 
+\paragraph{Moves} The brave and the zombies are moving one after another. When the brave has made $2$ moves, all of the zombies can make $3$ moves at the same time and, when they are done, the brave can move again. Displacements and pickups are considered as moves while killing is not. Zombies and brave cannot overlap.
 
 \paragraph{Pickups} If the the number of objects needed to leave the room is out of reach for the brave (because the zombies have destroyed some), the brave automatically loses. 
 
-\paragraph{Kills} A brave automatically kills a zombie if he has at least one bullet and if the zombie his in the cell in front of him. However, if he is running out of bullets and if the zombie is facing him, the zombie will automatically kill him. Furthermore, the zombie automatically kills the brave if the brave is in the cell in front of him and isn't facing him.
+\paragraph{Kills} \label {kills} A brave automatically kills a zombie if he has at least one bullet and if the zombie his in the cell in front of him. However, if he is running out of bullets and if the zombie is facing him, the zombie will automatically kill him. Furthermore, the zombie automatically kills the brave if the brave is in the cell in front of him and isn't facing him.
 
 \section{Architecture and design}
 
@@ -171,29 +171,16 @@ we will only briefly describe what each port object does.
 We decided that the ports of the controller, the cells and the brave are known by everybody. All the ports of the zombies are known by the controller and a cell knows the port of a zombie that is one it.
 
 \subsection{Controller}
-The controller has to say to the brave and to the zombies when it is their turn. He knows when a zombie is dead so he doesn't warn him in this case.  He also has to say when the brave couldn't win because there are to few objects left in the room. 
+The controller has to say to the brave and to the zombies when it is their turn. He knows when a zombie is dead so he doesn't warn him in this case.  He also has to say when the brave couldn't win because there are to few objects left in the room. It also displays an open door if the brave has collected all the objects he needs.
 
 \subsection{Cell}
-The room is a grid of cell. Each cell knows which item and person is on it. If it is a brave, it knows his facing direction and the number of bullets he has (it is important for the management of the kills). If it is a zombie, it knows his facing direction and his port (also important for the kills).
+The room is a grid of cells. Each cell knows which item and person is on it. If it is a brave, it knows his facing direction and the number of bullets he has (it is important for the management of the kills). If it is a zombie, it knows his facing direction and his port (also important for the kills).
 
 \subsection{Brave}
-depends on the player
-
-no shooting
-
-bullets no items, because of combats
-
-no mandatory taking
-
-door enabled if count equal or superior to goal
-
-3 times : scout + enter + quit
+The brave knows his position, the number of each items he has, the item on the cell he stands and the actions he can still do before the zombies move. He receives the messages from the keyboard and, if he can, moves and updates what has to be updated. He warns when he enters in a cell and if he leaves one. He also notice the controller when he's done and when he has picked up some objects. The pickups aren't mandatory, the player has the say if he really wants to pickup an object. After each move, he calls a functions that makes all the needed kills. For that, we check if there is a zombie in front, at his left or at his right and if the dead conditions are verified (see \ref{kills}). 
 
 \subsection{Zombies}
-AI : try moving 3 turns in the same direction, destroy objects 20 \% of the time, change direction randomly if obstacle. If brave, attempt to kill her.
-
-2 times : enter + quit, to avoid overlap between zombies playing in the same turn
-
+A zombie know his position, the item on the cell he stands and the actions he can still do before the brave moves. He automatically try to move : he goes in the same direction unless he encounters an obstacle. In this case, he randomly change his direction. If after $15$ he hasn't found a valid direction, a pass his turn. He also warns a cell when he enters in it or leave it. He also notice the controller when he's done and when he has picked up some objects. We decided that the zombies destroy an item $20\%$ of the time when they can. After each move, he also calls a function that makes all the needed kills.
 
 \section{Concurrency issues}
 synchronization of the turns between the brave and the zombies
