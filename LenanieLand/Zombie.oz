@@ -60,7 +60,7 @@ define
    % Otherwise, you win
    proc {CheckKill X Y F ZombieNumber ?Killed}
       {System.show 'Zombie : checkkill'}
-      local FF FL FR AckF AckL AckR BraveF K1 K2 K3 in
+      local FF FL FR AckF AckL AckR K1 K2 K3 in
 	 FF = [~F.1 ~F.2.1]
 	 FL = {Config.left F} {System.show ''#F#'left'#FL}
 	 FR = {Config.right F} {System.show ''#F#'right'#FR}
@@ -158,7 +158,7 @@ define
 
 		    % You can do something   
 		    of go then
-		       local Facing NBullets Killed in
+		       local Killed in
 			  % First you check if someobody has to be killed
 			  {CheckKill Line Col F ZombieNumber Killed}
 

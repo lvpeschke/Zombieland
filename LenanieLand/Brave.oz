@@ -4,8 +4,6 @@
 
 functor
 import
-   Application
-   OS
    System %%
    
    % Our functors
@@ -22,7 +20,7 @@ define
       
       {System.show 'Brave : checkkill'}
       
-      local FF FL FR AckF AckL AckR ZombieF in
+      local FF FL FR AckF AckL AckR in
 	 % Checks if there is a zombie in front of the brave
 	 FF = [~F.1 ~F.2.1]
 	 FL = {Config.left F} {System.show ''#F#'left'#FL}

@@ -3,15 +3,14 @@ TO DO LIST
 
 - Controller gameover -> Lena
 
-
 - Plusieurs vies (assez facile : juste un truc en plus dans l'état du brave) -> MELANIE
 -> IMAGE LENA : coeur
 
+- Ouvrir la porte quand on a assez d'objets -> LENA	
 
+- Les waits sans qu'un bloque les autres
+- Checker les warning
 - Virer tous les debug
 - Rendre le code plus propre
 
 !!!ECRIRE LE RAPPORT!!!
-
-- Les waits sans qu'un bloque les autres
-- Checker les warning
