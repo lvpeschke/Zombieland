@@ -137,7 +137,7 @@
 
 \section{The game}
 
-The room the brave has to enter contains food, medicine and packs of three bullets. He can kill a zombie with one bullet and can only leave the room if he has collected a certain number of objects (i.e. food + medicine). Our simulator takes four arguments : the map of the room, the number of bullets the brave initially has with him, the percentage of the objects in the room he has the collect and the number of zombies present (default values are used if the user does give any input).
+The room the brave has to enter contains food, medicine and packs of three bullets. He can kill a zombie with one bullet and can only leave the room if he has collected a certain number of objects (i.e. food + medicine). Our simulator takes four arguments : the map of the room, the number of bullets the brave initially has with him, the percentage of the objects in the room he has the collect and the number of zombies present (default values are used if the user doesn't give any input).
 
 \paragraph{Percentage of objects} If the percentage is $< 0$ (resp. $ > 100$), we transform it into $0$ (resp. $100$).
 
@@ -173,7 +173,7 @@ end
 We have decided to make the ports of the controller, the cells and the brave known by everybody. All of the zombie's ports are known by the controller, and a cell knows the port of a zombie that is one it.
 
 \paragraph{Controller}
-The controller has to tell the brave and to the zombies when it is their turn. It knows when a zombie is dead, so it doesn't warn him in this case.  It also has to decide when the brave couldn't win anymore because there are to few objects left in the room. 
+The controller has to tell to the brave and to the zombies when it is their turn. It is either the turn of the brave either the turn of the zombies. When the brave is done, he sends a message to all the zombies saying that they can now move. The zombies warn him when they are done. When he has received the messages of all the living zombies, he lets the brave play and so on. It also has to decide when the brave couldn't win anymore because there are to few objects left in the room. 
 
 \paragraph{Cell}
 The room is a grid of cells. Each cell knows which item and person is on it. If it is the brave, it knows his facing direction and the number of bullets he has (this is important for the management of the kills). If it hosts a zombie, it knows his facing direction and his port (also important for the kills).
