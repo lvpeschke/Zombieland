@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2014.4.27)  9 MAY 2014 23:56
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2014.4.27)  10 MAY 2014 00:00
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -892,7 +892,7 @@ LaTeX Info: Redefining \nameref on input line 57.
 \openout3 = `rapport.out'.
 
 
-<screenshot.PNG, id=16, 894.34125pt x 659.46375pt>
+<screenshot.PNG, id=12, 894.34125pt x 659.46375pt>
 File: screenshot.PNG Graphic file (type png)
  <use screenshot.PNG>
 Package pdftex.def Info: screenshot.PNG used on input line 85.
@@ -958,45 +958,35 @@ Package atveryend Info: Empty hook `AfterLastShipout' on input line 193.
  (./rapport.aux)
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 193.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 193.
-
-
-Package rerunfilecheck Warning: File `rapport.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
-
-Package rerunfilecheck Info: Checksums for `rapport.out':
-(rerunfilecheck)             Before: CD5B1249C1406B3E7759C0C722AFA8CC;149
-(rerunfilecheck)             After:  1E394BD9419E68CCDDD1057DBE995CEF;101.
+Package rerunfilecheck Info: File `rapport.out' has not changed.
+(rerunfilecheck)             Checksum: 1E394BD9419E68CCDDD1057DBE995CEF;101.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 193.
  ) 
 Here is how much of TeX's memory you used:
- 11192 strings out of 493308
- 161743 string characters out of 6137816
+ 11190 strings out of 493308
+ 161723 string characters out of 6137816
  286289 words of memory out of 5000000
- 14417 multiletter control sequences out of 15000+600000
+ 14416 multiletter control sequences out of 15000+600000
  68230 words of font info for 58 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
  36i,6n,43p,867b,1048s stack positions out of 5000i,500n,10000p,200000b,80000s
-pdfTeX warning (dest): name{section.3} has been referenced but does not exist
-, replaced by a fixed one
-
-{/usr/local/texlive/2013/texmf-dist/fonts/enc/dvips/base/8r.enc}{/usr/local/tex
-live/2013/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc}{/usr/local/texlive/2013/texm
-f-dist/fonts/enc/dvips/lm/lm-mathit.enc}{/usr/local/texlive/2013/texmf-dist/fon
-ts/enc/dvips/lm/lm-ec.enc}</usr/local/texlive/2013/texmf-dist/fonts/type1/publi
-c/lm/lmbx10.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/public/lm/lmbx1
-2.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/public/lm/lmbxi10.pfb></u
-sr/local/texlive/2013/texmf-dist/fonts/type1/public/lm/lmcsc10.pfb></usr/local/
-texlive/2013/texmf-dist/fonts/type1/public/lm/lmmi10.pfb></usr/local/texlive/20
-13/texmf-dist/fonts/type1/public/lm/lmr10.pfb></usr/local/texlive/2013/texmf-di
-st/fonts/type1/public/lm/lmr12.pfb></usr/local/texlive/2013/texmf-dist/fonts/ty
-pe1/public/lm/lmri10.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/public
-/lm/lmri12.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/urw/courier/ucrr
-8a.pfb>
-Output written on rapport.pdf (3 pages, 353817 bytes).
+{/usr/local/texlive/2013/texmf-dist/fonts/enc/dvips/base/8r.enc}{/usr/local/t
+exlive/2013/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc}{/usr/local/texlive/2013/te
+xmf-dist/fonts/enc/dvips/lm/lm-mathit.enc}{/usr/local/texlive/2013/texmf-dist/f
+onts/enc/dvips/lm/lm-ec.enc}</usr/local/texlive/2013/texmf-dist/fonts/type1/pub
+lic/lm/lmbx10.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/public/lm/lmb
+x12.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/public/lm/lmbxi10.pfb><
+/usr/local/texlive/2013/texmf-dist/fonts/type1/public/lm/lmcsc10.pfb></usr/loca
+l/texlive/2013/texmf-dist/fonts/type1/public/lm/lmmi10.pfb></usr/local/texlive/
+2013/texmf-dist/fonts/type1/public/lm/lmr10.pfb></usr/local/texlive/2013/texmf-
+dist/fonts/type1/public/lm/lmr12.pfb></usr/local/texlive/2013/texmf-dist/fonts/
+type1/public/lm/lmri10.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/publ
+ic/lm/lmri12.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/urw/courier/uc
+rr8a.pfb>
+Output written on rapport.pdf (3 pages, 353380 bytes).
 PDF statistics:
- 114 PDF objects out of 1000 (max. 8388607)
- 96 compressed objects within 1 object stream
- 31 named destinations out of 1000 (max. 500000)
- 30 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 109 PDF objects out of 1000 (max. 8388607)
+ 91 compressed objects within 1 object stream
+ 30 named destinations out of 1000 (max. 500000)
+ 22 words of extra memory for PDF output out of 10000 (max. 10000000)
 
