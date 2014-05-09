@@ -1,10 +1,13 @@
 TO DO LIST
 ——————————
 
-- Plusieurs vies (assez facile : juste un truc en plus dans l'état du brave) -> MELANIE
--> IMAGE LENA : coeur
-
 - Virer tous les debug
 - Rendre le code plus propre : se mettre d'accord pour messages interdits
+- Fermer les fenêtres sinon c'est chiant
 
 !!!ECRIRE LE RAPPORT!!!
+
+- Eventuellement si on on a le temps
+	- Makefile help
+	- superposer zombieburn & objects, door et le brave
+	

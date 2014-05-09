@@ -131,6 +131,7 @@ define
 
 		   [] updateNBullets then
 		      {GUI.updateBulletsCount NBullets-1}
+		      {Send Config.mapPorts.X.Y decreaseNBullets}
 		      state(Mode X Y F Item ActionsLeft NBullets-1 NFood NMedicine)
 		   
 		 % A SUPPRIMER
@@ -153,7 +154,11 @@ define
 
 			 % If you can go to the next cell, you do
 			 if Ack == 0 orelse Ack == 2 orelse Ack == 3 orelse Ack == 4 then
-			    {GUI.drawCell Item X Y}
+			    if Item == 5 andthen Config.nWantedObjects == 0 then
+			       {GUI.drawCell opendoor X Y}
+			    else
+			       {GUI.drawCell Item X Y}
+			    end
 			    {Send Config.mapPorts.X.Y brave(quit)}
 			    {GUI.drawCellBis Ack brave NewX NewY NewF}
 			    {Send Config.mapPorts.NewX.NewY brave(enter NewF NBullets)}
@@ -192,6 +197,7 @@ define
 		      {Send Config.mapPorts.X.Y brave(pickup)}
 		       
 		      if Item == 2 then
+			 {Send Config.controllerPort destroy(brave)}
 			 {GUI.drawCellBis 0 brave X Y F}
 			 if ActionsLeft == 1 then
 			    {GUI.updateBulletsCount NBullets+3}
@@ -207,6 +213,7 @@ define
 			 end
 			  
 		      elseif Item == 3 then
+			 {Send Config.controllerPort destroy(brave)}
 			 {GUI.drawCellBis 0 brave X Y F}
 			 if ActionsLeft == 1 then
 			    {Send Config.controllerPort finish(brave)}
@@ -222,6 +229,7 @@ define
 			 end
 			 
 		      elseif Item == 4 then
+			 {Send Config.controllerPort destroy(brave)}
 			 {GUI.drawCellBis 0 brave X Y F}
 			 if ActionsLeft == 1 then
 			    {Send Config.controllerPort finish(brave)}
@@ -252,6 +260,7 @@ define
 		   % You killed a zombie, you lost one bullet   
 		   [] updateNBullets then
 		      {GUI.updateBulletsCount NBullets-1}
+		      {Send Config.mapPorts.X.Y decreaseNBullets}
 		      state(Mode X Y F Item ActionsLeft NBullets-1 NFood NMedicine)
 		      
 		   else

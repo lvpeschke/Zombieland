@@ -142,6 +142,7 @@ define
 	       RandX = ({OS.rand} mod Height)+1
 	       RandY = ({OS.rand} mod Width)+1
 	       RandF = {Config.randFacing}
+	       
 	       if (RandX == X_init+(F_init.1) andthen
 		   RandY == Y_init+(F_init.2.1)) then
 		  {Place N}

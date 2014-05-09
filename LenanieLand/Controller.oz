@@ -39,8 +39,9 @@ define
 		    end
 
 		 [] destroy(brave) then
+		    {System.show 'Controller : destroy(brave)'#ItemsGoal}
 		    if ItemsGoal-1 == 0 then
-		       {GUI.drawCell openDoor IDoor JDoor}
+		       {GUI.drawCell opendoor IDoor JDoor}
 		    end
 		    if ItemsGoal-1 > ItemsLeft-1 then % should not happen!!
 		       {System.show 'Controller 46 '#'erreur :le brave s est fait avoir...'}
@@ -95,7 +96,7 @@ define
 		 [] destroy(zombie) then
 		    if ItemsGoal == 0 then
 		       {System.show 'Controller 100 '#'erreur : les zombies se font avoir...'}
-		       {GUI.drawCell openDoor IDoor JDoor}
+		       {GUI.drawCell opendoor IDoor JDoor}
 		    end
 		    if ItemsGoal > ItemsLeft-1 then
 		       {GUI.endOfGame lose}
@@ -110,6 +111,7 @@ define
 
 		 [] destroy(brave) then
 		    {System.show 'Controller 103 '#'erreur : destroy(brave) alors qu on est en mode zombie'}
+		    if ItemsGoal==1 then {GUI.drawCell opendoor IDoor JDoor} end
 		    state(Mode NZombies ZombiesPorts NResponses ItemsGoal-1 ItemsLeft-1) %%	    
 		    
 		 [] kill(ZombieNumber) then

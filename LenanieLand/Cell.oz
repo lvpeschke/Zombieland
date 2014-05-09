@@ -105,6 +105,8 @@ define
 		       Ack = brave(F NBullets)
 		       state(Person Item)
 
+		    [] decreaseNBullets then
+		       state(brave(F NBullets-1) Item)
 		          
 		    [] brave(scout Ack) then
 		       {System.show 'Cell 84 : etat '#Person#', message '#Msg#' item '#Item}

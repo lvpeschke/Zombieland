@@ -40,6 +40,7 @@ define
    Wall = {QTk.newImage photo(file:CD#'/wall.gif')}
 
    Door = {QTk.newImage photo(file:CD#'/door.gif')}
+   OpenDoor = {QTk.newImage photo(file:CD#'/door_open2.gif')}
    Unknown = {QTk.newImage photo(file:CD#'/unknown.gif')}
 
    Youwin =  {QTk.newImage photo(file:CD#'/youwin.gif')}
@@ -124,7 +125,7 @@ define
 		   glue:nw)		   
 		lrline(glue:ew)
 		lr(label(image:Bullets)
-		   label(text:"Arrows left : ")
+		   label(text:"Fireballs left : ")
 		   label(init:Config.nBullets handle:BulletsCountHandle)
 		   glue:nw)		   
 		lrline(glue:ew)
@@ -162,6 +163,7 @@ define
       elseif Number == 3 then Food
       elseif Number == 4 then Medicine
       elseif Number == 5 then Door
+      elseif Number == opendoor then OpenDoor
       elseif Number == zombieburn1 then ZombieBurn1
       elseif Number == zombieburn2 then ZombieBurn2
       elseif Number == zombieburn3 then ZombieBurn3

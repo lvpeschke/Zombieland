@@ -139,11 +139,11 @@ define
 
 		    [] kill then
 		       {GUI.drawCell zombieburn1 Line Col}
-		       {Delay 100}
+		       {Delay 70}
 		       {GUI.drawCell zombieburn2 Line Col}
-		       {Delay 100}
+		       {Delay 70}
 		       {GUI.drawCell zombieburn3 Line Col}
-		       {Delay 100}
+		       {Delay 70}
 		       {GUI.drawCell Item Line Col}
 		       {Send Config.mapPorts.Line.Col zombie(quit)}
 		       {Send Config.controllerPort kill(ZombieNumber)}
@@ -222,11 +222,11 @@ define
 		    % Someone has killed you, you have to die   
 		    [] kill then
 		       {GUI.drawCell zombieburn1 Line Col}
-		       {Delay 100}
+		       {Delay 70}
 		       {GUI.drawCell zombieburn2 Line Col}
-		       {Delay 100}
+		       {Delay 70}
 		       {GUI.drawCell zombieburn3 Line Col}
-		       {Delay 100}
+		       {Delay 70}
 		       {GUI.drawCell Item Line Col}
 		       {Send Config.mapPorts.Line.Col zombie(quit)}
 		       {Send Config.controllerPort kill(ZombieNumber)}
