@@ -69,6 +69,7 @@ define
 	   proc {$} {Send Config.mapPorts.(X-FL.1).(Y-FL.2.1) zombie(scout AckL)} end
 	   proc {$} {Send Config.mapPorts.(X-FR.1).(Y-FR.2.1) zombie(scout AckR)} end]}
 	 {System.show ''#AckF#AckL#AckR}
+	 {System.show ''#(X-FF.1)#(Y-FF.2.1)#(X-FL.1)#(Y-FL.2.1)#(X-FR.1)#(Y-FR.2.1)}
 	 case AckF
 	 of brave(BraveF NBullets) then
 	    if BraveF == FF andthen NBullets>0 then

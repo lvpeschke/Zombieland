@@ -300,7 +300,7 @@ define
 	 
       NewDesc = td(label(image: Image)
 		      button(
-			 text:"Quit"
+			 text:"Quit        "
 			 action: proc {$} {Application.exit 0} end
 			 glue:s)
 		     )

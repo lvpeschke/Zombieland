@@ -91,15 +91,7 @@ define
 		 [] brave(F NBullets) then % brave on the cell
 		    case Msg
 		       
-		    of brave(scout Ack) then
-		       {System.show 'Cell 84 : etat '#Person#', message '#Msg#' item '#Item}
-		       Ack = ko
-		       state(Person Item) % skip
-
-		    [] brave(enter) then
-		       state(Person Item) % skip
-		       
-		    [] brave(pickup) then
+		    of brave(pickup) then
 		       if Item == 0 orelse Item == 1 orelse Item == 5 then % empty, wall or door
 			  state(Person Item) % skip
 		       else % bullets, food or med
@@ -113,6 +105,15 @@ define
 		       Ack = brave(F NBullets)
 		       state(Person Item)
 
+		          
+		    [] brave(scout Ack) then
+		       {System.show 'Cell 84 : etat '#Person#', message '#Msg#' item '#Item}
+		       Ack = ko
+		       state(Person Item) % skip
+
+		    [] brave(enter) then
+		       state(Person Item) % skip
+		       
 		    [] zombie(enter ZombiePort ZombieF Ack) then
 		       Ack = ko
 		       state(Person Item) % skip
