@@ -1,23 +1,16 @@
 TO DO LIST
 ——————————
 
-- Code : overlap objet personne -> MELANIE
-
-- Controller gameover -> Lena
-
-
 - Plusieurs vies (assez facile : juste un truc en plus dans l'état du brave) -> MELANIE
 -> IMAGE LENA : coeur
-
 
 - Virer tous les debug
 - Rendre le code plus propre
 
 !!!ECRIRE LE RAPPORT!!!
 
-
-- Fermer les ports?
 - Les waits sans qu'un bloque les autres
 
 
 state(Mode NZombies ZombiesPorts NResponses ItemsGoal ItemsLeft)
+
