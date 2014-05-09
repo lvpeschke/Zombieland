@@ -7,6 +7,7 @@ import
    Application
    OS
    System %%
+   
    % Our functors
    Config
    GUI
@@ -33,7 +34,10 @@ define
 	 case AckF
 	 of zombie(ZombiePort ZombieF) then
 	    % If NBullets==0, the brave dies, otherwise the zombie dies
-	    if ZombieF == FF andthen NBullets==0 then {System.show 'Face : Le brave est tue'} {Config.gameOver}
+	    if ZombieF == FF andthen NBullets==0 then
+	       {System.show 'Face : Le brave est tue'}
+	       %{Config.gameOver}
+	       {GUI.endOfGame lose}
 	    else
 	       {Send Config.bravePort updateNBullets}
 	       {System.show 'Face : Le zombie est tue'}
@@ -45,7 +49,7 @@ define
 
 	 % If the brave is not on a door, we have to check right and left
 	 % If there is a zombie looking towards the brave, the brave dies
-	 if Item\=5 then
+	 if Item \= 5 then
 	    {Send Config.mapPorts.(X-FL.1).(Y-FL.2.1) brave(tryenter AckL)} {System.show ''#X#Y#(X-FL.1)#(Y-FL.2.1)}
 	    {Send Config.mapPorts.(X-FR.1).(Y-FR.2.1) brave(tryenter AckR)} {System.show ''#X#Y#(X-FR.1)#(Y-FR.2.1)}
 	    % ATTENTION VA FALLOIR CHANGER CA POUR PAS QUE CA BLOQUE INUTILMENT
@@ -54,13 +58,21 @@ define
 	    {System.show ''#AckL#AckR}
 	    case AckL
 	    of zombie(ZombiePort ZombieF) then
-	       if ZombieF == FL then {System.show 'Face : Le brave est tue'} {Config.gameOver} end
+	       if ZombieF == FL then
+		  {System.show 'Face : Le brave est tue'}
+		  %{Config.gameOver}
+		  {GUI.endOfGame lose}
+	       end
 	    else
 	       skip
 	    end
 	    case AckR
 	    of zombie(ZombiePort ZombieF) then
-	       if ZombieF == FR then {System.show 'Face : Le brave est tue'} {Config.gameOver} end
+	       if ZombieF == FR then
+		  {System.show 'Face : Le brave est tue'}
+		  %{Config.gameOver}
+		  {GUI.endOfGame lose}
+	       end
 	    else
 	       skip
 	    end
@@ -98,7 +110,8 @@ define
 		      {GUI.drawCell Item X Y}
 		      {Send Config.mapPorts.X.Y brave(quit)}
 		      % et fermer port
-		      {Config.gameOver}
+		      %{Config.gameOver}
+		      {GUI.endOfGame lose}
 		      state(killed X Y F Item ActionsLeft NBullets NFood NMedicine)
 
 		   [] getFacingBullet(FacingBullets) then
@@ -128,7 +141,7 @@ define
 			 {Wait Ack}
 
 			 % If you can go to the next cell, you do
-			 if Ack==0 orelse Ack==2 orelse Ack==3 orelse Ack==4 then
+			 if Ack == 0 orelse Ack == 2 orelse Ack == 3 orelse Ack == 4 then
 			    {GUI.drawCell Item X Y}
 			    {Send Config.mapPorts.X.Y brave(quit)}
 			    {GUI.drawCellBis brave NewX NewY NewF}
@@ -146,9 +159,10 @@ define
 			    end
 
 			 % If it is a door, you have to be sure that you have enough objects
-			 elseif Ack==5 then
+			 elseif Ack == 5 then
 			    if NMedicine+NFood >= Config.nWantedObjects then
-			       {Config.success} % end of game
+			       %{Config.success} % end of game
+			       {GUI.endOfGame win}
 			        state(Mode X Y F Item ActionsLeft NBullets NFood NMedicine)
 			    else
 			       state(Mode X Y F Item ActionsLeft NBullets NFood NMedicine) % skip
@@ -217,7 +231,8 @@ define
 		      {GUI.drawCell Item X Y}
 		      {Send Config.mapPorts.X.Y brave(quit)}
 		      % et fermer port
-		      {Config.gameOver}
+		      %{Config.gameOver}
+		      {GUI.endOfGame lose}
 		      state(killed X Y F Item ActionsLeft NBullets NFood NMedicine)
 
 		   % You killed a zombie, you lost one bullet   

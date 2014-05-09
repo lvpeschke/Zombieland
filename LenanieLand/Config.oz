@@ -1,15 +1,13 @@
 functor
 import
    Application
+   OS
    System
    
 export
    /* Variables */
    % Default
    Map % the default map of the room to be displayed
-   X_INIT %%
-   Y_INIT %%
-   F_INIT %%
    NWantedObjects % the default number of objects the player has to collect
    NBullets % the default initial number of bullets  
    NZombies % the default initial number of zombies in the room
@@ -30,12 +28,10 @@ export
    NewPortObject
 
    % Moves
+   RandFacing
    NextCell
    Left
    Right
-
-   Success %%
-   GameOver %%
    
 define
    Map = map(
@@ -54,11 +50,7 @@ define
 	    r(1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1)
 	    )
 
-   X_INIT = 1 %%
-   Y_INIT = 7 %%
-   F_INIT = [1 0] %%
-
-   NWantedObjects = 2
+   NWantedObjects = 3
    NZombies = 10
    NBullets = 3
    
@@ -82,25 +74,24 @@ define
       thread {MsgLoop Sin Init} end
       {NewPort Sin}
    end
-
-   % Fail and success
-   proc {Success}
-      {System.show 'You win'}
-      {Application.exit 0}
-   end
-
-   proc {GameOver}
-      {System.show 'You loose'}
-      {Application.exit 0}
-   end
-
+   
    % Moves
+   fun {RandFacing}
+      local X in
+	 X = {OS.rand} mod 4
+	 if X == 0 then [~1 0]
+	 elseif X == 1 then [0 1]
+	 elseif X == 2 then [1 0]
+	 else [0 ~1] end
+      end
+    end
+    
    proc {NextCell F OldL OldC ?NewL ?NewC}
       [DLine DCol] = F in
       NewL = OldL+DLine
       NewC = OldC+DCol
    end
-    
+   
    fun {Right D}
       if D == [~1 0] then [0 ~1]
       elseif D == [0 ~1] then [1 0]

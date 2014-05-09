@@ -1,15 +1,7 @@
 TO DO LIST
 ——————————
 
-
-- Borner le nombre de zombies par le nombre de cases (vides)/2 (par exemple) -> LENA
 - Afficher quelque chose de spécial quand overlap object/brave or zombie -> LENA PHOTOS SPECIALES
-
-- Faire tourner les images des zombies et du brave pour bien voir quelle direction ils regardent —> prendre des images plus explicites -> LENA
-
-- Effets spéciaux quand on gagne et on perd -> LENA
-
-- Utiliser Args.map etc… partout!!! -> faire des global vars -> LENA
 
 
 - Plusieurs vies (assez facile : juste un truc en plus dans l'état du brave) -> MELANIE

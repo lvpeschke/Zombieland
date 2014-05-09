@@ -1,3 +1,7 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+%     THE CONTROLLER     %
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 functor
 import
    Application
@@ -7,6 +11,7 @@ import
    Config
  
    System %%
+   
 export
    ControllerState
    
