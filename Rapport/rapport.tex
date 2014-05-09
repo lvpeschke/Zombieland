@@ -10,7 +10,7 @@
 \usepackage{amssymb}
 \usepackage{graphicx}
 \usepackage{lmodern}
-\usepackage[left=2cm,right=2cm,top=2.2cm,bottom=2.2cm]{geometry}
+\usepackage[left=2.5cm,right=2.5cm,top=2.2cm,bottom=2.2cm]{geometry}
 
 \usepackage{fancyhdr} % Required for custom headers
 \usepackage{lastpage} % Required to determine the last page for the footer
@@ -173,7 +173,7 @@ end
 We have decided to make the ports of the controller, the cells and the brave known by everybody. All of the zombie's ports are known by the controller, and a cell knows the port of a zombie that is one it.
 
 \paragraph{Controller}
-The controller has to tell to the brave and to the zombies when it is their turn. It is either the turn of the brave either the turn of the zombies. When the brave is done, he sends a message to all the zombies saying that they can now move. The zombies warn him when they are done. When he has received the messages of all the living zombies, he lets the brave play and so on. It also has to decide when the brave couldn't win anymore because there are to few objects left in the room. 
+The controller has to tell to the brave and to the zombies when it is their turn. It is either the turn of the brave either the turn of the zombies. When the brave is done, he sends a message to all the zombies telling them that they can now move. The zombies warn him when they are done. When he has received the messages of all the living zombies, he lets the brave play and so on. It also has to decide when the brave couldn't win anymore because there are to few objects left in the room. 
 
 \paragraph{Cell}
 The room is a grid of cells. Each cell knows which item and person is on it. If it is the brave, it knows his facing direction and the number of bullets he has (this is important for the management of the kills). If it hosts a zombie, it knows his facing direction and his port (also important for the kills).
@@ -185,7 +185,7 @@ All the characters warn a cell when they enter or leave it. They also notice the
 The brave knows his position, the number of each items he possesses, the item on the cell he stands on and the actions he can still perform before the zombies move. He receives the messages from the keyboard and, if he can, moves and updates what has to be updated. The pickups aren't mandatory; the player has a say if he really wants to pickup an object.
 
 \paragraph{Zombies}
-A zombie know his position, the item on the cell he stands on and the actions he can still perform before the brave moves. He automatically tries to move : he takes the same direction as previously, unless he encounters an obstacle. In this case, he randomly changes his direction. If after $15$ time he hasn't found a valid direction, he passes his turn. We decided that the zombies destroy an item $20\%$ of the time when they can. He warns the controller if he dies. 
+A zombie knows his position, the item on the cell he stands on and the actions he can still perform before the brave moves. He automatically tries to move : he takes the same direction as previously, unless he encounters an obstacle. In this case, he randomly changes his direction. If after $15$ times he hasn't found a valid direction, he passes his turn. We decided that the zombies destroy an item $20\%$ of the time when they can. He warns the controller if he dies. 
     
 \section*{Conclusion}
 We think that our simulator fulfills the requirements and we hope that it will provide you some help to survive the zombie apocalypse out there.
