@@ -2,12 +2,4 @@ TO DO LIST
 ——————————
 
 !!!ECRIRE LE RAPPORT!!!
-
-- Virer tous les debug
-- Rendre le code plus propre : se mettre d'accord pour messages interdits
-- Fermer les fenêtres sinon c'est chiant
-
-- Eventuellement si on on a le temps
-	- Makefile help
-	- superposer zombieburn & objects, door et le brave
 	

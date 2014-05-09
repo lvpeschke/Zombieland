@@ -4,7 +4,6 @@ import
    OS
    Property
    QTk at 'x-oz://system/wp/QTk.ozf'
-   System
 
    % For file reading
    Open
@@ -39,14 +38,12 @@ define
 
    /* Procedures */
    % Input arguments
-   Say = System.showInfo
    Args = {Application.getArgs
 	   record(
 	      map(single char:&m type:atom default:'map_test.ozp')
 	      zombie(single char:&s type:int default:Config.nZombiesDefault)
 	      item(single char:&b type:int default:Config.nWantedObjectsDefault) 
 	      bullet(single char:&n type:int default:Config.nBulletsDefault) 
-	      help(single char:[&? &h] default:false)
 	      )}
 
    % Load function for the map
@@ -62,6 +59,21 @@ define
 	 {F close}
       end
    end
+
+   % Computes the number of items to be picked
+   fun {ConvertPercentage Percent TotalCount}
+      RPercent in
+      if Percent < 0 then RPercent = 0
+      elseif Percent > 100 then RPercent = 100
+      else RPercent = Percent
+      end
+
+      if (RPercent*TotalCount) mod 100 == 0 then
+	 (RPercent*TotalCount) div 100
+      else
+	 ((RPercent*TotalCount) div 100) + 1
+      end
+   end	 
 
    % Find the door on the map
    proc {FindDoor Map ?IDoor ?JDoor ?FDoor}
@@ -167,18 +179,6 @@ define
 in
    /* MASTER FUNCTION */
    proc {Zombieland}   
-      /* Help message */
-      if Args.help then
-	 {Say "Usage: "#{Property.get 'application.url'}#" [option]"}
-	 {Say "Options:"}
-	 {Say "  -m, --map FILE\tFile containing the map (default "#Config.map#")"}
-	 {Say "  -z, --zombie INT\tNumber of zombies"}
-	 {Say "  -i, --item INT\tTotal number of items to pick"}
-	 {Say "  -n, --bullet INT\tInitial number of bullets"}
-	 {Say "  -h, -?, --help\tThis help"}
-	 {Application.exit 0}
-      end
-
       /* Seed random number generator (only needed in Mozart1) */
       % {OS.srand 0}
 
@@ -189,7 +189,7 @@ in
       {FindDoor Map X_init Y_init F_init}
       EmptyCount#ItemsCount = {DecryptMap Map}
       Config.nWantedObjects = Args.item
-      NWantedObjects = Config.nWantedObjects
+      NWantedObjects = {ConvertPercentage Config.nWantedObjects ItemsCount}
       Config.nBullets = Args.bullet
       NBullets = Config.nBullets
       {CheckZombiesCount EmptyCount Args.zombie Config.nZombies}

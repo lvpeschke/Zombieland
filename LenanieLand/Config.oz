@@ -39,7 +39,7 @@ export
    Barrier
    
 define
-   NWantedObjectsDefault = 3
+   NWantedObjectsDefault = 25
    NWantedObjects
    NZombiesDefault = 10
    NZombies
