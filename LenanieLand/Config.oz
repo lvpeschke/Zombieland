@@ -30,6 +30,7 @@ export
    NextCell
    Left
    Right
+   Barrier
    
 define
    Map = map(
@@ -102,6 +103,21 @@ define
       elseif D == [0 ~1] then [~1 0]
       elseif D == [1 0] then [0 ~1]
       else [1 0] end
+   end
+
+   % Barrier
+   proc {Barrier Ps}
+      fun {BarrierLoop Ps L}
+	 case Ps
+	 of P|Pr then M in
+	    thread {P} M=L end
+	    {BarrierLoop Pr M}
+	 [] nil then L
+	 end
+      end
+      S = {BarrierLoop Ps unit}
+   in
+      {Wait S}
    end
  
 end

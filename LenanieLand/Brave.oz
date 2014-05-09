@@ -20,45 +20,62 @@ define
       
       {System.show 'Brave : checkkill'}
       
-      local FF FL FR AckF AckL AckR in
+      % If the brave is not on a door, we have to check right and left
+      % If there is a zombie looking towards the brave, the brave dies
+      if Item == 5 then
+	 local FF AckF in
 	 % Checks if there is a zombie in front of the brave
-	 FF = [~F.1 ~F.2.1]
-	 FL = {Config.left F} {System.show ''#F#'left'#FL}
-	 FR = {Config.right F} {System.show ''#F#'right'#FR}
-	 {System.show ''#X#Y#(X-FF.1)#(Y-FF.2.1)}
-	 {Send Config.mapPorts.(X-FF.1).(Y-FF.2.1) brave(scout AckF)}
-	 {Wait AckF}
-	 {System.show ''#AckF}
-	 case AckF
-	 of zombie(ZombiePort ZombieF) then
+	    FF = [~F.1 ~F.2.1]
+	    {Send Config.mapPorts.(X-FF.1).(Y-FF.2.1) brave(scout AckF)}
+	    {Wait AckF}
+	    {System.show ''#AckF}
+	    case AckF
+	    of zombie(ZombiePort ZombieF) then
 	    % If NBullets==0, the brave dies, otherwise the zombie dies
-	    if ZombieF == FF andthen NBullets==0 then
-	       {System.show 'Face : Le brave est tue'}
-	       %{Config.gameOver}
-	       {GUI.endOfGame lose}
+	       if ZombieF == FF andthen NBullets==0 then
+		  {System.show 'Face : Le brave est tue'}
+		  {GUI.endOfGame lose}
+	       else
+		  {Send Config.bravePort updateNBullets}
+		  {System.show 'Face : Le zombie est tue'}
+		  {Send ZombiePort kill}
+	       end
 	    else
-	       {Send Config.bravePort updateNBullets}
-	       {System.show 'Face : Le zombie est tue'}
-	       {Send ZombiePort kill}
+	       skip
 	    end
-	 else
-	    skip
 	 end
+	 
+      else
+	 local FF FL FR AckF AckL AckR in
+	 % Checks if there is a zombie in front of the brave
+	    FF = [~F.1 ~F.2.1]
+	    FL = {Config.left F} {System.show ''#F#'left'#FL}
+	    FR = {Config.right F} {System.show ''#F#'right'#FR}
+	    {Config.barrier
+	     [proc {$} {Send Config.mapPorts.(X-FF.1).(Y-FF.2.1) brave(scout AckF)} end
+	      proc {$} {Send Config.mapPorts.(X-FL.1).(Y-FL.2.1) brave(scout AckL)} end
+	      proc {$} {Send Config.mapPorts.(X-FR.1).(Y-FR.2.1) brave(scout AckR)} end]}
+	    {System.show ''#AckF#AckL#AckR}
+	    case AckF
+	    of zombie(ZombiePort ZombieF) then
+	    % If NBullets==0, the brave dies, otherwise the zombie dies
+	       if ZombieF == FF andthen NBullets==0 then
+		  {System.show 'Face : Le brave est tue'}
+	       %{Config.gameOver}
+		  {GUI.endOfGame lose}
+	       else
+		  {Send Config.bravePort updateNBullets}
+		  {System.show 'Face : Le zombie est tue'}
+		  {Send ZombiePort kill}
+	       end
+	    else
+	       skip
+	    end
 
-	 % If the brave is not on a door, we have to check right and left
-	 % If there is a zombie looking towards the brave, the brave dies
-	 if Item \= 5 then
-	    {Send Config.mapPorts.(X-FL.1).(Y-FL.2.1) brave(scout AckL)} {System.show ''#X#Y#(X-FL.1)#(Y-FL.2.1)}
-	    {Send Config.mapPorts.(X-FR.1).(Y-FR.2.1) brave(scout AckR)} {System.show ''#X#Y#(X-FR.1)#(Y-FR.2.1)}
-	    % ATTENTION VA FALLOIR CHANGER CA POUR PAS QUE CA BLOQUE INUTILMENT
-	    {Wait AckL}
-	    {Wait AckR}
-	    {System.show ''#AckL#AckR}
 	    case AckL
 	    of zombie(ZombiePort ZombieF) then
 	       if ZombieF == FL then
 		  {System.show 'Face : Le brave est tue'}
-		  %{Config.gameOver}
 		  {GUI.endOfGame lose}
 	       end
 	    else
@@ -68,7 +85,6 @@ define
 	    of zombie(ZombiePort ZombieF) then
 	       if ZombieF == FR then
 		  {System.show 'Face : Le brave est tue'}
-		  %{Config.gameOver}
 		  {GUI.endOfGame lose}
 	       end
 	    else
@@ -176,7 +192,6 @@ define
 		      {CheckKill X Y F NBullets Item}
 		      {System.show 'a priori ActionsLeft est > 0...'#ActionsLeft}
 		      {Send Config.mapPorts.X.Y brave(pickup)}
-		      {Send Config.controllerPort destroy(brave)}
 		       
 		      if Item == 2 then
 			 {GUI.drawCellBis 0 brave X Y F}

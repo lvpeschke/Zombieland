@@ -64,10 +64,10 @@ define
 	 FF = [~F.1 ~F.2.1]
 	 FL = {Config.left F} {System.show ''#F#'left'#FL}
 	 FR = {Config.right F} {System.show ''#F#'right'#FR}
-	 {Send Config.mapPorts.(X-FF.1).(Y-FF.2.1) zombie(scout AckF)}
-	 {Send Config.mapPorts.(X-FL.1).(Y-FL.2.1) zombie(scout AckL)}
-	 {Send Config.mapPorts.(X-FR.1).(Y-FR.2.1) zombie(scout AckR)}
-	 {Wait AckF} {Wait AckL} {Wait AckR} % A CHANGER
+	 {Config.barrier
+	  [proc {$} {Send Config.mapPorts.(X-FF.1).(Y-FF.2.1) zombie(scout AckF)} end
+	   proc {$} {Send Config.mapPorts.(X-FL.1).(Y-FL.2.1) zombie(scout AckL)} end
+	   proc {$} {Send Config.mapPorts.(X-FR.1).(Y-FR.2.1) zombie(scout AckR)} end]}
 	 {System.show ''#AckF#AckL#AckR}
 	 case AckF
 	 of brave(BraveF NBullets) then
@@ -178,14 +178,13 @@ define
 
 				   if (Item == 2 orelse Item == 3 orelse Item == 4) andthen {RollDice5} then
 				      {Send Config.mapPorts.Line.Col zombie(pickup)}
-				      {Send Config.controllerPort destroy(zombie)}
 				      Picked = 1
 				   else
 				      Picked = 0
 				   end
 
 				   % If you can move too, you move
-				   if ActionsLeft > Picked then
+				   if ActionsLeft>Picked then
 				      local L0 C0 F0 Ack in
 					 {Move F Line Col ZombieNumber 15 ?L0 ?C0 ?F0 ?Ack}
 					 if Ack == ko then
