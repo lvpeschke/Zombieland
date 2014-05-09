@@ -27,6 +27,8 @@ define
    EmptyCount
    ItemsCount
 
+   Window
+
    % Arguments of the game
    X_init % the initial position
    Y_init % the initial position
@@ -115,9 +117,8 @@ define
 	    end
 	 end
       end
-      Empty Items
    in
-      Empty#Items = {Count 1 1 0 0}     
+      {Count 1 1 0 0}     
    end
  
 
@@ -192,9 +193,9 @@ in
       {CheckZombiesCount EmptyCount Args.zombie NZombies}
 
       /* Set up the GUI */
-      {GUI.initLayout Map GUI.window Config.bravePort GUI.grid GUI.gridHandle}
-      GUI.window = {QTk.build GUI.desc}
-      {GUI.window set(title:"ZOMBIELAND")}
+      {GUI.initLayout Map Window Config.bravePort GUI.grid GUI.gridHandle}
+      Window = {QTk.build GUI.desc}
+      {Window set(title:"ZOMBIELAND")}
       {GUI.updateGoalCount NWantedObjects}
       {GUI.updateBulletsCount NBullets}
 
@@ -216,14 +217,12 @@ in
       Config.controllerPort = {Controller.controllerState state(brave NZombies Config.zombiesPorts 0)}
 
       % Brave
-      local Ack in
-	 {Send Config.mapPorts.X_init.Y_init brave(enter F_init NBullets)}
-      end
+      {Send Config.mapPorts.X_init.Y_init brave(enter F_init NBullets)}
       {GUI.drawCellBis 0 brave X_init Y_init F_init}
       Config.bravePort = {Brave.braveState state(yourturn X_init Y_init F_init 5 Config.nAllowedMovesB NBullets 0 0)}
 
       /* Display the game */
-      {GUI.window show}
+      {Window show}
    end
 
    {Zombieland}

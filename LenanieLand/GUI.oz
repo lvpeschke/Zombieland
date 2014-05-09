@@ -3,15 +3,12 @@ import
    Application
    OS
    QTk at 'x-oz://system/wp/QTk.ozf'
-   System
 
    % Our functors
    Config
-   Game
 
 export
    /* Variables */
-   Window
    Desc
    Grid
    GridHandle
@@ -101,7 +98,6 @@ define
    %Zombie + Medicine
    %Zombie + Bullets
 
-   Window
    Grid
    
    % GUI handles
@@ -219,12 +215,12 @@ define
 	    if F == [~1 0] then Image = BulletsBraveHaut
 	    elseif F == [1 0] then Image = BulletsBraveBas
 	    elseif F == [0 1] then Image = BulletsBraveDroite
-	    else Image = BulletsZombieGauche end
+	    else Image = BulletsBraveGauche end
 	 elseif Item == 3 then
 	    if F == [~1 0] then Image = FoodBraveHaut
 	    elseif F == [1 0] then Image = FoodBraveBas
 	    elseif F == [0 1] then Image = FoodBraveDroite
-	    else Image = FoodZombieGauche end
+	    else Image = FoodBraveGauche end
 	 elseif Item == 4 then
 	    if F == [~1 0] then Image = MedicineBraveHaut
 	    elseif F == [1 0] then Image = MedicineBraveBas
