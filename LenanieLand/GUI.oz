@@ -9,18 +9,19 @@ import
    Config
 
 export
-   % Variables
+   /* Variables */
+   Window
    Desc % GUI description
    Grid
    GridHandle
 
-   % Functions
+   /* Procedures */
    InitLayout % initialize layout and bind keys to player
    
    DrawCell % update a cell image
    
    UpdateBulletsCount % update bullets count for GUI
-   UpdateItemsCount % update collected items count for GUI %% ENlEVER
+   %UpdateItemsCount % update collected items count for GUI %% ENlEVER
    UpdateCollectedItemsCount % update collected items count for GUI
    UpdateMovesCount % update moves left for GUI
 
@@ -56,8 +57,10 @@ define
    %Zombie + Bullets
    % Food, Med, Bull alone
 
-   % GUI handles
+   Window
    Grid
+   
+   % GUI handles
    GridHandle % grid handler
    MovesCountHandle % handler to display the number of moves left
    BulletsCountHandle % handler to display the number of bullets left
@@ -66,16 +69,16 @@ define
    MedCountHandle % handler todisplay the number of collected medicines
    
    % Layout description
-   Desc = lr(Grid % map
+   Desc = lr(Grid % Map
 
 	     tdspace(width:20 glue:w)
 		
-	     td(% Information about the brave
+	     td(% Information about the game
 		lrspace(width:20 glue:w)
 		message(aspect:200
 			init:"Use the arrow keys to move around and the space bar to pick up items.
 			Watch out for the zombies, they move fast!"
-				   glue:nw)
+				     glue:nw)
 
 		lrspace(width:20 glue:w)
 		lrline(glue:ew)
@@ -128,24 +131,19 @@ define
       end
    end
 
-%%% Sets up a cell with an image, given a certain number
+   % Sets up a cell with an image, given a certain number
    proc {DrawCell Number Y X}
       Image = {NumberToImage Number}
    in
       {GridHandle.Y.X set(image:Image)} 
    end
 
-%%% Sets the bullet count to
+   % Sets the bullet count
    proc {UpdateBulletsCount NewNumberOfBullets}
       {BulletsCountHandle set(NewNumberOfBullets)}
    end
 
-%%% Sets the collected items count
-   proc {UpdateItemsCount NewNumberOfItems ItemNumber} %% TODO enlever
-      {ItemsCountHandle set(NewNumberOfItems)}
-   end
-
-%%% Sets the collected items count
+   % Sets the collected items count
    proc {UpdateCollectedItemsCount NewTotal NewNumber OfWhat}
       case OfWhat
       of 3 then % food
@@ -158,12 +156,45 @@ define
       {ItemsCountHandle set(NewTotal)}
    end
 
-%%% Sets the number of moves left
+   % Sets the number of moves left
    proc {UpdateMovesCount NewNumberOfMoves}
       {MovesCountHandle set(NewNumberOfMoves)}
    end
 
-%%% Sets the GUI for an end of game
+   % Sets actions for the arrow keys
+   proc {BindArrowKeysToPlayer Window BravePort}
+      {Window bind(event:"<Up>" action:proc{$} {Send BravePort move([~1 0])} end)} %%% TODO VERIFIER LES MESSAGES
+      {Window bind(event:"<Left>" action:proc{$} {Send BravePort move([0 ~1])} end)}
+      {Window bind(event:"<Down>" action:proc{$} {Send BravePort move([1 0])}  end)}
+      {Window bind(event:"<Right>" action:proc{$} {Send BravePort move([0 1])} end)}
+      {Window bind(event:"<space>" action:proc{$} {Send BravePort pickup} end)}
+   end
+
+   % Sets up the initial map from a tuple			      
+   proc {InitLayout Map Window BravePort ?Grid ?GridHandle}
+      Lines = {Width Map}
+      Columns = {Width Map.Lines}
+   in
+      Grid = {MakeTuple td {Width Map}}
+      GridHandle = {MakeTuple td {Width Map}}
+      if Lines == 0 orelse Columns == 0 then skip
+      else
+	 for I in 1..Lines do
+	    Line = {MakeTuple lr Columns}
+	    LineHandle = {MakeTuple lr Columns} in
+	    for J in 1..Columns do
+	       Image = {NumberToImage Map.I.J} in
+	       Line.J = label(image:Image handle:LineHandle.J)
+	    end
+	    Grid.I = Line
+	    GridHandle.I = LineHandle
+	 end
+      end
+      % bind arrow keys
+      thread {BindArrowKeysToPlayer Window BravePort} end
+   end
+
+   % Sets the GUI for an end of game
    proc {EndOfGame Issue WinToClose}
       {WinToClose close}
       NewDesc NewWin Image Text in
@@ -178,69 +209,16 @@ define
 	 
       NewDesc = td(label(image: Image)
 		   lr(button(
-		      text:"New game ?"  
-		      action: proc {$} {NewWin close} end %%
+			 text:"New game ?"  
+			 action: proc {$} {NewWin close} end %%
 			 glue:s)
 		      button(
 			 text:"Quit"
 			 action: proc {$} {Application.exit 0} end
 			 glue:s)
-		      ))
+		     ))
       NewWin = {QTk.build NewDesc}
       {NewWin set(title:Text)}
       {NewWin show}
-   end
-
-   % Sets actions for the arrow keys
-   proc {BindArrowKeysToPlayer Window BravePort}
-      {Window bind(event:"<Up>" action:proc{$} {Send BravePort move([~1 0])} end)} %%% TODO VERIFIER LES MESSAGES
-      {Window bind(event:"<Left>" action:proc{$} {Send BravePort move([0 ~1])} end)}
-      {Window bind(event:"<Down>" action:proc{$} {Send BravePort move([1 0])}  end)}
-      {Window bind(event:"<Right>" action:proc{$} {Send BravePort move([0 1])} end)}
-      {Window bind(event:"<space>" action:proc{$} {Send BravePort pickup} end)}
-   end
-
-   /*proc {InitLayout Map Window BravePort}
-	Lines = {Width Map}
-	Columns = {Width Map.Lines}
-     in
-	if Lines == 0 orelse Columns == 0 then
-	   skip
-	else           
-	   for Y in 1..Lines do
-	      for X in 1..Columns do
-		 {DrawCell Map.Y.X Y X}
-	      end
-	   end
-	 % bind arrow keys
-	   {BindArrowKeysToPlayer Window BravePort}
-	end     
-     end*/
-
-%%% Sets up the initial map from a tuple
-
-   
-   proc {InitLayout Map Window BravePort ?Grid ?GridHandle}
-      Lines = {Width Map}
-      Columns = {Width Map.Lines}
-   in
-      Grid = {MakeTuple td {Width Map}}
-      GridHandle = {MakeTuple td {Width Map}}
-      if Lines == 0 orelse Columns == 0 then
-	 skip
-      else
-	 for I in 1..Lines do
-	    Line = {MakeTuple lr Columns}
-	    LineHandle = {MakeTuple lr Columns} in
-	    for J in 1..Columns do
-	       Image = {NumberToImage Map.I.J} in
-	       Line.J = label(image:Image handle:LineHandle.J)
-	    end
-	    Grid.I = Line
-	    GridHandle.I = LineHandle
-	 end
-      end
-      % bind arrow keys
-      thread {BindArrowKeysToPlayer Window BravePort} end %%
    end
 end

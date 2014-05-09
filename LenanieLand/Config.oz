@@ -2,22 +2,24 @@ functor
 import
    Application
    System
+   
 export
+   /* Variables */
+   % Default
    Map % the default map of the room to be displayed
+   X_INIT %%
+   Y_INIT %%
+   F_INIT %%
+   NWantedObjects % the default number of objects the player has to collect
+   NBullets % the default initial number of bullets  
+   NZombies % the default initial number of zombies in the room
    
    % Turns
    % 1 move = move 1 cell (no diagonal) OR pick up 1 item
    NAllowedMovesB % the number of moves the player is allowed in 1 turn
    NAllowedMovesZ  % the number of moves the zombie is allowed in 1 turn
 
-   % Input
-   NWantedObjects % the default number of objects the player has to collect
-   NBullets % the default initial number of bullets  
-   NZombies % the default initial number of zombies in the room
-   X_INIT
-   Y_INIT
-   F_INIT
-   
+   /* Procedures */ 
    % The port objects known by everybody
    ControllerPort
    BravePort
@@ -26,11 +28,14 @@ export
    
    % Creates a new port object
    NewPortObject
-   Success
-   GameOver
+
+   % Moves
    NextCell
    Left
    Right
+
+   Success %%
+   GameOver %%
    
 define
    Map = map(
@@ -48,18 +53,18 @@ define
 	    r(1 2 2 2 2 2 2 2 2 3 2 2 1 0 0 0 0 4 0 1)
 	    r(1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1)
 	    )
-   
-   NAllowedMovesB = 2
-   NAllowedMovesZ = 3
+
+   X_INIT = 1 %%
+   Y_INIT = 7 %%
+   F_INIT = [1 0] %%
+
    NWantedObjects = 2
    NZombies = 10
    NBullets = 3
+   
+   NAllowedMovesB = 2
+   NAllowedMovesZ = 3
 
-   X_INIT = 1
-   Y_INIT = 7
-   F_INIT = [1 0]
-
-   % The port objects known by everybody
    ControllerPort
    BravePort
    MapPorts
@@ -97,17 +102,16 @@ define
    end
     
    fun {Right D}
-      if D==[~1 0] then [0 ~1]
-      elseif D==[0 ~1] then [1 0]
-      elseif D==[1 0] then [0 1]
+      if D == [~1 0] then [0 ~1]
+      elseif D == [0 ~1] then [1 0]
+      elseif D == [1 0] then [0 1]
       else [~1 0] end
    end
 
    fun {Left D}
-      if D==[~1 0] then [0 1]
-      elseif D==[0 ~1] then [~1 0]
-      elseif D==[1 0] then [0 ~1]
+      if D == [~1 0] then [0 1]
+      elseif D == [0 ~1] then [~1 0]
+      elseif D == [1 0] then [0 ~1]
       else [1 0] end
    end
-   
 end
