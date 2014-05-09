@@ -1,4 +1,12 @@
+<<<<<<< HEAD
 This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2014.4.27)  10 MAY 2014 00:00
+=======
+<<<<<<< HEAD
+This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012) (format=pdflatex 2013.1.26)  9 MAY 2014 23:53
+=======
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2014.4.27)  9 MAY 2014 23:56
+>>>>>>> FETCH_HEAD
+>>>>>>> FETCH_HEAD
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -956,6 +964,36 @@ AED: lastpage setting LastPage
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 193.
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 193.
  (./rapport.aux)
+<<<<<<< HEAD
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 196.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 196.
+Package rerunfilecheck Info: File `rapport.out' has not changed.
+(rerunfilecheck)             Checksum: CD5B1249C1406B3E7759C0C722AFA8CC;149.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 196.
+ ) 
+Here is how much of TeX's memory you used:
+ 10946 strings out of 493488
+ 157623 string characters out of 3141326
+ 285536 words of memory out of 3000000
+ 14025 multiletter control sequences out of 15000+200000
+ 68230 words of font info for 58 fonts, out of 3000000 for 9000
+ 957 hyphenation exceptions out of 8191
+ 36i,6n,43p,867b,1048s stack positions out of 5000i,500n,10000p,200000b,50000s
+{/usr/local/texlive/2012/texmf-dist/fonts/enc/dvips/base/8r.enc}{/usr/local/t
+exlive/2012/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc}{/usr/local/texlive/2012/te
+xmf-dist/fonts/enc/dvips/lm/lm-mathit.enc}{/usr/local/texlive/2012/texmf-dist/f
+onts/enc/dvips/lm/lm-ec.enc}</usr/local/texlive/2012/texmf-dist/fonts/type1/pub
+lic/lm/lmbx10.pfb></usr/local/texlive/2012/texmf-dist/fonts/type1/public/lm/lmb
+x12.pfb></usr/local/texlive/2012/texmf-dist/fonts/type1/public/lm/lmbxi10.pfb><
+/usr/local/texlive/2012/texmf-dist/fonts/type1/public/lm/lmcsc10.pfb></usr/loca
+l/texlive/2012/texmf-dist/fonts/type1/public/lm/lmmi10.pfb></usr/local/texlive/
+2012/texmf-dist/fonts/type1/public/lm/lmr10.pfb></usr/local/texlive/2012/texmf-
+dist/fonts/type1/public/lm/lmr12.pfb></usr/local/texlive/2012/texmf-dist/fonts/
+type1/public/lm/lmri10.pfb></usr/local/texlive/2012/texmf-dist/fonts/type1/publ
+ic/lm/lmri12.pfb></usr/local/texlive/2012/texmf-dist/fonts/type1/urw/courier/uc
+rr8a.pfb>
+Output written on rapport.pdf (3 pages, 354616 bytes).
+=======
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 193.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 193.
 Package rerunfilecheck Info: File `rapport.out' has not changed.
@@ -970,6 +1008,7 @@ Here is how much of TeX's memory you used:
  68230 words of font info for 58 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
  36i,6n,43p,867b,1048s stack positions out of 5000i,500n,10000p,200000b,80000s
+<<<<<<< HEAD
 {/usr/local/texlive/2013/texmf-dist/fonts/enc/dvips/base/8r.enc}{/usr/local/t
 exlive/2013/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc}{/usr/local/texlive/2013/te
 xmf-dist/fonts/enc/dvips/lm/lm-mathit.enc}{/usr/local/texlive/2013/texmf-dist/f
@@ -984,6 +1023,26 @@ type1/public/lm/lmri10.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/publ
 ic/lm/lmri12.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/urw/courier/uc
 rr8a.pfb>
 Output written on rapport.pdf (3 pages, 353380 bytes).
+=======
+pdfTeX warning (dest): name{section.3} has been referenced but does not exist
+, replaced by a fixed one
+
+{/usr/local/texlive/2013/texmf-dist/fonts/enc/dvips/base/8r.enc}{/usr/local/tex
+live/2013/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc}{/usr/local/texlive/2013/texm
+f-dist/fonts/enc/dvips/lm/lm-mathit.enc}{/usr/local/texlive/2013/texmf-dist/fon
+ts/enc/dvips/lm/lm-ec.enc}</usr/local/texlive/2013/texmf-dist/fonts/type1/publi
+c/lm/lmbx10.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/public/lm/lmbx1
+2.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/public/lm/lmbxi10.pfb></u
+sr/local/texlive/2013/texmf-dist/fonts/type1/public/lm/lmcsc10.pfb></usr/local/
+texlive/2013/texmf-dist/fonts/type1/public/lm/lmmi10.pfb></usr/local/texlive/20
+13/texmf-dist/fonts/type1/public/lm/lmr10.pfb></usr/local/texlive/2013/texmf-di
+st/fonts/type1/public/lm/lmr12.pfb></usr/local/texlive/2013/texmf-dist/fonts/ty
+pe1/public/lm/lmri10.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/public
+/lm/lmri12.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/urw/courier/ucrr
+8a.pfb>
+Output written on rapport.pdf (3 pages, 353817 bytes).
+>>>>>>> FETCH_HEAD
+>>>>>>> FETCH_HEAD
 PDF statistics:
  109 PDF objects out of 1000 (max. 8388607)
  91 compressed objects within 1 object stream
