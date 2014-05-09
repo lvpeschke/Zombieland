@@ -76,7 +76,7 @@ define
 		  if Ack==ko then
 		     {Place N}
 		  else
-		     {GUI.drawCell zombie RandX RandY}
+		     {GUI.drawCellBis zombie RandX RandY RandF}
 		     Config.zombiesPorts.N={Zombie.zombieState N state(notyourturn RandX RandY RandF Ack 0)} % TODO verifier le N
 		     {Place N+1}
 		  end
@@ -169,7 +169,7 @@ in
       {Send Config.mapPorts.(Config.x_INIT).(Config.y_INIT) brave(enter Config.f_INIT Config.nBullets)}
       {System.show ''#Ack}
    end
-   {GUI.drawCell brave Config.x_INIT Config.y_INIT}
+   {GUI.drawCellBis brave Config.x_INIT Config.y_INIT Config.f_INIT}
    {System.show 'after GUI'}
    Config.bravePort = {Brave.braveState state(yourturn Config.x_INIT Config.y_INIT Config.f_INIT 5 Config.nAllowedMovesB Config.nBullets 0 0)}
    {System.show 'after launching brave'}

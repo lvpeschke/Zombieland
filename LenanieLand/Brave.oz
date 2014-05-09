@@ -131,7 +131,7 @@ define
 			 if Ack==0 orelse Ack==2 orelse Ack==3 orelse Ack==4 then
 			    {GUI.drawCell Item X Y}
 			    {Send Config.mapPorts.X.Y brave(quit)}
-			    {GUI.drawCell brave NewX NewY}
+			    {GUI.drawCellBis brave NewX NewY NewF}
 			    {Send Config.mapPorts.NewX.NewY brave(enter NewF NBullets)}
 			    % If the brave has not more actions, it's no more it's turn
 			    if ActionsLeft == 1 then

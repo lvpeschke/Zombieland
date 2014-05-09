@@ -19,6 +19,7 @@ export
    InitLayout % initialize layout and bind keys to player
    
    DrawCell % update a cell image
+   DrawCellBis
    
    UpdateBulletsCount % update bullets count for GUI
    %UpdateItemsCount % update collected items count for GUI %% ENlEVER
@@ -42,6 +43,16 @@ define
    Zombie = {QTk.newImage photo(file:CD#'/floor_bear_left.gif')} %%
    Door = {QTk.newImage photo(file:CD#'/door.gif')}
    Unknown = {QTk.newImage photo(file:CD#'/unknown.gif')}
+
+   ZombieHaut = {QTk.newImage photo(file:CD#'/ZombieHaut.gif')}
+   ZombieBas = {QTk.newImage photo(file:CD#'/ZombieBas.gif')}
+   ZombieGauche = {QTk.newImage photo(file:CD#'/ZombieGauche.gif')}
+   ZombieDroite = {QTk.newImage photo(file:CD#'/ZombieDroite.gif')}
+
+   BraveHaut = {QTk.newImage photo(file:CD#'/BraveHaut.gif')}
+   BraveBas = {QTk.newImage photo(file:CD#'/BraveBas.gif')}
+   BraveGauche = {QTk.newImage photo(file:CD#'/BraveGauche.gif')}
+   BraveDroite = {QTk.newImage photo(file:CD#'/BraveDroite.gif')}
 
    Youwin =  {QTk.newImage photo(file:CD#'/youwin.gif')}
    Gameover =  {QTk.newImage photo(file:CD#'/gameover.gif')}
@@ -137,6 +148,26 @@ define
    in
       {GridHandle.Y.X set(image:Image)} 
    end
+
+   proc {DrawCellBis Number Y X F}
+      Image
+   in
+      if Number == zombie then
+	 if F == [~1 0] then Image = ZombieHaut
+	 elseif F == [1 0] then Image = ZombieBas
+	 elseif F == [0 1] then Image = ZombieDroite
+	 else Image = ZombieGauche
+	 end
+      elseif Number == brave then
+	 if F == [~1 0] then Image = BraveHaut
+	 elseif F == [1 0] then Image = BraveBas
+	 elseif F == [0 1] then Image = BraveDroite
+	 else Image = BraveGauche
+	 end
+      end
+      {GridHandle.Y.X set(image:Image)} 
+   end
+      
 
    % Sets the bullet count
    proc {UpdateBulletsCount NewNumberOfBullets}
