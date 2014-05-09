@@ -1,3 +1,7 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+%     CONFIGURATION      %
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 functor
 import
    OS
@@ -5,13 +9,12 @@ import
 export
    /* Variables */
    % Default
-   Map % the default map of the room to be displayed
    NWantedObjectsDefault % the default number of objects the player has to collect
    NBulletsDefault % the default initial number of bullets  
    NZombiesDefault % the default initial number of zombies in the room
-   NWantedObjects
-   NBullets
-   NZombies
+   NWantedObjects % the real number of objects the player has to collect
+   NBullets % the real initial number of bullets  
+   NZombies % the real initial number of zombies in the room
    
    % Turns
    % 1 move = move 1 cell (no diagonal) OR pick up 1 item
@@ -36,22 +39,6 @@ export
    Barrier
    
 define
-   Map = map(
-	    r(1 1 1 1 1 1 5 1 1 1 1 1 1 1 1 1 1 1 1 1)
-	    r(1 2 0 0 0 0 0 0 0 0 0 0 0 1 2 0 0 0 0 1)
-	    r(1 2 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1)
-	    r(1 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 2 0 1)
-	    r(1 3 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1)
-	    r(1 2 0 0 0 0 0 1 1 1 1 1 1 1 1 0 0 0 0 1)
-	    r(1 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1)
-	    r(1 2 3 0 0 0 0 0 0 0 0 0 0 3 0 0 0 0 2 1)
-	    r(1 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1)
-	    r(1 2 0 0 0 0 0 1 1 1 1 1 1 1 1 0 0 0 0 1)
-	    r(1 4 4 3 3 3 3 3 3 3 3 3 1 0 0 0 0 0 0 1)
-	    r(1 2 2 2 2 2 2 2 2 3 2 2 1 0 0 0 0 4 0 1)
-	    r(1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1)
-	    )
-
    NWantedObjectsDefault = 3
    NWantedObjects
    NZombiesDefault = 10

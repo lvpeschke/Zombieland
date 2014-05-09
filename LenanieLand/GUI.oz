@@ -1,3 +1,6 @@
+%%%%%%%%%%%%%%%%%%%
+%     THE GUI     %
+%%%%%%%%%%%%%%%%%%%
 functor
 import
    Application
@@ -12,6 +15,7 @@ export
    Desc
    Grid
    GridHandle
+   %Window
 
    /* Procedures */
    InitLayout % initialize layout and bind keys to player
@@ -94,6 +98,7 @@ define
    MedicineBraveGauche = {QTk.newImage photo(file:CD#'/BraveGaucheMedicine.gif')}
    MedicineBraveDroite = {QTk.newImage photo(file:CD#'/BraveDroiteMedicine.gif')}
 
+   %Window
    Grid
    
    % GUI handles
@@ -230,13 +235,12 @@ define
       {GridHandle.Y.X set(image:Image)} 
    end
       
-
    % Sets the bullet count
    proc {UpdateBulletsCount NewNumberOfBullets}
       {BulletsCountHandle set(NewNumberOfBullets)}
    end
 
-   % Sets thegoal count
+   % Sets the goal count
    proc {UpdateGoalCount Goal}
       {GoalHandle set(Goal)}
    end
@@ -246,7 +250,7 @@ define
       case OfWhat
       of 3 then % food
 	 {FoodCountHandle set(NewNumber)}
-      [] 4 then
+      [] 4 then % medicine
 	 {MedCountHandle set(NewNumber)}
       else
 	 skip
@@ -295,6 +299,7 @@ define
    % Sets the GUI for an end of game
    proc {EndOfGame Issue}
       NewDesc NewWin Image Text in
+      %{Window close}
       case Issue
       of win then
 	 Image = Youwin

@@ -7,7 +7,7 @@ import
    System
 
    % For file reading
-   Open %at 'x-oz://system/Open.ozf'
+   Open
    Pickle
 
    % Our functors
@@ -35,7 +35,7 @@ define
    F_init % the initial facing
    NWantedObjects % the number of objects the player has to collect
    NBullets % the initial number of bullets
-   NZombies
+   NZombies % the initial number of zombies
 
    /* Procedures */
    % Input arguments
@@ -49,7 +49,7 @@ define
 	      help(single char:[&? &h] default:false)
 	      )}
 
-   % Load function for the map /** NOT YET USED **/
+   % Load function for the map
    fun {LoadPickle URL}
       F = {New Open.file init(url:URL flags:[read])}
    in
@@ -63,7 +63,7 @@ define
       end
    end
 
-   % Find the door on a map
+   % Find the door on the map
    proc {FindDoor Map ?IDoor ?JDoor ?FDoor}
       Lines = {Width Map}
       Columns = {Width Map.Lines}
@@ -83,7 +83,7 @@ define
       end
    end
 
-    % Counts the number of empty spaces on a map
+    % Count the number of empty spaces and items on a map
    fun {DecryptMap Map}
       Lines = {Width Map}
       Columns = {Width Map.Lines}
@@ -111,7 +111,6 @@ define
 	       elseif Map.I.J == 3 orelse Map.I.J == 4 then % food or medecine
 		  EmptyA#ItemsA+1
 	       else % should happen
-		  {System.show 'alright'}
 		  EmptyA#ItemsA
 	       end
 	    end
@@ -181,14 +180,14 @@ in
       end
 
       /* Seed random number generator (only needed in Mozart1) */
-      %{OS.srand 0}
+      % {OS.srand 0}
 
       /* Get arguments */
       Map = {LoadPickle Args.map}
       MapHeight = {Width Map}
       MapWidth = {Width Map.1}
       {FindDoor Map X_init Y_init F_init}
-      EmptyCount#ItemsCount = {DecryptMap Map} {System.show EmptyCount#ItemsCount}
+      EmptyCount#ItemsCount = {DecryptMap Map}
       Config.nWantedObjects = Args.item
       NWantedObjects = Config.nWantedObjects
       Config.nBullets = Args.bullet
@@ -198,6 +197,7 @@ in
 
       /* Set up the GUI */
       {GUI.initLayout Map Window Config.bravePort GUI.grid GUI.gridHandle}
+      %Window = GUI.window
       Window = {QTk.build GUI.desc}
       {Window set(title:"ZOMBIELAND")}
       {GUI.updateGoalCount NWantedObjects}
