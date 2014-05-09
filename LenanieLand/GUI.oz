@@ -32,7 +32,8 @@ define
    CD = {OS.getCWD}#'/images'
    
    /* Images */
-   Bullets = {QTk.newImage photo(file:CD#'/floor_arrows.gif')}
+   % Standard
+   Bullets = {QTk.newImage photo(file:CD#'/floor_bullet.gif')}
    Floor = {QTk.newImage photo(file:CD#'/floor.gif')}
    Food = {QTk.newImage photo(file:CD#'/floor_food.gif')}
    Medicine = {QTk.newImage photo(file:CD#'/floor_pills.gif')}
@@ -47,27 +48,27 @@ define
    Basket =  {QTk.newImage photo(file:CD#'/basket.gif')}
    
    % The zombies
-   ZombieBurn = {QTk.newImage photo(file:CD#'/floor_zombie_left.gif')}
+   ZombieBurn = {QTk.newImage photo(file:CD#'/unknown.gif')}
    
    ZombieHaut = {QTk.newImage photo(file:CD#'/ZombieHaut.gif')}
    ZombieBas = {QTk.newImage photo(file:CD#'/ZombieBas.gif')}
    ZombieGauche = {QTk.newImage photo(file:CD#'/ZombieGauche.gif')}
    ZombieDroite = {QTk.newImage photo(file:CD#'/ZombieDroite.gif')}
 
-   BulletsZombieHaut = {QTk.newImage photo(file:CD#'/unknown.gif')}
-   BulletsZombieBas = {QTk.newImage photo(file:CD#'/unknown.gif')}
-   BulletsZombieGauche = {QTk.newImage photo(file:CD#'/unknown.gif')}
-   BulletsZombieDroite = {QTk.newImage photo(file:CD#'/unknown.gif')}
+   BulletsZombieHaut = {QTk.newImage photo(file:CD#'/ZombieHautBullet.gif')}
+   BulletsZombieBas = {QTk.newImage photo(file:CD#'/ZombieBasBullet.gif')}
+   BulletsZombieGauche = {QTk.newImage photo(file:CD#'/ZombieGaucheBullet.gif')}
+   BulletsZombieDroite = {QTk.newImage photo(file:CD#'/ZombieDroiteBullet.gif')}
 
-   FoodZombieHaut = {QTk.newImage photo(file:CD#'/unknown.gif')}
-   FoodZombieBas = {QTk.newImage photo(file:CD#'/unknown.gif')}
-   FoodZombieGauche = {QTk.newImage photo(file:CD#'/unknown.gif')}
-   FoodZombieDroite = {QTk.newImage photo(file:CD#'/unknown.gif')}
+   FoodZombieHaut = {QTk.newImage photo(file:CD#'/ZombieHautFood.gif')}
+   FoodZombieBas = {QTk.newImage photo(file:CD#'/ZombieBasFood.gif')}
+   FoodZombieGauche = {QTk.newImage photo(file:CD#'/ZombieGaucheFood.gif')}
+   FoodZombieDroite = {QTk.newImage photo(file:CD#'/ZombieDroiteFood.gif')}
 
-   MedicineZombieHaut = {QTk.newImage photo(file:CD#'/unknown.gif')}
-   MedicineZombieBas = {QTk.newImage photo(file:CD#'/unknown.gif')}
-   MedicineZombieGauche = {QTk.newImage photo(file:CD#'/unknown.gif')}
-   MedicineZombieDroite = {QTk.newImage photo(file:CD#'/unknown.gif')}
+   MedicineZombieHaut = {QTk.newImage photo(file:CD#'/ZombieHautMedicine.gif')}
+   MedicineZombieBas = {QTk.newImage photo(file:CD#'/ZombieBasMedicine.gif')}
+   MedicineZombieGauche = {QTk.newImage photo(file:CD#'/ZombieGaucheMedicine.gif')}
+   MedicineZombieDroite = {QTk.newImage photo(file:CD#'/ZombieDroiteMedicine.gif')}
 
    % The brave
    BraveHaut = {QTk.newImage photo(file:CD#'/BraveHaut.gif')}
@@ -75,28 +76,20 @@ define
    BraveGauche = {QTk.newImage photo(file:CD#'/BraveGauche.gif')}
    BraveDroite = {QTk.newImage photo(file:CD#'/BraveDroite.gif')}
 
-   BulletsBraveHaut = {QTk.newImage photo(file:CD#'/unknown.gif')}
-   BulletsBraveBas = {QTk.newImage photo(file:CD#'/unknown.gif')}
-   BulletsBraveGauche = {QTk.newImage photo(file:CD#'/unknown.gif')}
-   BulletsBraveDroite = {QTk.newImage photo(file:CD#'/unknown.gif')}
+   BulletsBraveHaut = {QTk.newImage photo(file:CD#'/BraveHautBullet.gif')}
+   BulletsBraveBas = {QTk.newImage photo(file:CD#'/BraveBasBullet.gif')}
+   BulletsBraveGauche = {QTk.newImage photo(file:CD#'/BraveGaucheBullet.gif')}
+   BulletsBraveDroite = {QTk.newImage photo(file:CD#'/BraveDroiteBullet.gif')}
 
-   FoodBraveHaut = {QTk.newImage photo(file:CD#'/unknown.gif')}
-   FoodBraveBas = {QTk.newImage photo(file:CD#'/unknown.gif')}
-   FoodBraveGauche = {QTk.newImage photo(file:CD#'/unknown.gif')}
-   FoodBraveDroite = {QTk.newImage photo(file:CD#'/unknown.gif')}
+   FoodBraveHaut = {QTk.newImage photo(file:CD#'/BraveHautFood.gif')}
+   FoodBraveBas = {QTk.newImage photo(file:CD#'/BraveBasFood.gif')}
+   FoodBraveGauche = {QTk.newImage photo(file:CD#'/BraveGaucheFood.gif')}
+   FoodBraveDroite = {QTk.newImage photo(file:CD#'/BraveDroiteFood.gif')}
 
-   MedicineBraveHaut = {QTk.newImage photo(file:CD#'/unknown.gif')}
-   MedicineBraveBas = {QTk.newImage photo(file:CD#'/unknown.gif')}
-   MedicineBraveGauche = {QTk.newImage photo(file:CD#'/unknown.gif')}
-   MedicineBraveDroite = {QTk.newImage photo(file:CD#'/unknown.gif')}
-   
-   /** AJOUTER **/
-   %Brave + Food
-   %Brave + Medicine
-   %Brave + Bullets
-   %Zombie + Food
-   %Zombie + Medicine
-   %Zombie + Bullets
+   MedicineBraveHaut = {QTk.newImage photo(file:CD#'/BraveHautMedicine.gif')}
+   MedicineBraveBas = {QTk.newImage photo(file:CD#'/BraveBasMedicine.gif')}
+   MedicineBraveGauche = {QTk.newImage photo(file:CD#'/BraveGaucheMedicine.gif')}
+   MedicineBraveDroite = {QTk.newImage photo(file:CD#'/BraveDroiteMedicine.gif')}
 
    Grid
    
