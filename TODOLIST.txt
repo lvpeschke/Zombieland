@@ -13,7 +13,6 @@ TO DO LIST
 
 
 - Plusieurs vies (assez facile : juste un truc en plus dans l'état du brave) -> MELANIE
-- Tourner images -> MELANIE OU LENA
 
 
 - Virer tous les debug

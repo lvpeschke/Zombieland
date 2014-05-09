@@ -34,13 +34,13 @@ define
    CD = {OS.getCWD}#'/images2'
    
    % Images
-   Brave = {QTk.newImage photo(file:CD#'/floor_merida_right.gif')} %%
+   %Brave = {QTk.newImage photo(file:CD#'/floor_merida_right.gif')} %%
    Bullets = {QTk.newImage photo(file:CD#'/floor_arrows.gif')}
    Floor = {QTk.newImage photo(file:CD#'/floor.gif')}
    Food = {QTk.newImage photo(file:CD#'/floor_food.gif')}
    Medicine = {QTk.newImage photo(file:CD#'/floor_pills.gif')}
    Wall = {QTk.newImage photo(file:CD#'/wall.gif')}
-   Zombie = {QTk.newImage photo(file:CD#'/floor_bear_left.gif')} %%
+   %Zombie = {QTk.newImage photo(file:CD#'/floor_bear_left.gif')} %%
    Door = {QTk.newImage photo(file:CD#'/door.gif')}
    Unknown = {QTk.newImage photo(file:CD#'/unknown.gif')}
 
@@ -136,8 +136,8 @@ define
       elseif Number == 3 then Food
       elseif Number == 4 then Medicine
       elseif Number == 5 then Door
-      elseif Number == brave then Brave
-      elseif Number == zombie then Zombie
+      %elseif Number == brave then Brave
+      %elseif Number == zombie then Zombie
       else Unknown
       end
    end

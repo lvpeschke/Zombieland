@@ -58,7 +58,6 @@ define
 	    
    proc {PlaceZombies Height Width}
       proc {Place N}
-	 {System.show ''#N}
 	 if (N>Config.nZombies) then skip
 	 else
 	    local RandX RandY RandF Ack in
