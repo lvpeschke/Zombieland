@@ -12,8 +12,6 @@ TO DO LIST
 - Utiliser Args.map etc… partout!!! -> faire des global vars -> LENA
 
 
-
-- Ralentir les zombies -> MELANIE
 - Plusieurs vies (assez facile : juste un truc en plus dans l'état du brave) -> MELANIE
 - Tourner images -> MELANIE OU LENA
 
@@ -22,7 +20,6 @@ TO DO LIST
 - Rendre le code plus propre
 
 !!!ECRIRE LE RAPPORT!!!
-
 
 
 - Fermer les ports?
