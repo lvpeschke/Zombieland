@@ -59,6 +59,7 @@ define
    %% States
    % - yourturn
    % - notyourturn
+   % - killed
    
    %% Messages
    % - yourturn
