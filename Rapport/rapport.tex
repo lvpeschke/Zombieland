@@ -179,18 +179,15 @@ The controller has to tell the brave and to the zombies when it is their turn. I
 The room is a grid of cells. Each cell knows which item and person is on it. If it is the brave, it knows his facing direction and the number of bullets he has (this is important for the management of the kills). If it hosts a zombie, it knows his facing direction and his port (also important for the kills).
 
 \paragraph{All the characters}
-All the characters warn a cell when he enters in it or leave it. They also notice the controller when they are done and when they have picked up/destroyed an object. After each move, they call a functions that makes all the needed kills. For that, we check if there is an enemy in front of them or at their left or their right. If the dead conditions are verified (see \ref{kills}), we send a kill message to the right character. 
+All the characters warn a cell when they enter or leave it. They also notice the controller when they are done and when they have picked up/destroyed an object. After each move, they call a function that makes all the needed kills. In order to do that, we check if there is an enemy in front or at their left or their right. If the dead conditions are verified (see \ref{kills}), we send a kill message to the right character. 
 
 \paragraph{Brave}
-The brave knows his position, the number of each items he has, the item on the cell he stands and the actions he can still do before the zombies move. He receives the messages from the keyboard and, if he can, moves and updates what has to be updated. The pickups aren't mandatory, the player has the say if he really wants to pickup an object.
+The brave knows his position, the number of each items he possesses, the item on the cell he stands on and the actions he can still perform before the zombies move. He receives the messages from the keyboard and, if he can, moves and updates what has to be updated. The pickups aren't mandatory; the player has a say if he really wants to pickup an object.
 
 \paragraph{Zombies}
-A zombie know his position, the item on the cell he stands and the actions he can still do before the brave moves. He automatically try to move : he goes in the same direction unless he encounters an obstacle. In this case, he randomly change his direction. If after $15$ he hasn't found a valid direction, a pass his turn. We decided that the zombies destroy an item $20\%$ of the time when they can. He warns the controller if he dies. 
-
-\section{Miscellaneous}
-QTk?
+A zombie know his position, the item on the cell he stands on and the actions he can still perform before the brave moves. He automatically tries to move : he takes the same direction as previously, unless he encounters an obstacle. In this case, he randomly changes his direction. If after $15$ time he hasn't found a valid direction, he passes his turn. We decided that the zombies destroy an item $20\%$ of the time when they can. He warns the controller if he dies. 
     
 \section*{Conclusion}
-We think that your game should fulfill the requirements and hope that it will provide you some help to survive.
+We think that our simulator fulfills the requirements and we hope that it will provide you some help to survive the zombie apocalypse out there.
     
 \end{document}
