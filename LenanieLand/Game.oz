@@ -143,7 +143,6 @@ in
    %column:1 columnspan:3 row:4 sticky:we)}
 
    % Start game
-   {GUI.drawCell b Config.x_INIT Config.y_INIT}
 
    % Les Ports
    % La MAP
