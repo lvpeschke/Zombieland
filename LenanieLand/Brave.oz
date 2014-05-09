@@ -94,7 +94,6 @@ define
 
 		% Killed mode : every message is ignored   
 		of killed then
-		   {GUI.drawCell Item X Y}
 		   state(Mode X Y F Item ActionsLeft NBullets NFood NMedicine)
 
 		% Notyourturn mode : only the yourturn, kill, getFacingBullet and updateNBullets are relevant
@@ -144,7 +143,7 @@ define
 			 if Ack == 0 orelse Ack == 2 orelse Ack == 3 orelse Ack == 4 then
 			    {GUI.drawCell Item X Y}
 			    {Send Config.mapPorts.X.Y brave(quit)}
-			    {GUI.drawCellBis brave NewX NewY NewF}
+			    {GUI.drawCellBis Ack brave NewX NewY NewF}
 			    {Send Config.mapPorts.NewX.NewY brave(enter NewF NBullets)}
 			    % If the brave has not more actions, it's no more it's turn
 			    if ActionsLeft == 1 then
@@ -181,11 +180,12 @@ define
 		      {Send Config.mapPorts.X.Y brave(pickup)}
 		       
 		      if Item == 2 then
+			 {GUI.drawCellBis 0 brave X Y F}
 			 if ActionsLeft == 1 then
-			    {Send Config.controllerPort finish(brave)}
 			    {GUI.updateBulletsCount NBullets+3}
 			    {GUI.updateMovesCount ActionsLeft-1}
 			    {CheckKill X Y F NBullets Item}
+			    {Send Config.controllerPort finish(brave)}
 			    state(notyourturn X Y F 0 ActionsLeft-1 NBullets+3 NFood NMedicine)
 			 else
 			    {GUI.updateBulletsCount NBullets+3}
@@ -195,6 +195,7 @@ define
 			 end
 			  
 		      elseif Item == 3 then
+			 {GUI.drawCellBis 0 brave X Y F}
 			 if ActionsLeft == 1 then
 			    {Send Config.controllerPort finish(brave)}
 			    {GUI.updateCollectedItemsCount NFood+NMedicine+1 NFood+1 Item}
@@ -209,6 +210,7 @@ define
 			 end
 			 
 		      elseif Item == 4 then
+			 {GUI.drawCellBis 0 brave X Y F}
 			 if ActionsLeft == 1 then
 			    {Send Config.controllerPort finish(brave)}
 			    {GUI.updateCollectedItemsCount NFood+NMedicine+1 NMedicine+1 Item}

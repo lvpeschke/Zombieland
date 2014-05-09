@@ -196,7 +196,7 @@ define
 					    if Picked == 0 then {GUI.drawCell Item Line Col}
 					    else {GUI.drawCell 0 Line Col} end
 					    {Send Config.mapPorts.Line.Col zombie(quit)}
-					    {GUI.drawCellBis zombie L0 C0 F0}
+					    {GUI.drawCellBis Ack zombie L0 C0 F0}
 					    {Delay 300}
 					    state(yourturn L0 C0 F0 Ack ActionsLeft-1)
 					 end

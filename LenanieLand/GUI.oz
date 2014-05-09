@@ -34,7 +34,7 @@ define
    % Current working directory
    CD = {OS.getCWD}#'/images'
    
-   % Images
+   /* Images */
    Bullets = {QTk.newImage photo(file:CD#'/floor_arrows.gif')}
    Floor = {QTk.newImage photo(file:CD#'/floor.gif')}
    Food = {QTk.newImage photo(file:CD#'/floor_food.gif')}
@@ -44,6 +44,12 @@ define
    Door = {QTk.newImage photo(file:CD#'/door.gif')}
    Unknown = {QTk.newImage photo(file:CD#'/unknown.gif')}
 
+   Youwin =  {QTk.newImage photo(file:CD#'/youwin.gif')}
+   Gameover =  {QTk.newImage photo(file:CD#'/gameover.gif')}
+   Steps =  {QTk.newImage photo(file:CD#'/steps.gif')}
+   Basket =  {QTk.newImage photo(file:CD#'/basket.gif')}
+   
+   % The zombies
    ZombieBurn = {QTk.newImage photo(file:CD#'/floor_zombie_left.gif')}
    
    ZombieHaut = {QTk.newImage photo(file:CD#'/ZombieHaut.gif')}
@@ -51,15 +57,41 @@ define
    ZombieGauche = {QTk.newImage photo(file:CD#'/ZombieGauche.gif')}
    ZombieDroite = {QTk.newImage photo(file:CD#'/ZombieDroite.gif')}
 
+   BulletsZombieHaut = {QTk.newImage photo(file:CD#'/unknown.gif')}
+   BulletsZombieBas = {QTk.newImage photo(file:CD#'/unknown.gif')}
+   BulletsZombieGauche = {QTk.newImage photo(file:CD#'/unknown.gif')}
+   BulletsZombieDroite = {QTk.newImage photo(file:CD#'/unknown.gif')}
+
+   FoodZombieHaut = {QTk.newImage photo(file:CD#'/unknown.gif')}
+   FoodZombieBas = {QTk.newImage photo(file:CD#'/unknown.gif')}
+   FoodZombieGauche = {QTk.newImage photo(file:CD#'/unknown.gif')}
+   FoodZombieDroite = {QTk.newImage photo(file:CD#'/unknown.gif')}
+
+   MedicineZombieHaut = {QTk.newImage photo(file:CD#'/unknown.gif')}
+   MedicineZombieBas = {QTk.newImage photo(file:CD#'/unknown.gif')}
+   MedicineZombieGauche = {QTk.newImage photo(file:CD#'/unknown.gif')}
+   MedicineZombieDroite = {QTk.newImage photo(file:CD#'/unknown.gif')}
+
+   % The brave
    BraveHaut = {QTk.newImage photo(file:CD#'/BraveHaut.gif')}
    BraveBas = {QTk.newImage photo(file:CD#'/BraveBas.gif')}
    BraveGauche = {QTk.newImage photo(file:CD#'/BraveGauche.gif')}
    BraveDroite = {QTk.newImage photo(file:CD#'/BraveDroite.gif')}
 
-   Youwin =  {QTk.newImage photo(file:CD#'/youwin.gif')}
-   Gameover =  {QTk.newImage photo(file:CD#'/gameover.gif')}
-   Steps =  {QTk.newImage photo(file:CD#'/steps.gif')}
-   Basket =  {QTk.newImage photo(file:CD#'/basket.gif')}
+   BulletsBraveHaut = {QTk.newImage photo(file:CD#'/unknown.gif')}
+   BulletsBraveBas = {QTk.newImage photo(file:CD#'/unknown.gif')}
+   BulletsBraveGauche = {QTk.newImage photo(file:CD#'/unknown.gif')}
+   BulletsBraveDroite = {QTk.newImage photo(file:CD#'/unknown.gif')}
+
+   FoodBraveHaut = {QTk.newImage photo(file:CD#'/unknown.gif')}
+   FoodBraveBas = {QTk.newImage photo(file:CD#'/unknown.gif')}
+   FoodBraveGauche = {QTk.newImage photo(file:CD#'/unknown.gif')}
+   FoodBraveDroite = {QTk.newImage photo(file:CD#'/unknown.gif')}
+
+   MedicineBraveHaut = {QTk.newImage photo(file:CD#'/unknown.gif')}
+   MedicineBraveBas = {QTk.newImage photo(file:CD#'/unknown.gif')}
+   MedicineBraveGauche = {QTk.newImage photo(file:CD#'/unknown.gif')}
+   MedicineBraveDroite = {QTk.newImage photo(file:CD#'/unknown.gif')}
    
    /** AJOUTER **/
    %Brave + Food
@@ -123,7 +155,7 @@ define
 		lrspace(width:50 glue:w)
 		  
 		button(% Quit button
-		       text:"Surrender"  
+		       text:"Quit        "  
 		       action: proc {$} {Application.exit 0} end
 		       glue:s)
 	       )
@@ -152,20 +184,52 @@ define
    end
 
    % Sets up a cell with an image for a player, given a certain direction
-   proc {DrawCellBis Number Y X F}
+   proc {DrawCellBis Item Number Y X F}
       Image
    in
       if Number == zombie then
-	 if F == [~1 0] then Image = ZombieHaut
-	 elseif F == [1 0] then Image = ZombieBas
-	 elseif F == [0 1] then Image = ZombieDroite
-	 else Image = ZombieGauche
+	 if Item == 0 then
+	    if F == [~1 0] then Image = ZombieHaut
+	    elseif F == [1 0] then Image = ZombieBas
+	    elseif F == [0 1] then Image = ZombieDroite
+	    else Image = ZombieGauche end
+	 elseif Item == 2 then
+	    if F == [~1 0] then Image = BulletsZombieHaut
+	    elseif F == [1 0] then Image = BulletsZombieBas
+	    elseif F == [0 1] then Image = BulletsZombieDroite
+	    else Image = BulletsZombieGauche end
+	 elseif Item == 3 then
+	    if F == [~1 0] then Image = FoodZombieHaut
+	    elseif F == [1 0] then Image = FoodZombieBas
+	    elseif F == [0 1] then Image = FoodZombieDroite
+	    else Image = FoodZombieGauche end
+	 elseif Item == 4 then
+	    if F == [~1 0] then Image = MedicineZombieHaut
+	    elseif F == [1 0] then Image = MedicineZombieBas
+	    elseif F == [0 1] then Image = MedicineZombieDroite
+	    else Image = MedicineZombieGauche end
 	 end
       elseif Number == brave then
-	 if F == [~1 0] then Image = BraveHaut
-	 elseif F == [1 0] then Image = BraveBas
-	 elseif F == [0 1] then Image = BraveDroite
-	 else Image = BraveGauche
+	 if Item == 0 then
+	    if F == [~1 0] then Image = BraveHaut
+	    elseif F == [1 0] then Image = BraveBas
+	    elseif F == [0 1] then Image = BraveDroite
+	    else Image = BraveGauche end
+	 elseif Item == 2 then
+	    if F == [~1 0] then Image = BulletsBraveHaut
+	    elseif F == [1 0] then Image = BulletsBraveBas
+	    elseif F == [0 1] then Image = BulletsBraveDroite
+	    else Image = BulletsZombieGauche end
+	 elseif Item == 3 then
+	    if F == [~1 0] then Image = FoodBraveHaut
+	    elseif F == [1 0] then Image = FoodBraveBas
+	    elseif F == [0 1] then Image = FoodBraveDroite
+	    else Image = FoodZombieGauche end
+	 elseif Item == 4 then
+	    if F == [~1 0] then Image = MedicineBraveHaut
+	    elseif F == [1 0] then Image = MedicineBraveBas
+	    elseif F == [0 1] then Image = MedicineBraveDroite
+	    else Image = MedicineBraveGauche end
 	 end
       end
       {GridHandle.Y.X set(image:Image)} 

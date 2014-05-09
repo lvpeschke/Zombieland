@@ -150,7 +150,7 @@ define
 		  if Ack == ko then
 		     {Place N}
 		  else
-		     {GUI.drawCellBis zombie RandX RandY RandF}
+		     {GUI.drawCellBis Ack zombie RandX RandY RandF}
 		     Config.zombiesPorts.N = {Zombie.zombieState N state(notyourturn RandX RandY RandF Ack 0)}
 		     {Place N+1}
 		  end
@@ -219,7 +219,7 @@ in
       local Ack in
 	 {Send Config.mapPorts.X_init.Y_init brave(enter F_init NBullets)}
       end
-      {GUI.drawCellBis brave X_init Y_init F_init}
+      {GUI.drawCellBis 0 brave X_init Y_init F_init}
       Config.bravePort = {Brave.braveState state(yourturn X_init Y_init F_init 5 Config.nAllowedMovesB NBullets 0 0)}
 
       /* Display the game */
