@@ -9,7 +9,6 @@ TO DO LIST
 - Ouvrir la porte quand on a assez d'objets -> LENA	
 
 - Les waits sans qu'un bloque les autres
-- Checker les warning
 - Virer tous les debug
 - Rendre le code plus propre
 
