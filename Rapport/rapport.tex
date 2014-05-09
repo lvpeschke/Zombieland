@@ -1,7 +1,7 @@
 %--------------------------------------------------------------------------
 %	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
 %--------------------------------------------------------------------------
-\documentclass[12pt,a4paper]{article}
+\documentclass[11pt,a4paper]{article}
 \usepackage[utf8]{inputenc}
 \usepackage[english]{babel}
 \usepackage[T1]{fontenc}
@@ -27,6 +27,8 @@
 \usepackage[squaren,Gray]{SIunits}
 \usepackage{url}
 \usepackage{hyperref}
+\usepackage{multicol}
+\usepackage{listings}
 
 % Margins
 %\topmargin=-0.45in
@@ -63,37 +65,40 @@
  
 %	HEADING SECTIONS
 \null
-\vspace{1cm}
-\textsc{\Large Université Catholique de Louvain}\\[1cm] % Name of your university/college
-\textsc{\large INGI1131 \\[0.3cm] Concepts of Computer Languages}\\[0.5cm] % Major heading such as course name
+%\vspace{1cm}
+\textsc{\Large Université Catholique de Louvain}\\  [0.3cm] % Name of your university/college
+\textsc{\large INGI1131 - Computer Language Concepts}\\ [0.7 cm]% Major heading such as course name [0.3cm] [0.5cm]
 %\textsc{\large Minor Heading}\\[0.5cm] % Minor heading such as course title
 
+
 %	TITLE SECTION
+\HRule \\[0.2cm]
+{ \LARGE \bfseries Zombieland\\%[0.4cm] % Title of your document
+\large \bfseries Course Project} \\[0.2cm]
+\HRule \\[0.2cm]
 
-\HRule \\[0.4cm]
-{ \LARGE \bfseries Zombieland\\[0.4cm] % Title of your document
-\large \bfseries Course Project} \\[0.4cm]
-
-\HRule \\[0.5cm]
+% PHOTO
  
 \begin{figure}[!h]
 	\begin{center}
 	%2048 × 1364
-		\includegraphics[width=0.28\textwidth]{merida.jpg}
+		\includegraphics[width=\textwidth]{screenshot.PNG}
 	\end{center}
 \end{figure}
 
-%	AUTHOR SECTION
 
+\emph{\textbf{Abstract} Following an explosion of secret U.S. government laboratories, fast and fearless living beings have invaded the planet and have a thirst for human blood. Few survivors are hiding in a secret place but they are starting to run out victuals. A "brave" has been designated to collect some victuals. To assist him in this task, we implemented a simulator that will help him to take into account all the possible unexpected events. Indeed, zombies have been studied for a while so we can precisely tell you how they move and behave...}\\[0.9cm]
+
+
+%	AUTHOR SECTION
+\begin{multicols}{2}
 \large
 \begin{centering}
-Group 43\\
 \end{centering}
 {\begin{tabular}{lll}
-\textsc{Peschke} & Lena & 5826 11 00\\
-\textsc{Sedda} & Mélanie & 2246 11 00\\
+\textit{Group 43}  : & Lena Peschke & 58261100\\
+        		     & Mélanie Sedda & 22461100 \\
 \end{tabular}}
-\\[1cm]
 
 \normalsize
 {\begin{tabular}{ll}
@@ -102,10 +107,14 @@ Group 43\\
 					  & Manuel Bravo \\
 \end{tabular}}
 \\[1cm]
+\end{multicols}
 
 %	DATE SECTION
+{\normalsize \today}\\[0.6cm] % Date, change the \today to a set date if you want to be precise
 
-{\normalsize \today} % Date, change the \today to a set date if you want to be precise
+
+
+
 
 \newpage
 
@@ -126,23 +135,43 @@ Group 43\\
 %	CONTENT
 %--------------------------------------------------------------------------
 
-\section*{Introduction}
-Context : Zombie apocalypse, mutants
+\section*{The game}
 
-Why : need for food medicine, ressources
+The room the brave has to enter in contains food, medicine and packs of three bullets. He can kill a zombie with one bullet and can only leave the room if he has collected a certain number of objects (i.e. food + medicine). Our simulator has four arguments : the map of the room, the number of bullets he has with him at the beginning, the percentage of the objects in the room he has the collect and the number of zombies in the room (default values are used if the user does not precise any value).
 
-Task : simulator to reduce human loss (+ pass time)
+\paragraph{Percentage of objects} If this percentage is smaller than 0 (resp. bigger than $100$), we transform it into zero (resp. $100$).
+
+\paragraph{Number of zombies} We decided to limit the number of zombies to the number of empty spaces in the map because it would be suicidal to enter in a room with more zombies. Though, the zombie can still stand on a cell containing an item. 
+
+\paragraph{Moves} The brave and the zombies are moving one after another. When the brave has make $2$ moves, all the zombies can make $3$ move at the same time and when they are done the brave can already move. Displacements and pickups are considered as moves while killing is not. We decided that the zombies destroy an item on in five when then can. 
+
+\paragraph{Pickups} If the brave couldn't reach the number of objects needed (because the zombies have destroyed some) then the brave automatically loses. 
+
+\paragraph{Kills} A brave automatically kills a zombie if he has at least one bullet and if the zombie his in the cell in front of him. However, if he is running out of bullets and if the zombie is facing him, the zombie will automatically kill him. Furthermore, the zombie automatically kills the brave if the brave is in the cell in front of him and isn't facing him.
 
 \section{Architecture and design}
-\subsection{Components}
-diagramme des interactions
-port objects : states and messages + data flow variables
+
+We identified some port objects that we would need. The main ones are the brave and the zombies (one port object per zombie). To interact with the map, we also decided to create one port object for each cell because it was quite effective. To manage the turns of the brave and the zombies, we also created a controller. The functions relative the each entities are in separated files. We also have a file for the management of the GUI and a file for the launch of the game. To implement the interactions between all the entities, we made state diagrams. Since the codes of the port objects are quite self speaking and always following the same pattern (nb : we also sometimes used unbounded variables to avoid to send messages)
+\begin{lstlisting}[basicstyle=\ttfamily\footnotesize]
+case Mode
+of Mode_1 then ...
+	case Msg
+	of Msg_1 then ....
+	...
+	[] Msg_n then ...
+	end
+...	
+[] Mode_m then ...
+end,
+\end{lstlisting}
+we will only briefly describe what each port object does. 
+	
 
 \subsection{Controller}
-states + responsibilities
+The controller has to say to the brave and to the zombies when it is their turn. He knows when a zombie is dead so he doesn't warn him in this case.  He also has to say when the brave couldn't win because there are to few objects left in the room. 
 
 \subsection{Cell}
-room == grid of cells
+The room is a grid of cell. Each cell knows which item and person is on it. If it is a brave, it knows his facing direction and the number of bullets he has.
 
 states + responsibilities
 
@@ -179,15 +208,18 @@ AI : try moving 3 turns in the same direction, destroy objects 20 \% of the time
 
 2 times : enter + quit, to avoid overlap between zombies playing in the same turn
 
-\subsection{Other}
-QTk?
-
-(Gameover if winning impossible because of lack of objects)
 
 \section{Concurrency issues}
 synchronization of the turns between the brave and the zombies
 
 synchronization between the zombies : not on the same cell
+
+
+\section{Miscellaneous}
+QTk?
+Parler des functors
+ Choix : si messages non attendu on reste dans le même état
+ 
     
 \section*{Conclusion}
 should fulfill the requirements and provide some help to survive
