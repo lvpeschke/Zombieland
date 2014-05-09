@@ -151,7 +151,9 @@ The room the brave has to enter contains food, medicine and packs of three bulle
 
 \section{Architecture and design}
 
-We have identified some port objects that we would need. The main ones are the brave and the zombies, with one port object per zombie. To interact with the map, we also decided to create one port object per cell because it was a quite effective approach. To manage and synchronize the turns of the brave and the zombies, we also created a controller. The functions relative the each entities are located in separated files. Furthermore, we have a file for the GUI and a file for the launch of the game. To implement the interactions between all these entities, we made a component and several state diagrams. Since the codes of the port objects are quite self speaking and always following the same pattern (nb : we also sometimes used unbounded variables to avoid to send messages)
+We have identified some port objects that we would need. The main ones are the brave and the zombies, with one port object per zombie. To interact with the map, we also decided to create one port object per cell because it was a quite effective approach. To manage and synchronize the turns of the brave and the zombies, we also created a controller. The functions relative the each entities are located in separated files. Furthermore, we have a file for the GUI and a file for the launch of the game. To implement the interactions between all these entities, we made a component and several state diagrams. Since the codes of the port objects are quite self speaking and always following the same pattern  we will only briefly describe what each port object does (NB : we also sometimes used unbound variables to enforce atomicity in the interaction).
+
+Here is the pattern :
 \begin{lstlisting}[basicstyle=\ttfamily\footnotesize]
 case Mode
 of Mode_1 then ...
@@ -159,28 +161,41 @@ of Mode_1 then ...
 	of Msg_1 then ....
 	...
 	[] Msg_n then ...
-	else we ignore the message but it never happens
+	else we ignore the message, but it never happens
 	end
 ...	
 [] Mode_m then ...
-else we ignore the message but it never happens
-end,
+else we ignore the message, but it never happens
+end
 \end{lstlisting}
-we will only briefly describe what each port object does. 
+ 
 	
-We decided that the ports of the controller, the cells and the brave are known by everybody. All the ports of the zombies are known by the controller and a cell knows the port of a zombie that is one it.
+We have decided to make the ports of the controller, the cells and the brave known by everybody. All of the zombie's ports are known by the controller, and a cell knows the port of a zombie that is one it.
 
-\subsection{Controller}
-The controller has to say to the brave and to the zombies when it is their turn. He knows when a zombie is dead so he doesn't warn him in this case.  He also has to say when the brave couldn't win because there are to few objects left in the room. It also displays an open door if the brave has collected all the objects he needs.
+\paragraph{Controller}
+The controller has to tell the brave and to the zombies when it is their turn. It knows when a zombie is dead, so it doesn't warn him in this case.  It also has to decide when the brave couldn't win anymore because there are to few objects left in the room. 
 
-\subsection{Cell}
-The room is a grid of cells. Each cell knows which item and person is on it. If it is a brave, it knows his facing direction and the number of bullets he has (it is important for the management of the kills). If it is a zombie, it knows his facing direction and his port (also important for the kills).
+\paragraph{Cell}
+The room is a grid of cells. Each cell knows which item and person is on it. If it is the brave, it knows his facing direction and the number of bullets he has (this is important for the management of the kills). If it hosts a zombie, it knows his facing direction and his port (also important for the kills).
 
-\subsection{Brave}
+\paragraph{Brave}
 The brave knows his position, the number of each items he has, the item on the cell he stands and the actions he can still do before the zombies move. He receives the messages from the keyboard and, if he can, moves and updates what has to be updated. He warns when he enters in a cell and if he leaves one. He also notice the controller when he's done and when he has picked up some objects. The pickups aren't mandatory, the player has the say if he really wants to pickup an object. After each move, he calls a functions that makes all the needed kills. For that, we check if there is a zombie in front, at his left or at his right and if the dead conditions are verified (see \ref{kills}). 
 
-\subsection{Zombies}
+no shooting
+
+bullets no items, because of combats
+
+no mandatory taking
+
+door enabled if count equal or superior to goal
+
+3 times : scout + enter + quit
+
+\paragraph{Zombies}
 A zombie know his position, the item on the cell he stands and the actions he can still do before the brave moves. He automatically try to move : he goes in the same direction unless he encounters an obstacle. In this case, he randomly change his direction. If after $15$ he hasn't found a valid direction, a pass his turn. He also warns a cell when he enters in it or leave it. He also notice the controller when he's done and when he has picked up some objects. We decided that the zombies destroy an item $20\%$ of the time when they can. After each move, he also calls a function that makes all the needed kills.
+
+
+2 times : enter + quit, to avoid overlap between zombies playing in the same turn
 
 \section{Concurrency issues}
 synchronization of the turns between the brave and the zombies
