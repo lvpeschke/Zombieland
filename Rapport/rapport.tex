@@ -135,7 +135,7 @@
 %	CONTENT
 %--------------------------------------------------------------------------
 
-\section*{The game}
+\section{The game}
 
 The room the brave has to enter contains food, medicine and packs of three bullets. He can kill a zombie with one bullet and can only leave the room if he has collected a certain number of objects (i.e. food + medicine). Our simulator takes four arguments : the map of the room, the number of bullets the brave initially has with him, the percentage of the objects in the room he has the collect and the number of zombies present (default values are used if the user does give any input).
 
@@ -178,34 +178,17 @@ The controller has to tell the brave and to the zombies when it is their turn. I
 \paragraph{Cell}
 The room is a grid of cells. Each cell knows which item and person is on it. If it is the brave, it knows his facing direction and the number of bullets he has (this is important for the management of the kills). If it hosts a zombie, it knows his facing direction and his port (also important for the kills).
 
+\paragraph{All the characters}
+All the characters warn a cell when he enters in it or leave it. They also notice the controller when they are done and when they have picked up/destroyed an object. After each move, they call a functions that makes all the needed kills. For that, we check if there is an enemy in front of them or at their left or their right. If the dead conditions are verified (see \ref{kills}), we send a kill message to the right character. 
+
 \paragraph{Brave}
-The brave knows his position, the number of each items he has, the item on the cell he stands and the actions he can still do before the zombies move. He receives the messages from the keyboard and, if he can, moves and updates what has to be updated. He warns when he enters in a cell and if he leaves one. He also notice the controller when he's done and when he has picked up some objects. The pickups aren't mandatory, the player has the say if he really wants to pickup an object. After each move, he calls a functions that makes all the needed kills. For that, we check if there is a zombie in front, at his left or at his right and if the dead conditions are verified (see \ref{kills}). 
-
-no shooting
-
-bullets no items, because of combats
-
-no mandatory taking
-
-door enabled if count equal or superior to goal
-
-3 times : scout + enter + quit
+The brave knows his position, the number of each items he has, the item on the cell he stands and the actions he can still do before the zombies move. He receives the messages from the keyboard and, if he can, moves and updates what has to be updated. The pickups aren't mandatory, the player has the say if he really wants to pickup an object.
 
 \paragraph{Zombies}
-A zombie know his position, the item on the cell he stands and the actions he can still do before the brave moves. He automatically try to move : he goes in the same direction unless he encounters an obstacle. In this case, he randomly change his direction. If after $15$ he hasn't found a valid direction, a pass his turn. He also warns a cell when he enters in it or leave it. He also notice the controller when he's done and when he has picked up some objects. We decided that the zombies destroy an item $20\%$ of the time when they can. After each move, he also calls a function that makes all the needed kills.
-
-
-2 times : enter + quit, to avoid overlap between zombies playing in the same turn
-
-\section{Concurrency issues}
-synchronization of the turns between the brave and the zombies
-
-synchronization between the zombies : not on the same cell
-
+A zombie know his position, the item on the cell he stands and the actions he can still do before the brave moves. He automatically try to move : he goes in the same direction unless he encounters an obstacle. In this case, he randomly change his direction. If after $15$ he hasn't found a valid direction, a pass his turn. We decided that the zombies destroy an item $20\%$ of the time when they can. He warns the controller if he dies. 
 
 \section{Miscellaneous}
 QTk?
-
     
 \section*{Conclusion}
 We think that your game should fulfill the requirements and hope that it will provide you some help to survive.
