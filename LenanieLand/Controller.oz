@@ -4,9 +4,6 @@
 
 functor
 import
-   Application
-   OS
-
    % Our functors
    Config
    GUI
@@ -42,7 +39,7 @@ define
 		    end
 
 		 [] destroy(brave) then
-		    if ItemsGoal-1 == O then
+		    if ItemsGoal-1 == 0 then
 		       {GUI.drawCell openDoor IDoor JDoor}
 		    end
 		    if ItemsGoal-1 > ItemsLeft-1 then % should not happen!!
@@ -96,7 +93,7 @@ define
 		    end
 
 		 [] destroy(zombie) then
-		    if ItemsGoal == O then
+		    if ItemsGoal == 0 then
 		       {System.show 'Controller 100 '#'erreur : les zombies se font avoir...'}
 		       {GUI.drawCell openDoor IDoor JDoor}
 		    end

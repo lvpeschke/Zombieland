@@ -214,7 +214,8 @@ in
       {PlaceZombies MapHeight MapWidth X_init Y_init F_init NZombies}
 
       % Controller
-      Config.controllerPort = {Controller.controllerState state(brave NZombies Config.zombiesPorts 0)}
+      Config.controllerPort = {Controller.controllerState X_init Y_init
+			       state(brave NZombies Config.zombiesPorts 0 NWantedObjects ItemsCount)}
 
       % Brave
       {Send Config.mapPorts.X_init.Y_init brave(enter F_init NBullets)}
