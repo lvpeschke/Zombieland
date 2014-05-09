@@ -8,5 +8,3 @@ TO DO LIST
 - Rendre le code plus propre
 
 !!!ECRIRE LE RAPPORT!!!
-
-- Les waits sans qu'un bloque les autres
