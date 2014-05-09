@@ -25,6 +25,7 @@ export
    UpdateBulletsCount % update bullets count for GUI
    UpdateCollectedItemsCount % update collected items count for GUI
    UpdateMovesCount % update moves left for GUI
+   UpdateGoalCount % update the total number of items to collect
 
    EndOfGame % closes the window game and shows the issue
 
@@ -73,6 +74,7 @@ define
    MovesCountHandle % handler to display the number of moves left
    BulletsCountHandle % handler to display the number of bullets left
    ItemsCountHandle % handler to display the number of collected items
+   GoalHandle % handler to display the total number of items to collect
    FoodCountHandle % handler todisplay the number of collected foods
    MedCountHandle % handler todisplay the number of collected medicines
    
@@ -111,7 +113,8 @@ define
 		lr(label(image:Basket)
 		   label(text:"Collected items : ")
 		   label(init:0 handle:ItemsCountHandle)
-		   label(text:"/ "#Config.nWantedObjects)
+		   label(text:"/")
+		   label(init:0 handle:GoalHandle)
 		   glue:nw)
 		lrline(glue:ew)
 		lrspace(width:50 glue:w)
@@ -168,6 +171,11 @@ define
    % Sets the bullet count
    proc {UpdateBulletsCount NewNumberOfBullets}
       {BulletsCountHandle set(NewNumberOfBullets)}
+   end
+
+   % Sets thegoal count
+   proc {UpdatGoalCount Goal}
+      {GoalHandle set(Goal)}
    end
 
    % Sets the collected items count
@@ -234,17 +242,15 @@ define
       end
 	 
       NewDesc = td(label(image: Image)
-		   lr(button(
-			 text:"New game ?"  
-			 action: proc {$} {Application.exit 0} end %%
-			 glue:s)
 		      button(
 			 text:"Quit"
 			 action: proc {$} {Application.exit 0} end
 			 glue:s)
-		     ))
+		     )
       NewWin = {QTk.build NewDesc}
       {NewWin set(title:Text)}
       {NewWin show}
+      {Delay 5000}
+      {NewWin close}
    end
 end

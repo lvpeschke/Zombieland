@@ -40,7 +40,7 @@ define
    Say = System.showInfo
    Args = {Application.getArgs
 	   record(
-	      map(single char:&m type:atom default:Config.map)
+	      map(single char:&m type:atom default:'map_test.ozp')
 	      zombie(single char:&s type:int default:Config.nZombies)
 	      item(single char:&b type:int default:Config.nWantedObjects) 
 	      bullet(single char:&n type:int default:Config.nBullets) 
@@ -105,9 +105,9 @@ define
 	       end
 	    else % end of column
 	       if Map.I.J == 0 then % empty cell
-		   EmptyA+1#ItemsA
+		  EmptyA+1#ItemsA
 	       elseif Map.I.J == 3 orelse Map.I.J == 4 then % food or medecine
-		   EmptyA#ItemsA+1
+		  EmptyA#ItemsA+1
 	       else % should happen
 		  {System.show 'alright'}
 		  EmptyA#ItemsA
@@ -165,65 +165,66 @@ define
    Zombieland % main function
 in
    /* MASTER FUNCTION */
-   proc {Zombieland}
-      
-   /* Help message */
-   if Args.help then
-      {Say "Usage: "#{Property.get 'application.url'}#" [option]"}
-      {Say "Options:"}
-      {Say "  -m, --map FILE\tFile containing the map (default "#Config.map#")"}
-      {Say "  -z, --zombie INT\tNumber of zombies"}
-      {Say "  -i, --item INT\tTotal number of items to pick"}
-      {Say "  -n, --bullet INT\tInitial number of bullets"}
-      {Say "  -h, -?, --help\tThis help"}
-      {Application.exit 0}
-   end
-
-   /* This and that */
-   % Seed random number generator
-   {OS.srand 0}
-
-   /* Get arguments */
-   Map = Args.map
-   MapHeight = {Width Map}
-   MapWidth = {Width Map.1}
-   {FindDoor Map X_init Y_init F_init}
-   EmptyCount#ItemsCount = {DecryptMap Map} {System.show EmptyCount#ItemsCount}
-   NWantedObjects = Args.item
-   NBullets = Args.bullet
-   {CheckZombiesCount EmptyCount Args.zombie NZombies}
-
-   /* Set up the GUI */
-   {GUI.initLayout Map GUI.window Config.bravePort GUI.grid GUI.gridHandle}
-   GUI.window = {QTk.build GUI.desc}
-   {GUI.window set(title:"ZOMBIELAND")}
-
-   /* Initialize the PortObjects */
-   % Grid of cells
-   Config.mapPorts = {MakeTuple mapPorts MapHeight}
-   for I in 1..MapHeight do
-      Config.mapPorts.I = {MakeTuple r MapWidth}
-      for J in 1..MapWidth do
-	 Config.mapPorts.I.J = {Cell.cellState I J state(nobody Map.I.J)}
+   proc {Zombieland}   
+      /* Help message */
+      if Args.help then
+	 {Say "Usage: "#{Property.get 'application.url'}#" [option]"}
+	 {Say "Options:"}
+	 {Say "  -m, --map FILE\tFile containing the map (default "#Config.map#")"}
+	 {Say "  -z, --zombie INT\tNumber of zombies"}
+	 {Say "  -i, --item INT\tTotal number of items to pick"}
+	 {Say "  -n, --bullet INT\tInitial number of bullets"}
+	 {Say "  -h, -?, --help\tThis help"}
+	 {Application.exit 0}
       end
-   end
+
+      /* This and that */
+      % Seed random number generator
+      {OS.srand 0}
+
+      /* Get arguments */
+      Map = {LoadPickle Args.map}
+      MapHeight = {Width Map}
+      MapWidth = {Width Map.1}
+      {FindDoor Map X_init Y_init F_init}
+      EmptyCount#ItemsCount = {DecryptMap Map} {System.show EmptyCount#ItemsCount}
+      NWantedObjects = Args.item
+      NBullets = Args.bullet
+      {CheckZombiesCount EmptyCount Args.zombie NZombies}
+
+      /* Set up the GUI */
+      {GUI.initLayout Map GUI.window Config.bravePort GUI.grid GUI.gridHandle}
+      GUI.window = {QTk.build GUI.desc}
+      {GUI.window set(title:"ZOMBIELAND")}
+      {GUI.updateGoalCount set(NWantedObjects)}
+      {GUI.updateBulletsCount NBullets}
+
+      /* Initialize the PortObjects */
+      % Grid of cells
+      Config.mapPorts = {MakeTuple mapPorts MapHeight}
+      for I in 1..MapHeight do
+	 Config.mapPorts.I = {MakeTuple r MapWidth}
+	 for J in 1..MapWidth do
+	    Config.mapPorts.I.J = {Cell.cellState I J state(nobody Map.I.J)}
+	 end
+      end
    
-   % Zombies
-   Config.zombiesPorts = {MakeTuple zombiesPorts NZombies}
-   {PlaceZombies MapHeight MapWidth X_init Y_init F_init NZombies}
+      % Zombies
+      Config.zombiesPorts = {MakeTuple zombiesPorts NZombies}
+      {PlaceZombies MapHeight MapWidth X_init Y_init F_init NZombies}
 
-   % Controller
-   Config.controllerPort = {Controller.controllerState state(brave NZombies Config.zombiesPorts 0)}
+      % Controller
+      Config.controllerPort = {Controller.controllerState state(brave NZombies Config.zombiesPorts 0)}
 
-   % Brave
-   local Ack in
-      {Send Config.mapPorts.X_init.Y_init brave(enter F_init NBullets)}
-   end
-   {GUI.drawCellBis brave X_init Y_init F_init}
-   Config.bravePort = {Brave.braveState state(yourturn X_init Y_init F_init 5 Config.nAllowedMovesB NBullets 0 0)}
+      % Brave
+      local Ack in
+	 {Send Config.mapPorts.X_init.Y_init brave(enter F_init NBullets)}
+      end
+      {GUI.drawCellBis brave X_init Y_init F_init}
+      Config.bravePort = {Brave.braveState state(yourturn X_init Y_init F_init 5 Config.nAllowedMovesB NBullets 0 0)}
 
-   /* Display the game */
-   {GUI.window show}
+      /* Display the game */
+      {GUI.window show}
    end
 
    {Zombieland}

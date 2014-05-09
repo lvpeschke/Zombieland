@@ -32,9 +32,6 @@ export
    NextCell
    Left
    Right
-
-   Success %%
-   GameOver %%
    
 define
    Map = map(
@@ -76,17 +73,6 @@ define
    in
       thread {MsgLoop Sin Init} end
       {NewPort Sin}
-   end
-
-   % Fail and success
-   proc {Success}
-      {System.show 'You win'}
-      {Application.exit 0}
-   end
-
-   proc {GameOver}
-      {System.show 'You loose'}
-      {Application.exit 0}
    end
    
    % Moves
