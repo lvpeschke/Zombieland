@@ -24,7 +24,7 @@ define
    % - brave(enter Ack)
    % - brave(pickup Ack)
    % - brave(quit)
-   % - zombie(tryenter Ack)
+   % - zombie(scout Ack)
    % - zombie(enter ZombiePort)
    % - zombie(pickup Ack)
    % - zombie(quit)
@@ -38,7 +38,7 @@ define
 
 		    case Msg
 
-		    of brave(tryenter Ack) then
+		    of brave(scout Ack) then
 		       if Item == 1 then % wall
 			  Ack = ko
 			  state(Person Item) % skip
@@ -57,7 +57,7 @@ define
 		    [] brave(quit) then
 		       state(Person Item) % skip
 		       		       
-		    [] zombie(tryenter Ack) then
+		    [] zombie(scout Ack) then
 		       if Item == 1 orelse Item == 5 then % wall or door
 			  Ack = ko
 			  state(Person Item) % skip
@@ -91,7 +91,7 @@ define
 		 [] brave(F NBullets) then % brave on the cell
 		    case Msg
 		       
-		    of brave(tryenter Ack) then
+		    of brave(scout Ack) then
 		       {System.show 'Cell 84 : etat '#Person#', message '#Msg#' item '#Item}
 		       Ack = ko
 		       state(Person Item) % skip
@@ -109,7 +109,7 @@ define
 		    [] brave(quit) then
 		       state(nobody Item)
 		       
-		    [] zombie(tryenter Ack) then
+		    [] zombie(scout Ack) then
 		       Ack = brave(F NBullets)
 		       state(Person Item)
 
@@ -135,7 +135,7 @@ define
 		 [] zombie(ZombiePort ZombieF) then % zombie on the cell
 		    case Msg
 		       
-		    of brave(tryenter Ack) then
+		    of brave(scout Ack) then
 		       {System.show 'Coucou'}
 		       Ack = zombie(ZombiePort ZombieF)
 		       state(Person Item) % skip
@@ -152,7 +152,7 @@ define
 		       {System.show 'Cell  140 : etat '#Person#', message '#Msg#' item '#Item}
 		       state(Person Item) % skip
 		       
-		    [] zombie(tryenter Ack) then
+		    [] zombie(scout Ack) then
 		       Ack = zombie(ZombiePort ZombieF)
 		       state(Person Item) % skip
 

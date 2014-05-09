@@ -28,7 +28,7 @@ define
 	 FL = {Config.left F} {System.show ''#F#'left'#FL}
 	 FR = {Config.right F} {System.show ''#F#'right'#FR}
 	 {System.show ''#X#Y#(X-FF.1)#(Y-FF.2.1)}
-	 {Send Config.mapPorts.(X-FF.1).(Y-FF.2.1) brave(tryenter AckF)}
+	 {Send Config.mapPorts.(X-FF.1).(Y-FF.2.1) brave(scout AckF)}
 	 {Wait AckF}
 	 {System.show ''#AckF}
 	 case AckF
@@ -50,8 +50,8 @@ define
 	 % If the brave is not on a door, we have to check right and left
 	 % If there is a zombie looking towards the brave, the brave dies
 	 if Item \= 5 then
-	    {Send Config.mapPorts.(X-FL.1).(Y-FL.2.1) brave(tryenter AckL)} {System.show ''#X#Y#(X-FL.1)#(Y-FL.2.1)}
-	    {Send Config.mapPorts.(X-FR.1).(Y-FR.2.1) brave(tryenter AckR)} {System.show ''#X#Y#(X-FR.1)#(Y-FR.2.1)}
+	    {Send Config.mapPorts.(X-FL.1).(Y-FL.2.1) brave(scout AckL)} {System.show ''#X#Y#(X-FL.1)#(Y-FL.2.1)}
+	    {Send Config.mapPorts.(X-FR.1).(Y-FR.2.1) brave(scout AckR)} {System.show ''#X#Y#(X-FR.1)#(Y-FR.2.1)}
 	    % ATTENTION VA FALLOIR CHANGER CA POUR PAS QUE CA BLOQUE INUTILMENT
 	    {Wait AckL}
 	    {Wait AckR}
@@ -137,7 +137,7 @@ define
 		      {System.show 'a priori ActionsLeft est > 0...'#ActionsLeft}
 		      local NewX NewY Ack in
 			 {Config.nextCell NewF X Y NewX NewY}
-			 {Send Config.mapPorts.NewX.NewY brave(tryenter Ack)}
+			 {Send Config.mapPorts.NewX.NewY brave(scout Ack)}
 			 {Wait Ack}
 
 			 % If you can go to the next cell, you do

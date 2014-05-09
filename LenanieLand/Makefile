@@ -10,7 +10,7 @@ EXEC = Game.ozf
 all: $(EXEC)
 
 # Execute
-play : $(EXEC)
+play: $(EXEC)
 	ozengine $(EXEC)
 
 $(EXEC): $(OBJS) $(MAIN)

@@ -64,9 +64,9 @@ define
 	 FF = [~F.1 ~F.2.1]
 	 FL = {Config.left F} {System.show ''#F#'left'#FL}
 	 FR = {Config.right F} {System.show ''#F#'right'#FR}
-	 {Send Config.mapPorts.(X-FF.1).(Y-FF.2.1) zombie(tryenter AckF)}
-	 {Send Config.mapPorts.(X-FL.1).(Y-FL.2.1) zombie(tryenter AckL)}
-	 {Send Config.mapPorts.(X-FR.1).(Y-FR.2.1) zombie(tryenter AckR)}
+	 {Send Config.mapPorts.(X-FF.1).(Y-FF.2.1) zombie(scout AckF)}
+	 {Send Config.mapPorts.(X-FL.1).(Y-FL.2.1) zombie(scout AckL)}
+	 {Send Config.mapPorts.(X-FR.1).(Y-FR.2.1) zombie(scout AckR)}
 	 {Wait AckF} {Wait AckL} {Wait AckR} % A CHANGER
 	 {System.show ''#AckF#AckL#AckR}
 	 case AckF
