@@ -1,6 +1,7 @@
 functor
 import
    Application
+   OS
    System
    
 export
@@ -29,6 +30,8 @@ export
    % Creates a new port object
    NewPortObject
 
+   % Utilities
+   RandFacing
    Left
    Right
 
@@ -89,6 +92,16 @@ define
    proc {GameOver}
       {System.show 'You loose'}
       {Application.exit 0}
+   end
+
+   fun {RandFacing}
+      local X in
+	 X = {OS.rand} mod 4
+	 if X==0 then [~1 0]
+	 elseif X==1 then [0 1]
+	 elseif X==2 then [1 0]
+	 else [0 ~1] end
+      end
    end
    
    fun {Right D}

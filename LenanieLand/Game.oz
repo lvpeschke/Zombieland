@@ -12,72 +12,122 @@ import
    % Our functors
    Config
    GUI
-   Brave %% TODO
+   Brave
    Controller
    Zombie
    Cell
 
    System %%
-define
    
+define
+   /* Variables */
+   % Dimensions of the map
+   Map
+   MapHeight
+   MapWidth
+
+   % Arguments of the game
+   X_init %%
+   Y_init %%
+   F_init %%
+   NWantedObjects % the default number of objects the player has to collect
+   NBullets % the default initial number of bullets  
+   NZombies % the default initial number of zombies in the room
+
+   /* Procedures */
    % Input arguments
    Say = System.showInfo
    Args = {Application.getArgs
-              record(
-                     map(single char:&m type:atom default:Config.map)
-                     zombie(single char:&s type:int default:Config.nZombies)
-                     item(single char:&b type:int default:Config.nWantedObjects) 
-                     bullet(single char:&n type:int default:Config.nBullets) 
-                     help(single char:[&? &h] default:false)
-                    )}
+	   record(
+	      map(single char:&m type:atom default:Config.map)
+	      zombie(single char:&s type:int default:Config.nZombies)
+	      item(single char:&b type:int default:Config.nWantedObjects) 
+	      bullet(single char:&n type:int default:Config.nBullets) 
+	      help(single char:[&? &h] default:false)
+	      )}
 
-   
    % Load function for the map /** NOT YET USED **/
    fun {LoadPickle URL}
-	F = {New Open.file init(url:URL flags:[read])}
-     in
-	try
-	   VBS
-	in
-	   {F read(size:all list:VBS)}
-	   {Pickle.unpack VBS}
-	finally
-	   {F close}
-	end
-     end
-
-   fun {RandFacing}
-      local X in
-	 X = {OS.rand} mod 4
-	 if X==0 then [~1 0]
-	 elseif X==1 then [0 1]
-	 elseif X==2 then [1 0]
-	 else [0 ~1] end
+      F = {New Open.file init(url:URL flags:[read])}
+   in
+      try
+	 VBS
+      in
+	 {F read(size:all list:VBS)}
+	 {Pickle.unpack VBS}
+      finally
+	 {F close}
       end
    end
-	    
+
+   % Find the door on a map
+   proc {FindDoor Map ?IDoor ?JDoor ?FDoor}
+      Lines = {Width Map}
+      Columns = {Width Map.Lines}
+   in
+      for I in 1..Lines do
+	 for J in 1..Columns do
+	    if Map.I.J == 5 then % door found!
+	       IDoor = I JDoor = J
+	       if I == 1 then FDoor = [1 0] % down
+	       elseif I == Lines then FDoor = [~1 0]
+	       elseif J == 1 then FDoor = [0 1]
+	       elseif J == Columns then FDoor = [0 ~1]
+	       else
+		  IDoor = error
+		  JDoor = error
+		  FDoor = error
+	       end
+	    end
+	 end
+      end
+   end
+
+   % Counts the number of empty spaces on the map
+   proc {CountEmpty Map ?N}
+      Lines = {Width Map}
+      Columns = {Width Map.Lines}
+      fun {Count I J Acc}
+	 if J < Columns then % still in the line
+	    if Map.I.J == 0 then {Count I J+1 Acc+1}
+	    else {Count I J+1 Acc}
+	    end
+	 else % end of line
+	    if I < Lines then % next line
+	       if Map.I.J == 0 then {Count I+1 1 Acc+1}
+	       else {Count I+1 1 Acc}
+	       end
+	    else % end of column
+	       if Map.I.J == 0 thenvAcc+1
+	       else Acc
+	       end
+	    end
+	 end
+      end
+   in
+      N = {Count 1 1 0}
+   end
+ 
+   % Randomly place the zombies on the map
    proc {PlaceZombies Height Width}
       proc {Place N}
-	 {System.show ''#N}
-	 if (N>Config.nZombies) then skip
+	 if (N > Config.nZombies) then skip %%
 	 else
 	    local RandX RandY RandF Ack in
-	       RandX = ({OS.rand} mod Height)+1
-	       RandY = ({OS.rand} mod Width)+1
-	       RandF = {RandFacing}
-	       {System.show ''#RandX#' '#RandY#' '#RandF}
-	       if (RandX==Config.x_INIT+(Config.f_INIT.1) andthen RandY==Config.y_INIT+(Config.f_INIT.2.1)) then
+	       RandX = ({OS.rand} mod Height)+1 %%
+	       RandY = ({OS.rand} mod Width)+1 %%
+	       RandF = {Config.randFacing}
+	       if (RandX == Config.x_INIT+(Config.f_INIT.1) andthen %%
+		   RandY == Config.y_INIT+(Config.f_INIT.2.1)) then %%
 		  {Place N}
 	       else
 		  {Send Config.mapPorts.RandX.RandY zombie(enter Config.zombiesPorts.N RandF Ack)}
-		  {System.show ''#N#' message sent'}
 		  {Wait Ack}
-		  {System.show ''#N#' ack bound'}
-		  if Ack==ko then
+		  if Ack == ko then
 		     {Place N}
 		  else
 		     {GUI.drawCell zombie RandX RandY}
-		     Config.zombiesPorts.N={Zombie.zombieState N state(notyourturn RandX RandY RandF Ack 0)} % TODO verifier le N
+		     Config.zombiesPorts.N = {Zombie.zombieState N state(notyourturn RandX RandY RandF Ack 0)}
 		     {Place N+1}
 		  end
 	       end
@@ -88,38 +138,9 @@ define
       {Place 1}
    end
 
-   %% CONFIG
-   MAP1 = Config.map
-   /*MAP2 = map(
-	     r(9 1 1 1 1 1 1 5 1 1 1 1 1 1 1)
-	     r(1 0 0 0 0 0 0 0 0 1 0 0 0 0 1)
-	     r(1 3 0 0 0 0 0 0 0 1 2 0 0 0 1)
-	     r(1 0 0 0 0 0 0 0 4 1 0 0 0 0 1)
-	     r(1 0 0 0 0 0 0 0 0 1 1 1 0 0 1)
-	     r(1 0 0 0 0 0 0 0 0 1 0 0 0 0 1)
-	     r(1 0 0 0 0 0 0 0 0 1 0 0 0 0 1)
-	     r(1 1 1 0 0 1 1 1 1 1 0 0 0 0 1)
-	     r(1 0 0 0 0 0 0 1 0 0 0 0 0 0 1)
-	     r(1 3 0 0 0 0 0 1 4 0 0 0 0 3 1)
-	     r(1 0 0 0 0 0 0 1 0 0 0 0 0 0 1)
-	     r(1 0 0 0 0 0 0 1 0 0 0 0 0 0 1)
-	     r(1 0 0 0 0 0 0 1 2 0 0 0 0 0 1)
-	     r(1 0 0 0 0 0 0 0 0 0 0 0 0 0 1)
-	     r(1 1 1 1 1 1 1 1 1 1 1 1 1 1 1)
-	     )*/
-   Height = 13
-   Width = 20
-   %CurrentMap = Args.map
-
-   %Window = GUI.window
-   Window %% TODO
-   {GUI.initLayout Config.map Window Config.bravePort GUI.grid GUI.gridHandle} %% TODO
-
-in
-   {OS.srand 0}
-   
-   % Help message
-   /*if Args.help then
+in   
+   /* Help message */
+   if Args.help then
       {Say "Usage: "#{Property.get 'application.url'}#" [option]"}
       {Say "Options:"}
       {Say "  -m, --map FILE\tFile containing the map (default "#Config.map#")"}
@@ -128,52 +149,53 @@ in
       {Say "  -n, --bullet INT\tInitial number of bullets"}
       {Say "  -h, -?, --help\tThis help"}
       {Application.exit 0}
-     end */
+   end
 
-   Window = {QTk.build GUI.desc} %% TODO
-   {Window set(title:"ZOMBIELAND")} %% TODO
-   
-   % Display GUI
-   {Window show} %% TODO
-   
-   %{Delay 1000}
-   %{DrawCell Wall 1 7} % test pour changer une cellule
-   %{Grid configure(label(text:"5") column:2 row:2)}
-   %{Grid configure(label(text:"0" bg:white)
-   %column:1 columnspan:3 row:4 sticky:we)}
+   /* This and that */
+   % Seed random number generator
+   {OS.srand 0}
 
-   % Start game
-   {GUI.drawCell b Config.x_INIT Config.y_INIT}
+   /* Get arguments */
+   Map = Args.map
+   MapHeight = {Width Map}
+   MapWidth = {Width Map.1}
+   % Arguments of the game
+   X_init = 1%%
+   Y_init = 7%%
+   F_init = [1 0]%%
+   NWantedObjects = Config.nWantedObjects %%
+   NBullets = Config.nBullets %%
+   NZombies = Config.nZombies %%
 
-   % Les Ports
-   % La MAP
-   Config.mapPorts = {MakeTuple mapPorts Height}
-   for I in 1..Height do
-      Config.mapPorts.I = {MakeTuple r Width}
-      for J in 1..Width do
-	 {System.show ''#I#' '#J}
-	 Config.mapPorts.I.J = {Cell.cellState I J state(nobody Config.map.I.J)}
+   /* Set up the GUI */
+   {GUI.initLayout Config.map GUI.window Config.bravePort GUI.grid GUI.gridHandle} %% map
+   GUI.window = {QTk.build GUI.desc}
+   {GUI.window set(title:"ZOMBIELAND")}
+
+   /* Initialize the PortObjects */
+   % Grid of cells
+   Config.mapPorts = {MakeTuple mapPorts MapHeight}
+   for I in 1..MapHeight do
+      Config.mapPorts.I = {MakeTuple r MapWidth}
+      for J in 1..MapWidth do
+	 Config.mapPorts.I.J = {Cell.cellState I J state(nobody Config.map.I.J)} %%
       end
    end
    
-   % Les zombies
-   Config.zombiesPorts = {MakeTuple zombiesPorts Config.nZombies}
-   {PlaceZombies Height Width}
+   % Zombies
+   Config.zombiesPorts = {MakeTuple zombiesPorts NZombies}
+   {PlaceZombies MapHeight MapWidth}
 
-   % Le controleur
-   Config.controllerPort = {Controller.controllerState state(brave Config.nZombies Config.zombiesPorts 0)}
+   % Controller
+   Config.controllerPort = {Controller.controllerState state(brave NZombies Config.zombiesPorts 0)}
 
-   % Le brave
-   {System.show 'before launching brave'}
+   % Brave
    local Ack in
-      {Send Config.mapPorts.(Config.x_INIT).(Config.y_INIT) brave(enter Config.f_INIT Config.nBullets)}
-      {System.show ''#Ack}
+      {Send Config.mapPorts.X_init.Y_init brave(enter F_init Config.nBullets)}  %%
    end
-   {GUI.drawCell brave Config.x_INIT Config.y_INIT}
-   {System.show 'after GUI'}
-   Config.bravePort = {Brave.braveState state(yourturn Config.x_INIT Config.y_INIT Config.f_INIT 5 Config.nAllowedMovesB Config.nBullets 0 0)}
-   {System.show 'after launching brave'}
+   {GUI.drawCell brave X_init Y_init}
+   Config.bravePort = {Brave.braveState state(yourturn X_init Y_init F_init 5 Config.nAllowedMovesB Config.nBullets 0 0)}
 
-   %{Delay 2000} %% TODO
-   %{GUI.endOfGame wi Window} %% TODO
+   % Display the game
+   {GUI.window show}
 end
