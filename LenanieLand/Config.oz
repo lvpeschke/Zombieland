@@ -30,8 +30,9 @@ export
    % Creates a new port object
    NewPortObject
 
-   % Utilities
+   % Moves
    RandFacing
+   NextCell
    Left
    Right
 
@@ -60,7 +61,7 @@ define
    F_INIT = [1 0] %%
 
    NWantedObjects = 2
-   NZombies = 20
+   NZombies = 10
    NBullets = 3
    
    NAllowedMovesB = 2
@@ -84,6 +85,7 @@ define
       {NewPort Sin}
    end
 
+   % Fail and success
    proc {Success}
       {System.show 'You win'}
       {Application.exit 0}
@@ -93,7 +95,8 @@ define
       {System.show 'You loose'}
       {Application.exit 0}
    end
-
+   
+   % Moves
    fun {RandFacing}
       local X in
 	 X = {OS.rand} mod 4
@@ -102,6 +105,12 @@ define
 	 elseif X==2 then [1 0]
 	 else [0 ~1] end
       end
+    end
+    
+   proc {NextCell F OldL OldC ?NewL ?NewC}
+      [DLine DCol] = F in
+      NewL = OldL+DLine
+      NewC = OldC+DCol
    end
    
    fun {Right D}
@@ -117,4 +126,5 @@ define
       elseif D == [1 0] then [0 ~1]
       else [1 0] end
    end
+ 
 end

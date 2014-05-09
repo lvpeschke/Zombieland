@@ -73,10 +73,7 @@ define
 	       elseif I == Lines then FDoor = [~1 0]
 	       elseif J == 1 then FDoor = [0 1]
 	       elseif J == Columns then FDoor = [0 ~1]
-	       else
-		  IDoor = error
-		  JDoor = error
-		  FDoor = error
+	       else IDoor = error JDoor = error FDoor = error
 	       end
 	    end
 	 end
@@ -98,7 +95,7 @@ define
 	       else {Count I+1 1 Acc}
 	       end
 	    else % end of column
-	       if Map.I.J == 0 thenvAcc+1
+	       if Map.I.J == 0 then Acc+1
 	       else Acc
 	       end
 	    end
@@ -109,16 +106,16 @@ define
    end
  
    % Randomly place the zombies on the map
-   proc {PlaceZombies Height Width}
+   proc {PlaceZombies Height Width} %% X Y F nzombies
       proc {Place N}
 	 if (N > Config.nZombies) then skip %%
 	 else
 	    local RandX RandY RandF Ack in
-	       RandX = ({OS.rand} mod Height)+1 %%
-	       RandY = ({OS.rand} mod Width)+1 %%
+	       RandX = ({OS.rand} mod Height)+1
+	       RandY = ({OS.rand} mod Width)+1
 	       RandF = {Config.randFacing}
-	       if (RandX == Config.x_INIT+(Config.f_INIT.1) andthen %%
-		   RandY == Config.y_INIT+(Config.f_INIT.2.1)) then %%
+	       if (RandX == X_init+(F_init.1) andthen
+		   RandY == Y_init+(F_init.2.1)) then
 		  {Place N}
 	       else
 		  {Send Config.mapPorts.RandX.RandY zombie(enter Config.zombiesPorts.N RandF Ack)}
@@ -126,8 +123,8 @@ define
 		  if Ack == ko then
 		     {Place N}
 		  else
-		     {GUI.drawCell zombie RandX RandY}
-		     Config.zombiesPorts.N = {Zombie.zombieState N state(notyourturn RandX RandY RandF Ack 0)}
+		     {GUI.drawCellBis zombie RandX RandY RandF}
+		     Config.zombiesPorts.N={Zombie.zombieState N state(notyourturn RandX RandY RandF Ack 0)}
 		     {Place N+1}
 		  end
 	       end
