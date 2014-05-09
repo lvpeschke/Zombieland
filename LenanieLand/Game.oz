@@ -196,7 +196,7 @@ in
       {GUI.initLayout Map GUI.window Config.bravePort GUI.grid GUI.gridHandle}
       GUI.window = {QTk.build GUI.desc}
       {GUI.window set(title:"ZOMBIELAND")}
-      {GUI.updateGoalCount set(NWantedObjects)}
+      {GUI.updateGoalCount NWantedObjects}
       {GUI.updateBulletsCount NBullets}
 
       /* Initialize the PortObjects */

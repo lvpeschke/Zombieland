@@ -175,7 +175,7 @@ define
    end
 
    % Sets thegoal count
-   proc {UpdatGoalCount Goal}
+   proc {UpdateGoalCount Goal}
       {GoalHandle set(Goal)}
    end
 
