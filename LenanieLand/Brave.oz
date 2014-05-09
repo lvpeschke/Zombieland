@@ -179,6 +179,7 @@ define
 		      {CheckKill X Y F NBullets Item}
 		      {System.show 'a priori ActionsLeft est > 0...'#ActionsLeft}
 		      {Send Config.mapPorts.X.Y brave(pickup)}
+		      {Send Config.controllerPort destroy(brave)}
 		       
 		      if Item == 2 then
 			 if ActionsLeft == 1 then

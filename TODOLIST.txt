@@ -1,8 +1,6 @@
 TO DO LIST
 ——————————
 
-- Afficher quelque chose de spécial quand overlap object/brave or zombie -> LENA PHOTOS SPECIALES
-
 - Code : overlap objet personne -> MELANIE
 
 - Controller gameover -> Lena
@@ -20,3 +18,6 @@ TO DO LIST
 
 - Fermer les ports?
 - Les waits sans qu'un bloque les autres
+
+
+state(Mode NZombies ZombiesPorts NResponses ItemsGoal ItemsLeft)

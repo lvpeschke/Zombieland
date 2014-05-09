@@ -178,13 +178,14 @@ define
 
 				   if (Item == 2 orelse Item == 3 orelse Item == 4) andthen {RollDice5} then
 				      {Send Config.mapPorts.Line.Col zombie(pickup)}
+				      {Send Config.controllerPort destroy(zombie)}
 				      Picked = 1
 				   else
 				      Picked = 0
 				   end
 
 				   % If you can move too, you move
-				   if ActionsLeft>Picked then
+				   if ActionsLeft > Picked then
 				      local L0 C0 F0 Ack in
 					 {Move F Line Col ZombieNumber 15 ?L0 ?C0 ?F0 ?Ack}
 					 if Ack == ko then
