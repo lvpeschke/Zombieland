@@ -159,38 +159,24 @@ of Mode_1 then ...
 	of Msg_1 then ....
 	...
 	[] Msg_n then ...
+	else we ignore the message but it never happens
 	end
 ...	
 [] Mode_m then ...
+else we ignore the message but it never happens
 end,
 \end{lstlisting}
 we will only briefly describe what each port object does. 
 	
+We decided that the ports of the controller, the cells and the brave are known by everybody. All the ports of the zombies are known by the controller and a cell knows the port of a zombie that is one it.
 
 \subsection{Controller}
 The controller has to say to the brave and to the zombies when it is their turn. He knows when a zombie is dead so he doesn't warn him in this case.  He also has to say when the brave couldn't win because there are to few objects left in the room. 
 
 \subsection{Cell}
-The room is a grid of cell. Each cell knows which item and person is on it. If it is a brave, it knows his facing direction and the number of bullets he has.
+The room is a grid of cell. Each cell knows which item and person is on it. If it is a brave, it knows his facing direction and the number of bullets he has (it is important for the management of the kills). If it is a zombie, it knows his facing direction and his port (also important for the kills).
 
-states + responsibilities
-
-
-\subsection{Players}
-states + responsibilities
-
-interaction between them
-Brave and zombies in contiguous cells : \\
-- if bullets left then \\
-- - if brave facing, brace wins  and zombie dies\\
-- - else if brave not facing then \\
-- - - if zombie facing, brave dies and game over \\
-- - - else nothing happens \\
-(petits dessins)
-
-fights do not count as turns (vital) and are executed automatically
-
-\subsubsection{Brave}
+\subsection{Brave}
 depends on the player
 
 no shooting
@@ -203,7 +189,7 @@ door enabled if count equal or superior to goal
 
 3 times : scout + enter + quit
 
-\subsubsection{Zombies}
+\subsection{Zombies}
 AI : try moving 3 turns in the same direction, destroy objects 20 \% of the time, change direction randomly if obstacle. If brave, attempt to kill her.
 
 2 times : enter + quit, to avoid overlap between zombies playing in the same turn
@@ -217,11 +203,9 @@ synchronization between the zombies : not on the same cell
 
 \section{Miscellaneous}
 QTk?
-Parler des functors
- Choix : si messages non attendu on reste dans le même état
- 
+
     
 \section*{Conclusion}
-should fulfill the requirements and provide some help to survive
+We think that your game should fulfill the requirements and hope that it will provide you some help to survive.
     
 \end{document}
