@@ -44,6 +44,8 @@ define
    Door = {QTk.newImage photo(file:CD#'/door.gif')}
    Unknown = {QTk.newImage photo(file:CD#'/unknown.gif')}
 
+   ZombieBurn = {QTk.newImage photo(file:CD#'/floor_zombie_left.gif')}
+   
    ZombieHaut = {QTk.newImage photo(file:CD#'/ZombieHaut.gif')}
    ZombieBas = {QTk.newImage photo(file:CD#'/ZombieBas.gif')}
    ZombieGauche = {QTk.newImage photo(file:CD#'/ZombieGauche.gif')}
@@ -137,6 +139,7 @@ define
       elseif Number == 3 then Food
       elseif Number == 4 then Medicine
       elseif Number == 5 then Door
+      elseif Number == zombieburn then ZombieBurn
       else Unknown
       end
    end

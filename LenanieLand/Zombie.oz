@@ -137,6 +137,8 @@ define
 		       state(yourturn Line Col F Item Config.nAllowedMovesZ)
 
 		    [] kill then
+		       {GUI.drawCell zombieburn Line Col}
+		       {Delay 300}
 		       {GUI.drawCell Item Line Col}
 		       {Send Config.mapPorts.Line.Col zombie(quit)}
 		       {Send Config.controllerPort kill(ZombieNumber)}
@@ -213,6 +215,8 @@ define
 			     
 		    % Someone has killed you, you have to die   
 		    [] kill then
+		       {GUI.drawCell zombieburn Line Col}
+		       {Delay 300}
 		       {GUI.drawCell Item Line Col}
 		       {Send Config.mapPorts.Line.Col zombie(quit)}
 		       {Send Config.controllerPort kill(ZombieNumber)}

@@ -178,9 +178,8 @@ in
 	 {Application.exit 0}
       end
 
-      /* This and that */
-      % Seed random number generator
-      {OS.srand 0}
+      /* Seed random number generator (only needed in Mozart1) */
+      %{OS.srand 0}
 
       /* Get arguments */
       Map = {LoadPickle Args.map}
