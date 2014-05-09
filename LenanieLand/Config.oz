@@ -1,8 +1,6 @@
 functor
 import
-   Application
    OS
-   System
    
 export
    /* Variables */
